@@ -62,6 +62,33 @@ public class Tokeniser {
             return new Token(TokenClass.PLUS, line, column);
 
         // ... to be completed
+        // Comments
+        // Line Comment
+        if (c == '/' && scanner.peek() == '/') {
+            while (line == scanner.getLine()) scanner.next();
+            return next();
+        }
+        //Block Comment
+        if (c == '/' && scanner.peek() == '*') {
+            int sLine = line;
+            int sCol = column;
+            try {
+                while (c != '*' && scanner.peek() != '/') {
+                    c = scanner.next();
+                    if (c == '\n') {
+                        line++;
+                        column = 0;
+                    }
+                    else {
+                        column++;
+                    }
+                }
+            } catch (EOFException e) {
+                System.out.println("Unfinished block comment starting at " + sLine + ":" + sCol);
+                error++;
+            }
+        }
+
         // Math ops
         if (c == '-') return new Token(TokenClass.MINUS, line, column);
         if (c == '*') return new Token(TokenClass.ASTERIX, line, column);
@@ -78,25 +105,6 @@ public class Tokeniser {
         if (c == ']') return new Token(TokenClass.RSBR, line, column);
         if (c == ';') return new Token(TokenClass.SC, line, column);
         if (c == ',') return new Token(TokenClass.COMMA, line, column);
-
-        // Comments
-        // Line Comment
-        if (c == '/' && scanner.peek() == '/') {
-            int currLine = line;
-            while (line == currLine) scanner.next();
-            return next();
-        }
-        //Block Comment
-        if (c == '/' && scanner.peek() == '*') {
-            int sLine = line;
-            int sCol = column;
-            try {
-                while (c != '*' && scanner.peek() != '/') c = scanner.next();
-            } catch (EOFException e) {
-                System.out.println("Unfinished block comment starting at " + sLine + ":" + sCol);
-                error++;
-            }
-        }
 
         // Logical operators
         if (c == '&' && scanner.peek() == '&') {
@@ -134,11 +142,14 @@ public class Tokeniser {
         StringBuilder out = new StringBuilder();
         // Identifier, Types and Keywords
         if (Character.isLetter(c) || c == '_') {
-            do {
-                out.append(c);
+            out.append(c);
+            c = scanner.peek();
+            while (Character.isLetter(c) || Character.isDigit(c) || c == '_') {
                 c = scanner.next();
+                out.append(c);
                 column++;
-            } while (Character.isLetter(c) || Character.isDigit(c) || c == '_');
+                c = scanner.peek();
+            }
             switch (out.toString()) {
                 case "int":
                     return new Token(TokenClass.INT, line, column-2);
@@ -165,7 +176,6 @@ public class Tokeniser {
 
         // Literals
         if (c == '\"') {
-            out.append(c);
             while ((c = scanner.next()) != '\"') {
                 if (c == '\\')
                     c = scanner.next();
@@ -175,22 +185,45 @@ public class Tokeniser {
             return new Token(TokenClass.STRING_LITERAL, out.toString(), line, column);
         }
         if (Character.isDigit(c)) {
-            do {
-                out.append(c);
+            out.append(c);
+            c = scanner.peek();
+            while (Character.isDigit(c)) {
                 c = scanner.next();
+                out.append(c);
+                c = scanner.peek();
                 column++;
-            } while (!Character.isWhitespace(c));
+            }
             return new Token(TokenClass.INT_LITERAL, out.toString(), line, column);
         }
         if (c == '\'') {
-            char temp = scanner.next();
             c = scanner.next();
-            column+=2;
-            if (c != '\'') {
-                System.out.println("Unmatched \' in character definition at "+line+":"+(column));
-                error++;
+            if (c == '\\') {
+                c = scanner.next();
+                switch (c) {
+                    case 'n':
+                        c = '\n';
+                        break;
+                    case 't':
+                        c = '\t';
+                        break;
+                    case 'b':
+                        c = '\b';
+                        break;
+                    case 'r':
+                        c = '\r';
+                        break;
+                    case 'f':
+                        c = '\f';
+                        break;
+                    case '0':
+                        c = '\0';
+                        break;
+                    default: // '\'', '\"', '\\', '.', ',' '_', other sequences
+                        break;
+                }
             }
-            return new Token(TokenClass.CHAR_LITERAL, Character.toString(temp), line, column);
+            scanner.next();
+            return new Token(TokenClass.CHAR_LITERAL, Character.toString(c), line, column);
         }
 
         // Include
@@ -209,6 +242,8 @@ public class Tokeniser {
                     error++;
             }
         }
+
+        if (c == '&') return new Token(TokenClass.REF, line, column);
 
         // if we reach this point, it means we did not recognise a valid token
         error(c, line, column);
