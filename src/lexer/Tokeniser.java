@@ -26,7 +26,6 @@ public class Tokeniser {
 	error++;
     }
 
-
     public Token nextToken() {
         Token result;
         try {
@@ -63,12 +62,156 @@ public class Tokeniser {
             return new Token(TokenClass.PLUS, line, column);
 
         // ... to be completed
+        // Math ops
+        if (c == '-') return new Token(TokenClass.MINUS, line, column);
+        if (c == '*') return new Token(TokenClass.ASTERIX, line, column);
+        if (c == '/') return new Token(TokenClass.DIV, line, column);
+        if (c == '%') return new Token(TokenClass.REM, line, column);
+        if (c == '.') return new Token(TokenClass.DOT, line, column);
 
+        // Delimiters
+        if (c == '{') return new Token(TokenClass.LBRA, line, column);
+        if (c == '}') return new Token(TokenClass.RBRA, line, column);
+        if (c == '(') return new Token(TokenClass.LPAR, line, column);
+        if (c == ')') return new Token(TokenClass.RPAR, line, column);
+        if (c == '[') return new Token(TokenClass.LSBR, line, column);
+        if (c == ']') return new Token(TokenClass.RSBR, line, column);
+        if (c == ';') return new Token(TokenClass.SC, line, column);
+        if (c == ',') return new Token(TokenClass.COMMA, line, column);
+
+        // Comments
+        // Line Comment
+        if (c == '/' && scanner.peek() == '/') {
+            int currLine = line;
+            while (line == currLine) scanner.next();
+            return next();
+        }
+        //Block Comment
+        if (c == '/' && scanner.peek() == '*') {
+            int sLine = line;
+            int sCol = column;
+            try {
+                while (c != '*' && scanner.peek() != '/') c = scanner.next();
+            } catch (EOFException e) {
+                System.out.println("Unfinished block comment starting at " + sLine + ":" + sCol);
+                error++;
+            }
+        }
+
+        // Logical operators
+        if (c == '&' && scanner.peek() == '&') {
+            scanner.next();
+            return new Token(TokenClass.AND, line, column);
+        }
+        if (c == '|' && scanner.peek() == '|') {
+            scanner.next();
+            return new Token(TokenClass.OR, line, column);
+        }
+
+        // Comparisons
+        if (c == '=' && scanner.next() == '=') {
+            scanner.next();
+            return new Token(TokenClass.EQ, line, column);
+        }
+        if (c == '!' && scanner.peek() == '=') {
+            scanner.next();
+            return new Token(TokenClass.NE, line, column);
+        }
+        if (c == '<' && scanner.peek() == '=') {
+            scanner.next();
+            return new Token(TokenClass.LE, line, column);
+        }
+        if (c == '<') return new Token(TokenClass.LT, line, column);
+        if (c == '>' && scanner.peek() == '=') {
+            scanner.next();
+            return new Token(TokenClass.GE, line, column);
+        }
+        if (c == '>') return new Token(TokenClass.GT, line, column);
+
+        // Assignment
+        if (c == '=') return new Token(TokenClass.ASSIGN, line, column);
+
+        StringBuilder out = new StringBuilder();
+        // Identifier, Types and Keywords
+        if (Character.isLetter(c) || c == '_') {
+            do {
+                out.append(c);
+                c = scanner.next();
+                column++;
+            } while (Character.isLetter(c) || Character.isDigit(c) || c == '_');
+            switch (out.toString()) {
+                case "int":
+                    return new Token(TokenClass.INT, line, column-2);
+                case "void":
+                    return new Token(TokenClass.VOID, line, column-3);
+                case "char":
+                    return new Token(TokenClass.CHAR, line, column-3);
+                case "if":
+                    return new Token(TokenClass.IF, line, column-1);
+                case "else":
+                    return new Token(TokenClass.ELSE, line, column-3);
+                case "while":
+                    return new Token(TokenClass.WHILE, line, column-4);
+                case "return":
+                    return new Token(TokenClass.RETURN, line, column-5);
+                case "struct":
+                    return new Token(TokenClass.STRUCT, line, column-5);
+                case "sizeof":
+                    return new Token(TokenClass.SIZEOF, line, column-5);
+                default:
+                    return new Token(TokenClass.IDENTIFIER, out.toString(), line, column+1-out.toString().length());
+            }
+        }
+
+        // Literals
+        if (c == '\"') {
+            out.append(c);
+            while ((c = scanner.next()) != '\"') {
+                if (c == '\\')
+                    c = scanner.next();
+                out.append(c);
+                column++;
+            }
+            return new Token(TokenClass.STRING_LITERAL, out.toString(), line, column);
+        }
+        if (Character.isDigit(c)) {
+            do {
+                out.append(c);
+                c = scanner.next();
+                column++;
+            } while (!Character.isWhitespace(c));
+            return new Token(TokenClass.INT_LITERAL, out.toString(), line, column);
+        }
+        if (c == '\'') {
+            char temp = scanner.next();
+            c = scanner.next();
+            column+=2;
+            if (c != '\'') {
+                System.out.println("Unmatched \' in character definition at "+line+":"+(column));
+                error++;
+            }
+            return new Token(TokenClass.CHAR_LITERAL, Character.toString(temp), line, column);
+        }
+
+        // Include
+        if (c == '#') {
+            int hcol = column;
+            do {
+                out.append(c);
+                c = scanner.next();
+                column++;
+            } while (Character.isLetter(c));
+            switch (out.toString()) {
+                case "#include":
+                    return new Token(TokenClass.INCLUDE, line, column-6);
+                default:
+                    System.out.println("Unrecognised # statement at "+line+":"+hcol);
+                    error++;
+            }
+        }
 
         // if we reach this point, it means we did not recognise a valid token
         error(c, line, column);
         return new Token(TokenClass.INVALID, line, column);
     }
-
-
 }
