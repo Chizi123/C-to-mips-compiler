@@ -243,7 +243,11 @@ public class Tokeniser {
             }
         }
 
-        if (c == '&') return new Token(TokenClass.REF, line, column);
+//        // Reference pointer - Not needed
+//        if (c == '&') return new Token(TokenClass.REF, line, column);
+
+//        // Label
+//        if (c == ':') return new Token(TokenClass.COL, line, column);
 
         // if we reach this point, it means we did not recognise a valid token
         error(c, line, column);
