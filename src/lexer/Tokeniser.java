@@ -183,10 +183,19 @@ public class Tokeniser {
         // Literals
         if (c == '\"') {
             while ((c = scanner.next()) != '\"') {
-                if (c == '\\')
-                    c = scanner.next();
-                out.append(c);
-                column++;
+                if (c == '\\' && scanner.peek() == '\"') {
+                    out.append('\"');
+                    scanner.next();
+                    column++;
+                }
+                else if (c == '\\' && scanner.peek() == '\\') {
+                    out.append('\\');
+                    scanner.next();
+                    column++;
+                } else {
+                    out.append(c);
+                    column++;
+                }
             }
             return new Token(TokenClass.STRING_LITERAL, out.toString(), line, column);
         }
@@ -226,8 +235,20 @@ public class Tokeniser {
                     case '0':
                         c = '\0';
                         break;
-                    default: // '\'', '\"', '\\', other sequences where the second character is the wanted one
+                    case '\\':
+                        c = '\\';
                         break;
+                    case '\'':
+                        c = '\'';
+                        break;
+                    case '\"':
+                        c = '\"';
+                        break;
+                    default: // other sequences aren't valid
+                        System.out.println("Invalid character declaration at "+line+":"+column);
+                        error++;
+                        scanner.next();
+                        return new Token(TokenClass.INVALID, line, column);
                 }
             }
             char temp = scanner.next();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="Fixed block comm">
+    <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="Fixed string literal special characters">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lexer/Tokeniser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/Tokeniser.java" afterDir="false" />
     </list>
@@ -96,7 +96,14 @@
       <option name="project" value="LOCAL" />
       <updated>1568973372476</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Fixed block comment recognition">
+      <created>1569069878757</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1569069878757</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -116,6 +123,8 @@
     <MESSAGE value="Lexer completed but a massive mess" />
     <MESSAGE value="Lexer completed but a massive mess, warnings need to be fixed" />
     <MESSAGE value="Added &amp; for getting address. Comments work, no over eating" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added &amp; for getting address. Comments work, no over eating" />
+    <MESSAGE value="Fixed block comment recognition" />
+    <MESSAGE value="Fixed string literal special characters" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed string literal special characters" />
   </component>
 </project>
