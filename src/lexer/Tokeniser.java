@@ -182,20 +182,34 @@ public class Tokeniser {
 
         // Literals
         if (c == '\"') {
-            while ((c = scanner.next()) != '\"') {
-                if (c == '\\' && scanner.peek() == '\"') {
-                    out.append('\"');
-                    scanner.next();
+            int sline = line;
+            int scol = column;
+            try {
+                while ((c = scanner.next()) != '\"') {
                     column++;
+                    if (c == '\\' && scanner.peek() == '\"') {
+                        out.append('\"');
+                        scanner.next();
+                        column++;
+                    } else if (c == '\\' && scanner.peek() == '\\') {
+                        out.append('\\');
+                        scanner.next();
+                        column++;
+                    } else if (c == '\\' && scanner.peek() == '\n') {
+                        out.append('\n');
+                        scanner.next();
+                        line++;
+                        column = 0;
+                    } else if (c == '\n') {
+                        System.out.println("Missing terminating \" character for string starting at " + sline + ":" + scol);
+                        error++;
+                    } else {
+                        out.append(c);
+                    }
                 }
-                else if (c == '\\' && scanner.peek() == '\\') {
-                    out.append('\\');
-                    scanner.next();
-                    column++;
-                } else {
-                    out.append(c);
-                    column++;
-                }
+            } catch (EOFException e) {
+                System.out.println("String starting at "+sline+":"+scol+" unterminated");
+                error++;
             }
             return new Token(TokenClass.STRING_LITERAL, out.toString(), line, column);
         }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="Fixed string literal special characters">
+    <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lexer/Tokeniser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/Tokeniser.java" afterDir="false" />
     </list>
@@ -103,7 +103,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569069878757</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added nested strings in string literals">
+      <created>1569086167417</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1569086167417</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -125,6 +132,7 @@
     <MESSAGE value="Added &amp; for getting address. Comments work, no over eating" />
     <MESSAGE value="Fixed block comment recognition" />
     <MESSAGE value="Fixed string literal special characters" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed string literal special characters" />
+    <MESSAGE value="Added nested strings in string literals" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added nested strings in string literals" />
   </component>
 </project>
