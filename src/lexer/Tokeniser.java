@@ -72,8 +72,11 @@ public class Tokeniser {
         if (c == '/' && scanner.peek() == '*') {
             int sLine = line;
             int sCol = column;
+            scanner.next();
+            column++;
             try {
-                while (c != '*' && scanner.peek() != '/') {
+                while (true) {
+                    if (c == '*' && scanner.peek() == '/') break;
                     c = scanner.next();
                     if (c == '\n') {
                         line++;
@@ -87,6 +90,9 @@ public class Tokeniser {
                 System.out.println("Unfinished block comment starting at " + sLine + ":" + sCol);
                 error++;
             }
+            scanner.next();
+            column++;
+            return next();
         }
 
         // Math ops
@@ -197,8 +203,10 @@ public class Tokeniser {
         }
         if (c == '\'') {
             c = scanner.next();
+            column++;
             if (c == '\\') {
                 c = scanner.next();
+                column++;
                 switch (c) {
                     case 'n':
                         c = '\n';
@@ -222,8 +230,15 @@ public class Tokeniser {
                         break;
                 }
             }
-            scanner.next();
-            return new Token(TokenClass.CHAR_LITERAL, Character.toString(c), line, column);
+            char temp = scanner.next();
+            column++;
+            if (temp == '\'') {
+                return new Token(TokenClass.CHAR_LITERAL, Character.toString(c), line, column);
+            } else {
+                System.out.println("Bad character definition at "+line+":"+column);
+                error++;
+                return new Token(TokenClass.INVALID, line, column);
+            }
         }
 
         // Include
@@ -240,6 +255,7 @@ public class Tokeniser {
                 default:
                     System.out.println("Unrecognised # statement at "+line+":"+hcol);
                     error++;
+                    return new Token(TokenClass.INVALID, line, column);
             }
         }
 
