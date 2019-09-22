@@ -110,7 +110,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569086167417</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added multiline strings (explicit), and detection of unending strings">
+      <created>1569087734852</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1569087734852</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -133,6 +140,7 @@
     <MESSAGE value="Fixed block comment recognition" />
     <MESSAGE value="Fixed string literal special characters" />
     <MESSAGE value="Added nested strings in string literals" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added nested strings in string literals" />
+    <MESSAGE value="Added multiline strings (explicit), and detection of unending strings" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added multiline strings (explicit), and detection of unending strings" />
   </component>
 </project>

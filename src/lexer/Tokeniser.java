@@ -195,6 +195,30 @@ public class Tokeniser {
                         out.append('\\');
                         scanner.next();
                         column++;
+                    } else if (c == '\\' && scanner.peek() == 'n') {
+                        out.append('\n');
+                        scanner.next();
+                        column++;
+                    } else if (c == '\\' && scanner.peek() == 't') {
+                        out.append('\t');
+                        scanner.next();
+                        column++;
+                    } else if (c == '\\' && scanner.peek() == 'b') {
+                        out.append('\b');
+                        scanner.next();
+                        column++;
+                    } else if (c == '\\' && scanner.peek() == 'r') {
+                        out.append('\r');
+                        scanner.next();
+                        column++;
+                    } else if (c == '\\' && scanner.peek() == 'f') {
+                        out.append('\f');
+                        scanner.next();
+                        column++;
+                    } else if (c == '\\' && scanner.peek() == '0') {
+                        out.append('\0');
+                        scanner.next();
+                        column++;
                     } else if (c == '\\' && scanner.peek() == '\n') {
                         out.append('\n');
                         scanner.next();
