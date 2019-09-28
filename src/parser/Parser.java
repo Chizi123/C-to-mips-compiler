@@ -215,6 +215,7 @@ public class Parser {
             expect(TokenClass.IDENTIFIER);
         }
         while (accept(TokenClass.COMMA)) {
+            nextToken();
             parseType(1);
             expect(TokenClass.IDENTIFIER);
         }
@@ -272,9 +273,6 @@ public class Parser {
                 parseExp(1);
                 expect(TokenClass.RPAR);
             }
-        } else if (accept(TokenClass.MINUS)) {
-            nextToken();
-            parseExp(1);
         } else {
             parseLOB();
             if (accept(TokenClass.OR)) {
@@ -339,10 +337,12 @@ public class Parser {
         if (!parseSizeOf() &&
                 !parseVAt() &&
                 !parseFieldOrIdentOrArray() &&
-                !parseLits()) {
+                !parseLits() &&
+                !parseNeg()) {
             System.out.println("Parsing error: unexpected expression at "+token.position);
+            error++;
+            lastErrorToken = token;
         }
-
     }
 
     private boolean parseSizeOf() {
@@ -396,6 +396,15 @@ public class Parser {
     private boolean parseLits() {
         if (accept(TokenClass.STRING_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.INT_LITERAL)) {
             nextToken();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean parseNeg() {
+        if (accept(TokenClass.MINUS)) {
+            nextToken();
+            parseExp(1);
             return true;
         }
         return false;

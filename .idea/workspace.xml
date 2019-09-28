@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/no_bracket_func.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lexer/Tokeniser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/Tokeniser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/escape_codes.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/escape_codes.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/nested_comments.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/nested_comments.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/tests" />
   </component>
   <component name="ProjectId" id="1R38wPSLWSmczUOHzK3MUCN3Yry" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -75,7 +73,7 @@
     <configuration name="Fibonacci-parser" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-parser tests/fibonacci.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-parser tests/nested_comments.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -174,20 +172,21 @@
     <MESSAGE value="Added nested strings in string literals" />
     <MESSAGE value="Added multiline strings (explicit), and detection of unending strings" />
     <MESSAGE value="Character escape codes for string literals" />
-    <option name="LAST_COMMIT_MESSAGE" value="Character escape codes for string literals" />
+    <MESSAGE value="Parser first draft. Fibonacci works" />
+    <option name="LAST_COMMIT_MESSAGE" value="Parser first draft. Fibonacci works" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>342</line>
+          <line>341</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>380</line>
-          <option name="timeStamp" value="7" />
+          <line>226</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
