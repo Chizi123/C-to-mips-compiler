@@ -224,7 +224,7 @@ public class Parser {
     private void parseBlock() {
         expect(TokenClass.LBRA);
         parseVarDecls(0);
-        while (!accept(TokenClass.RBRA)) {
+        while (!(accept(TokenClass.RBRA) || accept(TokenClass.EOF))) {
             parseStmt();
         }
         nextToken();
@@ -339,6 +339,7 @@ public class Parser {
                 !parseFieldOrIdentOrArray() &&
                 !parseLits() &&
                 !parseNeg()) {
+            nextToken();
             System.out.println("Parsing error: unexpected expression at "+token.position);
             error++;
             lastErrorToken = token;
