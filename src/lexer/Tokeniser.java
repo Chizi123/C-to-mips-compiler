@@ -224,6 +224,8 @@ public class Tokeniser {
                         scanner.next();
                         line++;
                         column = 0;
+                    } else if (c == '\\') {
+                        System.out.println("Invalid escape sequence at "+line+":"+column);
                     } else if (c == '\n') {
                         System.out.println("Missing terminating \" character for string starting at " + sline + ":" + scol);
                         error++;
