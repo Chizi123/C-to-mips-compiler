@@ -1,9 +1,9 @@
-#include <stdio.h>
+#include "minic-stdlib.h"
 
-int main(void) 
+int main()
 {
-	printf("Hello \\\"\"world\"\\\"\n");
-	printf("); \
+    int bc;
+	print_s("Hello \\\"\"world\"\\\"\n");
+	print_s("); \
 	");
-	int 01bc;
 }

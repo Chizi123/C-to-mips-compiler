@@ -8,9 +8,10 @@
  *
  */
 
-    int main(void) {
-    	printf("Hello world!\n\n\b\f\0");
-	char c = 'c';
+    int main() {
+	char c;
+    printf("Hello world!\n\n\b\f\0");
+    c = 'c';
 	c = '\\';
 	c = '\n';
 }
