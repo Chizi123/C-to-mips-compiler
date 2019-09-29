@@ -162,7 +162,7 @@ public class Parser {
             expect(TokenClass.SC);
             parseVarDecls(0);
         }
-        if (lookAhead(2).tokenClass == TokenClass.LSBR || lookAhead(2).tokenClass == TokenClass.SC) {
+        if (lookAhead(2).tokenClass == TokenClass.LSBR || lookAhead(2).tokenClass == TokenClass.SC || lookAhead(1).tokenClass == TokenClass.ASTERIX || lookAhead(3).tokenClass == TokenClass.SC) {
             if (parseType(0)) {
                 expect(TokenClass.IDENTIFIER);
                 if (accept(TokenClass.LSBR)) {
@@ -204,8 +204,10 @@ public class Parser {
 
     private boolean parseStructType() {
         if (accept(TokenClass.STRUCT)) {
-            expect(TokenClass.IDENTIFIER);
-            return true;
+            nextToken();
+            if (accept(TokenClass.IDENTIFIER)) {
+                return true;
+            }
         }
         return false;
     }
@@ -338,11 +340,12 @@ public class Parser {
                 !parseVAt() &&
                 !parseFieldOrIdentOrArray() &&
                 !parseLits() &&
-                !parseNeg()) {
-            nextToken();
-            System.out.println("Parsing error: unexpected expression at "+token.position);
+                !parseNeg() &&
+                !parseBracket()) {
+            System.out.println("Parsing error: unexpected expression at "+token.position+", with token: "+token.tokenClass);
             error++;
             lastErrorToken = token;
+            nextToken();
         }
     }
 
@@ -405,6 +408,14 @@ public class Parser {
     private boolean parseNeg() {
         if (accept(TokenClass.MINUS)) {
             nextToken();
+            parseExp(1);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean parseBracket() {
+        if (accept(TokenClass.LPAR)) {
             parseExp(1);
             return true;
         }
