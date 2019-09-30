@@ -156,6 +156,7 @@ public class Parser {
             parseType(1);
             expect(TokenClass.IDENTIFIER);
             if (accept(TokenClass.LSBR)) {
+                nextToken();
                 expect(TokenClass.INT_LITERAL);
                 expect(TokenClass.RSBR);
             }
@@ -166,6 +167,7 @@ public class Parser {
             if (parseType(0)) {
                 expect(TokenClass.IDENTIFIER);
                 if (accept(TokenClass.LSBR)) {
+                    nextToken();
                     expect(TokenClass.INT_LITERAL);
                     expect(TokenClass.RSBR);
                 }
