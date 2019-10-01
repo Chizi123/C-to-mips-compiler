@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/ns_assign.c" afterDir="false" />
+    <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="Fixed assignment consumption">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lexer/Tokeniser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/Tokeniser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/struct.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/struct.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -76,7 +73,7 @@
     <configuration name="Fibonacci-parser" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-parser tests/struct.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-parser tests/ns_assign.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -208,7 +205,8 @@
     <MESSAGE value="Fixed endless looping blocks" />
     <MESSAGE value="New test" />
     <MESSAGE value="Arithmetic brackets and structs working" />
-    <option name="LAST_COMMIT_MESSAGE" value="Arithmetic brackets and structs working" />
+    <MESSAGE value="Added some movement. Assignement eats next character in lexer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added some movement. Assignement eats next character in lexer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

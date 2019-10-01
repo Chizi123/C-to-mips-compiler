@@ -123,7 +123,7 @@ public class Tokeniser {
         }
 
         // Comparisons
-        if (c == '=' && scanner.next() == '=') {
+        if (c == '=' && scanner.peek() == '=') {
             scanner.next();
             return new Token(TokenClass.EQ, line, column);
         }
@@ -143,7 +143,6 @@ public class Tokeniser {
         if (c == '>') return new Token(TokenClass.GT, line, column);
 
         // Assignment
-        // eating next character
         if (c == '=') return new Token(TokenClass.ASSIGN, line, column);
 
         StringBuilder out = new StringBuilder();
