@@ -278,76 +278,82 @@ public class Parser {
                 expect(TokenClass.RPAR);
             }
         } else {
-            parseLOB();
+            parseLOB(i);
             if (accept(TokenClass.OR)) {
                 nextToken();
                 parseExp(1);
+            } else if (accept(TokenClass.DOT)) {
+                nextToken();
+//                expect(TokenClass.IDENTIFIER);
+                parseExp(0); //breaks grammar but allows nested structs
+            } else if (accept(TokenClass.LSBR)) {
+                nextToken();
+                parseExp(1);
+                expect(TokenClass.RSBR);
+                parseExp(0);
             }
         }
-//        if (i != 0) {
-//            System.out.println("Parsing error: expected expression at "+token.position);
-//            error++;
-//            lastErrorToken = token;
-//        }
     }
 
     // Logic Or Block
-    private void parseLOB() {
-        parseLAB();
+    private void parseLOB(int i) {
+        parseLAB(i);
         if (accept(TokenClass.AND)) {
             nextToken();
-            parseLOB();
+            parseLOB(0);
         }
     }
 
     // Logic And Block
-    private void parseLAB() {
-        parseEQB();
+    private void parseLAB(int i) {
+        parseEQB(i);
         if (accept(TokenClass.EQ, TokenClass.NE)) {
             nextToken();
-            parseLAB();
+            parseLAB(0);
         }
     }
 
     // EQuality Block
-    private void parseEQB() {
-        parseCPB();
+    private void parseEQB(int i) {
+        parseCPB(i);
         if (accept(TokenClass.LE, TokenClass.GE, TokenClass.LT, TokenClass.GT)) {
             nextToken();
-            parseEQB();
+            parseEQB(0);
         }
     }
 
     //ComParison Block
-    private void parseCPB() {
-        parseADB();
+    private void parseCPB(int i) {
+        parseADB(i);
         if (accept(TokenClass.PLUS, TokenClass.MINUS)) {
             nextToken();
-            parseCPB();
+            parseCPB(0);
         }
     }
 
     // ADd Block
-    private void parseADB() {
-        parseMLB();
+    private void parseADB(int i) {
+        parseMLB(i);
         if (accept(TokenClass.ASTERIX, TokenClass.DIV, TokenClass.REM)) {
             nextToken();
-            parseADB();
+            parseADB(0);
         }
     }
 
     // MuLtiplication Block
-    private void parseMLB() {
+    private void parseMLB(int i) {
         if (!parseSizeOf() &&
                 !parseVAt() &&
                 !parseFieldOrIdentOrArray() &&
                 !parseLits() &&
                 !parseNeg() &&
                 !parseBracket()) {
-            System.out.println("Parsing error: unexpected expression at "+token.position+", with token: "+token.tokenClass);
-            error++;
-            lastErrorToken = token;
-            nextToken();
+            if (i != 0) {
+                System.out.println("Parsing error: unexpected expression at " + token.position + ", with token: " + token.tokenClass);
+                error++;
+                lastErrorToken = token;
+                nextToken();
+            }
         }
     }
 
@@ -376,14 +382,14 @@ public class Parser {
     private boolean parseFieldOrIdentOrArray() {
         if (accept(TokenClass.IDENTIFIER)) {
             nextToken();
-            if (accept(TokenClass.DOT)) {
-                nextToken();
-                expect(TokenClass.IDENTIFIER);
-            } else if (accept(TokenClass.LSBR)) {
-                nextToken();
-                parseExp(1);
-                expect(TokenClass.RSBR);
-            } else if (accept(TokenClass.LPAR)) {
+//            if (accept(TokenClass.DOT)) {
+//                nextToken();
+//                expect(TokenClass.IDENTIFIER);
+//            } else if (accept(TokenClass.LSBR)) {
+//                nextToken();
+//                parseExp(1);
+//                expect(TokenClass.RSBR);
+            if (accept(TokenClass.LPAR)) {
                 nextToken();
                 if (!accept(TokenClass.RPAR)) {
                     parseExp(1);

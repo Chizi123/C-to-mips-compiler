@@ -13,7 +13,8 @@ int main ()
 	aaa.j = 4;
 	strcpy("Hello", aaa.str);
 	aaa.i = 4;
-	aaa.a = 'c';
+	aaa.a[1].a.a = 'c';
+	a[1][1] = 2;
 
 	return aaa.i;
 	return aaa.j;
