@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lexer/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lexer/Tokeniser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/Tokeniser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -191,7 +189,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569970413148</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Indenting with tabs">
+      <created>1569970480663</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1569970480663</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -228,7 +233,8 @@
     <MESSAGE value="Fixed assignment consumption" />
     <MESSAGE value="Moved struct and array, not working" />
     <MESSAGE value="Nested structs and arrays working, broke grammar for struct ending" />
-    <option name="LAST_COMMIT_MESSAGE" value="Nested structs and arrays working, broke grammar for struct ending" />
+    <MESSAGE value="Indenting with tabs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Indenting with tabs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

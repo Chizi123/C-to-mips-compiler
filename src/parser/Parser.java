@@ -285,7 +285,7 @@ public class Parser {
 			} else if (accept(TokenClass.DOT)) {
 				nextToken();
 //                expect(TokenClass.IDENTIFIER);
-				parseExp(0); //breaks grammar but allows nested structs
+				parseExp(1); //breaks grammar but allows nested structs
 			} else if (accept(TokenClass.LSBR)) {
 				nextToken();
 				parseExp(1);
