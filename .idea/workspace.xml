@@ -4,7 +4,7 @@
     <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/struct.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/struct.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/arithmetic.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/arithmetic.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -65,7 +65,7 @@
     <configuration name="Fibonacci-lexer" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-lexer tests/ns_assign.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-lexer tests/arithmetic.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -74,7 +74,7 @@
     <configuration name="Fibonacci-parser" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-parser tests/struct.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-parser tests/arithmetic.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -204,7 +204,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569970742836</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="IDK, allowing structs or arrays to follow eachother, not exp">
+      <created>1570027413073</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1570027413073</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -243,7 +250,8 @@
     <MESSAGE value="Nested structs and arrays working, broke grammar for struct ending" />
     <MESSAGE value="Indenting with tabs" />
     <MESSAGE value="Require something after a dot" />
-    <option name="LAST_COMMIT_MESSAGE" value="Require something after a dot" />
+    <MESSAGE value="IDK, allowing structs or arrays to follow eachother, not exp" />
+    <option name="LAST_COMMIT_MESSAGE" value="IDK, allowing structs or arrays to follow eachother, not exp" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

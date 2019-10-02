@@ -303,7 +303,7 @@ public class Parser {
 		parseLAB(i);
 		if (accept(TokenClass.AND)) {
 			nextToken();
-			parseLOB(0);
+			parseLOB(1);
 		}
 	}
 
@@ -312,7 +312,7 @@ public class Parser {
 		parseEQB(i);
 		if (accept(TokenClass.EQ, TokenClass.NE)) {
 			nextToken();
-			parseLAB(0);
+			parseLAB(1);
 		}
 	}
 
@@ -321,7 +321,7 @@ public class Parser {
 		parseCPB(i);
 		if (accept(TokenClass.LE, TokenClass.GE, TokenClass.LT, TokenClass.GT)) {
 			nextToken();
-			parseEQB(0);
+			parseEQB(1);
 		}
 	}
 
@@ -330,7 +330,7 @@ public class Parser {
 		parseADB(i);
 		if (accept(TokenClass.PLUS, TokenClass.MINUS)) {
 			nextToken();
-			parseCPB(0);
+			parseCPB(1);
 		}
 	}
 
@@ -339,7 +339,7 @@ public class Parser {
 		parseMLB(i);
 		if (accept(TokenClass.ASTERIX, TokenClass.DIV, TokenClass.REM)) {
 			nextToken();
-			parseADB(0);
+			parseADB(1);
 		}
 	}
 
