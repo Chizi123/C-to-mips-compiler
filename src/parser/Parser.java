@@ -279,19 +279,22 @@ public class Parser {
 			}
 		} else {
 			parseLOB(i);
+			parseStructArray();
 			if (accept(TokenClass.OR)) {
 				nextToken();
 				parseExp(1);
-			} else if (accept(TokenClass.DOT)) {
-				nextToken();
-//                expect(TokenClass.IDENTIFIER);
-				parseExp(1); //breaks grammar but allows nested structs
-			} else if (accept(TokenClass.LSBR)) {
-				nextToken();
-				parseExp(1);
-				expect(TokenClass.RSBR);
-				parseExp(0);
 			}
+//			} else if (accept(TokenClass.DOT)) {
+//				nextToken();
+//                expect(TokenClass.IDENTIFIER);
+//				parseExp(1); //breaks grammar but allows nested structs
+//				parseStructArray();
+//			} else if (accept(TokenClass.LSBR)) {
+//				nextToken();
+//				parseExp(1);
+//				expect(TokenClass.RSBR);
+//				parseExp(0);
+//			}
 		}
 	}
 
@@ -428,5 +431,18 @@ public class Parser {
 			return true;
 		}
 		return false;
+	}
+
+	private void parseStructArray() {
+		if (accept(TokenClass.DOT)) {
+			nextToken();
+			expect(TokenClass.IDENTIFIER);
+			parseStructArray();
+		} else if (accept(TokenClass.LSBR)) {
+			nextToken();
+			parseExp(1);
+			expect(TokenClass.RSBR);
+			parseStructArray();
+		}
 	}
 }
