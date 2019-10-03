@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/tests/all.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/if.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/loops.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/arithmetic.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/arithmetic.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +39,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Fibonacci-parser">
+  <component name="RunManager" selected="Application.parser test">
     <configuration name="Clean" type="AntRunConfiguration">
       <antsettings antfile="file://$PROJECT_DIR$/build.xml" target="clean" />
       <method v="2">
@@ -62,7 +64,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Fibonacci-lexer" type="Application" factoryName="Application">
+    <configuration name="lexer test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
       <option name="PROGRAM_PARAMETERS" value="-lexer tests/arithmetic.c dummy.out" />
@@ -71,10 +73,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Fibonacci-parser" type="Application" factoryName="Application">
+    <configuration name="parser test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-parser tests/arithmetic.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-parser tests/all.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -84,8 +86,8 @@
       <item itemvalue="Ant Target.Main" />
       <item itemvalue="Ant Target.build" />
       <item itemvalue="Ant Target.Clean" />
-      <item itemvalue="Application.Fibonacci-lexer" />
-      <item itemvalue="Application.Fibonacci-parser" />
+      <item itemvalue="Application.lexer test" />
+      <item itemvalue="Application.parser test" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -211,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570027413073</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Mandatory second parts to ops">
+      <created>1570030351395</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1570030351395</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -251,20 +260,16 @@
     <MESSAGE value="Indenting with tabs" />
     <MESSAGE value="Require something after a dot" />
     <MESSAGE value="IDK, allowing structs or arrays to follow eachother, not exp" />
-    <option name="LAST_COMMIT_MESSAGE" value="IDK, allowing structs or arrays to follow eachother, not exp" />
+    <MESSAGE value="Mandatory second parts to ops" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mandatory second parts to ops" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>394</line>
-          <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>265</line>
-          <option name="timeStamp" value="28" />
+          <line>367</line>
+          <option name="timeStamp" value="32" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

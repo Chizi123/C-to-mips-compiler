@@ -151,20 +151,22 @@ public class Parser {
 
 	// if "i" is non-zero, a variable is required
 	private void parseVarDecls(int i) {
-		// to be completed .
-		if (i != 0) {
-			parseType(1);
-			expect(TokenClass.IDENTIFIER);
-			if (accept(TokenClass.LSBR)) {
-				nextToken();
-				expect(TokenClass.INT_LITERAL);
-				expect(TokenClass.RSBR);
-			}
-			expect(TokenClass.SC);
-			parseVarDecls(0);
-		}
-		if (lookAhead(2).tokenClass == TokenClass.LSBR || lookAhead(2).tokenClass == TokenClass.SC || lookAhead(1).tokenClass == TokenClass.ASTERIX || lookAhead(3).tokenClass == TokenClass.SC) {
-			if (parseType(0)) {
+//		// to be completed .
+//		if (i != 0) {
+//			parseType(1);
+//			expect(TokenClass.IDENTIFIER);
+//			if (accept(TokenClass.LSBR)) {
+//				nextToken();
+//				expect(TokenClass.INT_LITERAL);
+//				expect(TokenClass.RSBR);
+//			}
+//			expect(TokenClass.SC);
+//			parseVarDecls(0);
+//		}
+//		if (lookAhead(2).tokenClass == TokenClass.LSBR || lookAhead(2).tokenClass == TokenClass.SC || lookAhead(1).tokenClass == TokenClass.ASTERIX || lookAhead(3).tokenClass == TokenClass.SC) {
+		if (lookAhead(2).tokenClass == TokenClass.LPAR)
+			return;
+			if (parseType(i)) {
 				expect(TokenClass.IDENTIFIER);
 				if (accept(TokenClass.LSBR)) {
 					nextToken();
@@ -174,7 +176,7 @@ public class Parser {
 				expect(TokenClass.SC);
 				parseVarDecls(0);
 			}
-		}
+//		}
 	}
 
 	private void parseFunDecls() {
@@ -200,6 +202,8 @@ public class Parser {
 		} else {
 			if (!parseType(0))
 				error(TokenClass.INT, TokenClass.VOID, TokenClass.CHAR, TokenClass.STRUCT);
+			else
+				return true;
 		}
 		return false;
 	}
@@ -241,8 +245,7 @@ public class Parser {
 			nextToken();
 			expect(TokenClass.LPAR);
 			parseExp(1);
-			expect(TokenClass.RPAR);
-			parseStmt();
+			expect(TokenClass.RPAR);parseStmt();
 		} else if (accept(TokenClass.IF)) {
 			nextToken();
 			expect(TokenClass.LPAR);
@@ -363,9 +366,9 @@ public class Parser {
 	private boolean parseSizeOf() {
 		if (accept(TokenClass.SIZEOF)) {
 			nextToken();
-			expect(TokenClass.LBRA);
+			expect(TokenClass.LPAR);
 			parseType(1);
-			expect(TokenClass.RBRA);
+			expect(TokenClass.RPAR);
 			return true;
 		}
 		return false;
