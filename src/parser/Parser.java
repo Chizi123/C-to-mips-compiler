@@ -21,7 +21,6 @@ public class Parser {
 	private final Tokeniser tokeniser;
 
 
-
 	public Parser(Tokeniser tokeniser) {
 		this.tokeniser = tokeniser;
 	}
@@ -54,7 +53,7 @@ public class Parser {
 			sb.append(e);
 			sep = "|";
 		}
-		System.out.println("Parsing error: expected ("+sb+") found ("+token+") at "+token.position);
+		System.out.println("Parsing error: expected (" + sb + ") found (" + token + ") at " + token.position);
 
 		error++;
 		lastErrorToken = token;
@@ -70,7 +69,7 @@ public class Parser {
 			buffer.add(tokeniser.nextToken());
 		assert buffer.size() >= i;
 
-		int cnt=1;
+		int cnt = 1;
 		for (Token t : buffer) {
 			if (cnt == i)
 				return t;
@@ -151,36 +150,21 @@ public class Parser {
 
 	// if "i" is non-zero, a variable is required
 	private void parseVarDecls(int i) {
-//		// to be completed .
-//		if (i != 0) {
-//			parseType(1);
-//			expect(TokenClass.IDENTIFIER);
-//			if (accept(TokenClass.LSBR)) {
-//				nextToken();
-//				expect(TokenClass.INT_LITERAL);
-//				expect(TokenClass.RSBR);
-//			}
-//			expect(TokenClass.SC);
-//			parseVarDecls(0);
-//		}
-//		if (lookAhead(2).tokenClass == TokenClass.LSBR || lookAhead(2).tokenClass == TokenClass.SC || lookAhead(1).tokenClass == TokenClass.ASTERIX || lookAhead(3).tokenClass == TokenClass.SC) {
 		if (lookAhead(2).tokenClass == TokenClass.LPAR)
 			return;
-			if (parseType(i)) {
-				expect(TokenClass.IDENTIFIER);
-				if (accept(TokenClass.LSBR)) {
-					nextToken();
-					expect(TokenClass.INT_LITERAL);
-					expect(TokenClass.RSBR);
-				}
-				expect(TokenClass.SC);
-				parseVarDecls(0);
+		if (parseType(i)) {
+			expect(TokenClass.IDENTIFIER);
+			if (accept(TokenClass.LSBR)) {
+				nextToken();
+				expect(TokenClass.INT_LITERAL);
+				expect(TokenClass.RSBR);
 			}
-//		}
+			expect(TokenClass.SC);
+			parseVarDecls(0);
+		}
 	}
 
 	private void parseFunDecls() {
-		// to be completed ...
 		while (parseType(0)) {
 			expect(TokenClass.IDENTIFIER);
 			expect(TokenClass.LPAR);
@@ -190,7 +174,6 @@ public class Parser {
 		}
 	}
 
-	// to be completed ...
 	private boolean parseType(int i) {
 		if (i == 0) {
 			if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID) || parseStructType()) {
@@ -199,10 +182,12 @@ public class Parser {
 					nextToken();
 				return true;
 			}
-		} else {
-			if (!parseType(0))
+		} else { //must parse type
+			if (!parseType(0)) {
 				error(TokenClass.INT, TokenClass.VOID, TokenClass.CHAR, TokenClass.STRUCT);
-			else
+				error++;
+				lastErrorToken=token;
+			} else
 				return true;
 		}
 		return false;
@@ -245,7 +230,8 @@ public class Parser {
 			nextToken();
 			expect(TokenClass.LPAR);
 			parseExp(1);
-			expect(TokenClass.RPAR);parseStmt();
+			expect(TokenClass.RPAR);
+			parseStmt();
 		} else if (accept(TokenClass.IF)) {
 			nextToken();
 			expect(TokenClass.LPAR);
@@ -271,24 +257,13 @@ public class Parser {
 	}
 
 	private void parseExp(int i) {
-			parseLOB(i);
-			parseStructArray();
-			if (accept(TokenClass.OR)) {
-				nextToken();
-				parseExp(1);
-			}
-//			} else if (accept(TokenClass.DOT)) {
-//				nextToken();
-//                expect(TokenClass.IDENTIFIER);
-//				parseExp(1); //breaks grammar but allows nested structs
-//				parseStructArray();
-//			} else if (accept(TokenClass.LSBR)) {
-//				nextToken();
-//				parseExp(1);
-//				expect(TokenClass.RSBR);
-//				parseExp(0);
-//			}
+		parseLOB(i);
+		parseStructArray();
+		if (accept(TokenClass.OR)) {
+			nextToken();
+			parseExp(1);
 		}
+	}
 
 	// Logic Or Block
 	private void parseLOB(int i) {
@@ -373,7 +348,7 @@ public class Parser {
 		return false;
 	}
 
-	// Parse Field from struct, identifier, array access or functions
+	// Parse Field from identifier or functions
 	private boolean parseIdentorFunc() {
 		if (accept(TokenClass.IDENTIFIER)) {
 			nextToken();
@@ -425,6 +400,7 @@ public class Parser {
 		return false;
 	}
 
+	//allows chained structs and arrays, eg a.a[1][2].a
 	private void parseStructArray() {
 		if (accept(TokenClass.DOT)) {
 			nextToken();
