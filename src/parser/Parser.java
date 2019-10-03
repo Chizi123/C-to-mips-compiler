@@ -271,16 +271,6 @@ public class Parser {
 	}
 
 	private void parseExp(int i) {
-		if (accept(TokenClass.LPAR)) {
-			nextToken();
-			if (parseType(0)) {
-				expect(TokenClass.RPAR);
-				parseExp(1);
-			} else {
-				parseExp(1);
-				expect(TokenClass.RPAR);
-			}
-		} else {
 			parseLOB(i);
 			parseStructArray();
 			if (accept(TokenClass.OR)) {
@@ -299,7 +289,6 @@ public class Parser {
 //				parseExp(0);
 //			}
 		}
-	}
 
 	// Logic Or Block
 	private void parseLOB(int i) {
@@ -350,7 +339,7 @@ public class Parser {
 	private void parseMLB(int i) {
 		if (!parseSizeOf() &&
 				!parseVAt() &&
-				!parseFieldOrIdentOrArray() &&
+				!parseIdentorFunc() &&
 				!parseLits() &&
 				!parseNeg() &&
 				!parseBracket()) {
@@ -385,16 +374,9 @@ public class Parser {
 	}
 
 	// Parse Field from struct, identifier, array access or functions
-	private boolean parseFieldOrIdentOrArray() {
+	private boolean parseIdentorFunc() {
 		if (accept(TokenClass.IDENTIFIER)) {
 			nextToken();
-//            if (accept(TokenClass.DOT)) {
-//                nextToken();
-//                expect(TokenClass.IDENTIFIER);
-//            } else if (accept(TokenClass.LSBR)) {
-//                nextToken();
-//                parseExp(1);
-//                expect(TokenClass.RSBR);
 			if (accept(TokenClass.LPAR)) {
 				nextToken();
 				if (!accept(TokenClass.RPAR)) {
@@ -430,7 +412,14 @@ public class Parser {
 
 	private boolean parseBracket() {
 		if (accept(TokenClass.LPAR)) {
-			parseExp(1);
+			nextToken();
+			if (parseType(0)) {
+				expect(TokenClass.RPAR);
+				parseExp(1);
+			} else {
+				parseExp(1);
+				expect(TokenClass.RPAR);
+			}
 			return true;
 		}
 		return false;

@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/all.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/if.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/loops.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/arithmetic.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/arithmetic.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -76,7 +74,7 @@
     <configuration name="parser test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-parser tests/all.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-parser tests/arithmetic.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -220,7 +218,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570030351395</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="VarDecls tests for not functions, fixed FunDecls, corrected sizeof pars">
+      <created>1570112093231</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1570112093231</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -261,15 +266,26 @@
     <MESSAGE value="Require something after a dot" />
     <MESSAGE value="IDK, allowing structs or arrays to follow eachother, not exp" />
     <MESSAGE value="Mandatory second parts to ops" />
-    <option name="LAST_COMMIT_MESSAGE" value="Mandatory second parts to ops" />
+    <MESSAGE value="VarDecls tests for not functions, fixed FunDecls, corrected sizeof pars" />
+    <option name="LAST_COMMIT_MESSAGE" value="VarDecls tests for not functions, fixed FunDecls, corrected sizeof pars" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>367</line>
+          <line>356</line>
           <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
+          <line>322</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
+          <line>420</line>
+          <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
