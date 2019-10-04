@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/arithmetic.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/arithmetic.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,7 +36,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.parser test">
+  <component name="RunManager" selected="Application.lexer test">
     <configuration name="Clean" type="AntRunConfiguration">
       <antsettings antfile="file://$PROJECT_DIR$/build.xml" target="clean" />
       <method v="2">
@@ -231,7 +231,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570114372324</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Reformatted code, added some comments">
+      <created>1570114703508</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1570114703508</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -274,6 +281,7 @@
     <MESSAGE value="Mandatory second parts to ops" />
     <MESSAGE value="VarDecls tests for not functions, fixed FunDecls, corrected sizeof pars" />
     <MESSAGE value="Moved bracket identification to bottom of calls" />
-    <option name="LAST_COMMIT_MESSAGE" value="Moved bracket identification to bottom of calls" />
+    <MESSAGE value="Reformatted code, added some comments" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reformatted code, added some comments" />
   </component>
 </project>
