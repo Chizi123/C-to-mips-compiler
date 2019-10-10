@@ -1,10 +1,13 @@
 package parser;
 
+import ast.*;
+
 import lexer.Token;
 import lexer.Tokeniser;
 import lexer.Token.TokenClass;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 
