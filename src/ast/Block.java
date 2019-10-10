@@ -1,10 +1,17 @@
 package ast;
 
+import java.util.List;
+
 public class Block extends Stmt {
+	public List<VarDecl> varDeclList;
+	public List<Stmt> stmtList;
 
-    // to complete ...
+	public Block(List<VarDecl> varDeclList, List<Stmt> stmtList) {
+		this.varDeclList = varDeclList;
+		this.stmtList = stmtList;
+	}
 
-    public <T> T accept(ASTVisitor<T> v) {
+	public <T> T accept(ASTVisitor<T> v) {
 	    return v.visitBlock(this);
     }
 }
