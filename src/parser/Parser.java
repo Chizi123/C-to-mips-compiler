@@ -28,11 +28,11 @@ public class Parser {
 		this.tokeniser = tokeniser;
 	}
 
-	public void parse() {
+	public Program parse() {
 		// get the first token
 		nextToken();
 
-		parseProgram();
+		return parseProgram();
 	}
 
 	public int getErrorCount() {
@@ -122,12 +122,13 @@ public class Parser {
 	}
 
 
-	private void parseProgram() {
+	private Program parseProgram() {
 		parseIncludes();
-		parseStructDecls();
-		parseVarDecls(0);
-		parseFunDecls();
+		List<StructTypeDecl> stds = parseStructDecls();
+		List<VarDecl> vds = parseVarDecls(0);
+		List<FunDecl> fds = parseFunDecls();
 		expect(TokenClass.EOF);
+		return new Program(stds, vds, fds);
 	}
 
 	// includes are ignored, so does not need to return an AST node
@@ -139,7 +140,7 @@ public class Parser {
 		}
 	}
 
-	private void parseStructDecls() {
+	private List<StructTypeDecl> parseStructDecls() {
 		// to be completed ...
 		while (accept(TokenClass.STRUCT)) {
 			nextToken();
@@ -149,12 +150,13 @@ public class Parser {
 			expect(TokenClass.RBRA);
 			expect(TokenClass.SC);
 		}
+		return null;
 	}
 
 	// if "i" is non-zero, a variable is required
-	private void parseVarDecls(int i) {
+	private List<VarDecl> parseVarDecls(int i) {
 		if (lookAhead(2).tokenClass == TokenClass.LPAR)
-			return;
+			return null;
 		if (parseType(i)) {
 			expect(TokenClass.IDENTIFIER);
 			if (accept(TokenClass.LSBR)) {
@@ -165,9 +167,10 @@ public class Parser {
 			expect(TokenClass.SC);
 			parseVarDecls(0);
 		}
+		return null;
 	}
 
-	private void parseFunDecls() {
+	private List<FunDecl> parseFunDecls() {
 		while (parseType(0)) {
 			expect(TokenClass.IDENTIFIER);
 			expect(TokenClass.LPAR);
@@ -175,6 +178,7 @@ public class Parser {
 			expect(TokenClass.RPAR);
 			parseBlock();
 		}
+		return null;
 	}
 
 	private boolean parseType(int i) {
