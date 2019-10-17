@@ -1,8 +1,11 @@
 package ast;
 
-public enum Op implements ASTNode {
-	ADD, SUB, MUL, DIV, MOD, GT, LT, GE, LE, NE, EQ, OR, AND;
+public class Op implements ASTNode {
+	public OpEnum op;
 
+	public Op(OpEnum op) {
+		this.op = op;
+	}
 
 	@Override
 	public <T> T accept(ASTVisitor<T> v) {

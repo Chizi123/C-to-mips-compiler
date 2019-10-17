@@ -1,4 +1,5 @@
 import ast.ASTPrinter;
+import ast.DotPrinter;
 import ast.Program;
 import lexer.Scanner;
 import lexer.Token;
@@ -27,7 +28,7 @@ public class Main {
     private static final int PASS           = 0;
     
     private enum Mode {
-        LEXER, PARSER, AST, SEMANTICANALYSIS, GEN
+        LEXER, PARSER, AST, SEMANTICANALYSIS, GEN, DOT
     }
 
     private static void usage() {
@@ -43,9 +44,21 @@ public class Main {
 
         Mode mode = null;
         switch (args[0]) {
-            case "-lexer": mode = Mode.LEXER; break;	case "-parser": mode = Mode.PARSER; break;
-            case "-ast":   mode = Mode.AST; break;		case "-sem":    mode = Mode.SEMANTICANALYSIS; break;
-            case "-gen":   mode = Mode.GEN; break;
+            case "-lexer":
+                mode = Mode.LEXER;
+                break;
+            case "-parser":
+                mode = Mode.PARSER;
+                break;
+            case "-ast":
+                mode = Mode.AST;
+                break;
+            case "-sem":
+                mode = Mode.SEMANTICANALYSIS;
+                break;
+            case "-gen":
+                mode = Mode.GEN;
+                break;
             default:
                 usage();
                 break;
@@ -58,28 +71,28 @@ public class Main {
         try {
             scanner = new Scanner(inputFile);
         } catch (FileNotFoundException e) {
-            System.out.println("File "+inputFile.toString()+" does not exist.");
+            System.out.println("File " + inputFile.toString() + " does not exist.");
             System.exit(FILE_NOT_FOUND);
             return;
         }
 
         Tokeniser tokeniser = new Tokeniser(scanner);
         if (mode == Mode.LEXER) {
-            for (Token t = tokeniser.nextToken(); t.tokenClass != Token.TokenClass.EOF; t = tokeniser.nextToken()) 
-            	System.out.println(t);
+            for (Token t = tokeniser.nextToken(); t.tokenClass != Token.TokenClass.EOF; t = tokeniser.nextToken())
+                System.out.println(t);
             if (tokeniser.getErrorCount() != 0)
-        		System.out.println("Lexing: failed ("+tokeniser.getErrorCount()+" errors)");
+                System.out.println("Lexing: failed (" + tokeniser.getErrorCount() + " errors)");
             System.exit(tokeniser.getErrorCount() == 0 ? PASS : LEXER_FAIL);
         } else if (mode == Mode.PARSER) {
-		    Parser parser = new Parser(tokeniser);
-		    parser.parse();
-		    if (parser.getErrorCount() != 0)
-		    	System.out.println("Parsing: failed ("+parser.getErrorCount()+" errors)");
-		    System.exit(parser.getErrorCount() == 0 ? PASS : PARSER_FAIL);
-        }  else if (mode == Mode.AST) {
+            Parser parser = new Parser(tokeniser);
+            parser.parse();
+            if (parser.getErrorCount() != 0)
+                System.out.println("Parsing: failed (" + parser.getErrorCount() + " errors)");
+            System.exit(parser.getErrorCount() == 0 ? PASS : PARSER_FAIL);
+        } else if (mode == Mode.AST) {
             Parser parser = new Parser(tokeniser);
             Program programAst = parser.parse();
-            if (parser.getErrorCount() == 0) {                
+            if (parser.getErrorCount() == 0) {
                 PrintWriter writer;
                 StringWriter sw = new StringWriter();
                 try {
@@ -92,7 +105,25 @@ public class Main {
                     e.printStackTrace();
                 }
             } else
-                System.out.println("Parsing: failed ("+parser.getErrorCount()+" errors)");
+                System.out.println("Parsing: failed (" + parser.getErrorCount() + " errors)");
+            System.exit(parser.getErrorCount() == 0 ? PASS : PARSER_FAIL);
+        } else if (mode == Mode.DOT) {
+            Parser parser = new Parser(tokeniser);
+            Program programAst = parser.parse();
+            if (parser.getErrorCount() == 0) {
+                PrintWriter writer;
+                StringWriter sw = new StringWriter();
+                try {
+                    writer = new PrintWriter(sw);
+                    programAst.accept(new DotPrinter(writer));
+                    writer.flush();
+                    System.out.print(sw.toString());
+                    writer.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else
+                System.out.println("Parsing: failed (" + parser.getErrorCount() + " errors)");
             System.exit(parser.getErrorCount() == 0 ? PASS : PARSER_FAIL);
         } else if (mode == Mode.SEMANTICANALYSIS) {
             Parser parser = new Parser(tokeniser);
