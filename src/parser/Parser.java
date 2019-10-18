@@ -463,7 +463,6 @@ public class Parser {
 
 	private SizeOfExpr getSizeOf() {
 		Type t = getType();
-		nextToken();
 		expect(RPAR); nextToken();
 		return new SizeOfExpr(t);
 	}

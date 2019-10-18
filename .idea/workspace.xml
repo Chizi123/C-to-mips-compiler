@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ASTPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTPrinter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/DotPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/DotPrinter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -83,7 +81,7 @@
     <configuration name="ast test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-ast tests/tictactoe.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-ast tests/all.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -118,7 +116,7 @@
     </configuration>
     <configuration name="Dot image" type="ShConfigurationType">
       <option name="SCRIPT_PATH" value="$PROJECT_DIR$/dot.sh" />
-      <option name="SCRIPT_OPTIONS" value="tictactoe" />
+      <option name="SCRIPT_OPTIONS" value="all" />
       <option name="INTERPRETER_PATH" value="/bin/bash" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <method v="2" />
@@ -313,7 +311,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571412110514</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="ASTPrinter and generation working. Lets see tomorrow morning">
+      <created>1571414949824</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1571414949824</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -333,7 +338,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/tests" />
     </ignored-roots>
-    <MESSAGE value="Fixed block comment recognition" />
     <MESSAGE value="Fixed string literal special characters" />
     <MESSAGE value="Added nested strings in string literals" />
     <MESSAGE value="Added multiline strings (explicit), and detection of unending strings" />
@@ -358,7 +362,8 @@
     <MESSAGE value="Created ASTNodes" />
     <MESSAGE value="Finished ASTPrinter and addde DotPrinter" />
     <MESSAGE value="Parser modifications in progress, minimal, hello and struct work" />
-    <option name="LAST_COMMIT_MESSAGE" value="Parser modifications in progress, minimal, hello and struct work" />
+    <MESSAGE value="ASTPrinter and generation working. Lets see tomorrow morning" />
+    <option name="LAST_COMMIT_MESSAGE" value="ASTPrinter and generation working. Lets see tomorrow morning" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -370,7 +375,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>498</line>
+          <line>497</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
@@ -385,8 +390,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>302</line>
-          <option name="timeStamp" value="17" />
+          <line>465</line>
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
