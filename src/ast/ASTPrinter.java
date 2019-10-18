@@ -147,7 +147,7 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitStringLiteral(StrLiteral sl) {
-        writer.print("StringLiteral(");
+        writer.print("StrLiteral(");
         writer.print(sl.string);
         writer.print(")");
         return null;
@@ -165,8 +165,8 @@ public class ASTPrinter implements ASTVisitor<Void> {
     public Void visitFunCallExpr(FunCallExpr fce) {
         writer.print("FunCallExpr(");
         writer.print(fce.name);
-        writer.print(",");
         if (fce.args.size()!=0) {
+            writer.print(",");
             fce.args.get(0).accept(this);
             for (Expr e : fce.args.subList(1,fce.args.size())) {
                 writer.print(",");
@@ -301,7 +301,7 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitIf(If i) {
-        writer.print("IF(");
+        writer.print("If(");
         i.cond.accept(this);
         writer.print(",");
         i.st1.accept(this);

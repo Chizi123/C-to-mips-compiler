@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import static lexer.Token.TokenClass.*;
+
 
 /**
  * @author cdubach
@@ -127,15 +129,15 @@ public class Parser {
 		List<StructTypeDecl> stds = parseStructDecls();
 		List<VarDecl> vds = parseVarDecls(0);
 		List<FunDecl> fds = parseFunDecls();
-		expect(TokenClass.EOF); nextToken();
+		expect(EOF); nextToken();
 		return new Program(stds, vds, fds);
 	}
 
 	// includes are ignored, so does not need to return an AST node
 	private void parseIncludes() {
-		if (accept(TokenClass.INCLUDE)) {
+		if (accept(INCLUDE)) {
 			nextToken();
-			expect(TokenClass.STRING_LITERAL); nextToken();
+			expect(STRING_LITERAL); nextToken();
 			parseIncludes();
 		}
 	}
@@ -143,15 +145,15 @@ public class Parser {
 	private List<StructTypeDecl> parseStructDecls() {
 		// to be completed ...
 		List<StructTypeDecl> out = new LinkedList<>();
-		while (accept(TokenClass.STRUCT)) {
+		while (accept(STRUCT)) {
 			nextToken();
-			expect(TokenClass.IDENTIFIER);
+			expect(IDENTIFIER);
 			StructType st = new StructType(token.data);
 			nextToken();
-			expect(TokenClass.LBRA); nextToken();
+			expect(LBRA); nextToken();
 			List<VarDecl> vdL = parseVarDecls(1);
-			expect(TokenClass.RBRA); nextToken();
-			expect(TokenClass.SC); nextToken();
+			expect(RBRA); nextToken();
+			expect(SC); nextToken();
 			out.add(new StructTypeDecl(st, vdL));
 		}
 		return out;
@@ -160,22 +162,22 @@ public class Parser {
 	// if "i" is non-zero, a variable is required
 	private List<VarDecl> parseVarDecls(int i) {
 		List<VarDecl> out = new LinkedList<>();
-		if (lookAhead(2).tokenClass == TokenClass.LPAR)
+		if (lookAhead(2).tokenClass == LPAR)
 			return out;
 		if (parseType(i)) {
 			Type t = getType();
-			expect(TokenClass.IDENTIFIER);
+			expect(IDENTIFIER);
 			String name = token.data;
 			nextToken();
-			if (accept(TokenClass.LSBR)) {
+			if (accept(LSBR)) {
 				nextToken();
-				expect(TokenClass.INT_LITERAL);
+				expect(INT_LITERAL);
 				t = new ArrayType(t,Integer.parseInt(token.data));
 				nextToken();
-				expect(TokenClass.RSBR); nextToken();
+				expect(RSBR); nextToken();
 			}
 			out.add(new VarDecl(t,name));
-			expect(TokenClass.SC); nextToken();
+			expect(SC); nextToken();
 			out.addAll(parseVarDecls(0));
 		}
 		return out;
@@ -185,12 +187,12 @@ public class Parser {
 		List<FunDecl> out = new LinkedList<>();
 		while (parseType(0)) {
 			Type t = getType();
-			expect(TokenClass.IDENTIFIER);
+			expect(IDENTIFIER);
 			String name = token.data;
 			nextToken();
-			expect(TokenClass.LPAR); nextToken();
+			expect(LPAR); nextToken();
 			List<VarDecl> params = parseParams();
-			expect(TokenClass.RPAR); nextToken();
+			expect(RPAR); nextToken();
 			Block block = parseBlock();
 			out.add(new FunDecl(t, name, params, block));
 		}
@@ -199,12 +201,12 @@ public class Parser {
 
 	private boolean parseType(int i) {
 		if (i == 0) {
-			if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID) || parseStructType()) {
+			if (accept(INT, CHAR, VOID) || parseStructType()) {
 				return true;
 			}
 		} else { //must parse type
 			if (!parseType(0)) {
-				error(TokenClass.INT, TokenClass.VOID, TokenClass.CHAR, TokenClass.STRUCT);
+				error(INT, VOID, CHAR, STRUCT);
 				error++;
 				lastErrorToken=token;
 			} else
@@ -215,17 +217,17 @@ public class Parser {
 
 	private Type getType() {
 		Type out;
-		if (accept(TokenClass.INT)) {
+		if (accept(INT)) {
 			out = new BaseType(BaseTypeEnum.INT);
-		} else if (accept(TokenClass.CHAR)) {
+		} else if (accept(CHAR)) {
 			out = new BaseType(BaseTypeEnum.CHAR);
-		} else if (accept(TokenClass.VOID)) {
+		} else if (accept(VOID)) {
 			out = new BaseType(BaseTypeEnum.VOID);
 		} else {
 			out = getStruct();
 		}
 		nextToken();
-		if (accept(TokenClass.ASTERIX)) {
+		if (accept(ASTERIX)) {
 			nextToken();
 			out = new PointerType(out);
 		}
@@ -233,9 +235,9 @@ public class Parser {
 	}
 
 	private boolean parseStructType() {
-		if (accept(TokenClass.STRUCT)) {
+		if (accept(STRUCT)) {
 			nextToken();
-			if (accept(TokenClass.IDENTIFIER)) {
+			if (accept(IDENTIFIER)) {
 				return true;
 			}
 		}
@@ -250,15 +252,15 @@ public class Parser {
 		List<VarDecl> out = new LinkedList<>();
 		if (parseType(0)) {
 			Type t = getType();
-			expect(TokenClass.IDENTIFIER);
+			expect(IDENTIFIER);
 			out.add(new VarDecl(t, token.data));
 			nextToken();
 		}
-		while (accept(TokenClass.COMMA)) {
+		while (accept(COMMA)) {
 			nextToken();
 			parseType(1);
 			Type t = getType();
-			expect(TokenClass.IDENTIFIER);
+			expect(IDENTIFIER);
 			out.add(new VarDecl(t, token.data));
 			nextToken();
 		}
@@ -266,10 +268,10 @@ public class Parser {
 	}
 
 	private Block parseBlock() {
-		expect(TokenClass.LBRA); nextToken();
+		expect(LBRA); nextToken();
 		List<VarDecl> vdL = parseVarDecls(0);
 		List<Stmt> sL = new LinkedList<>();
-		while (!(accept(TokenClass.RBRA) || accept(TokenClass.EOF))) {
+		while (!(accept(RBRA) || accept(EOF))) {
 			sL.add(parseStmt());
 		}
 		nextToken();
@@ -278,32 +280,32 @@ public class Parser {
 
 	private Stmt parseStmt() {
 		Stmt out;
-		if (accept(TokenClass.LBRA)) {
+		if (accept(LBRA)) {
 			out = parseBlock();
-		} else if (accept(TokenClass.WHILE)) {
+		} else if (accept(WHILE)) {
 			nextToken();
-			expect(TokenClass.LPAR); nextToken();
+			expect(LPAR); nextToken();
 			Expr cond = parseExp(1);
-			expect(TokenClass.RPAR); nextToken();
+			expect(RPAR); nextToken();
 			Stmt loop = parseStmt();
 			out = new While(cond,loop);
-		} else if (accept(TokenClass.IF)) {
+		} else if (accept(IF)) {
 			nextToken();
-			expect(TokenClass.LPAR); nextToken();
+			expect(LPAR); nextToken();
 			Expr cond = parseExp(1);
-			expect(TokenClass.RPAR); nextToken();
+			expect(RPAR); nextToken();
 			Stmt st1 = parseStmt();
 			Stmt st2 = null;
-			if (accept(TokenClass.ELSE)) {
+			if (accept(ELSE)) {
 				nextToken();
 				st2 = parseStmt();
 			}
-			if (st2 == null) {
+			if (st2 != null) {
 				out = new If(cond,st1,st2);
 			} else {
 				out = new If(cond,st1);
 			}
-		} else if (accept(TokenClass.RETURN)) {
+		} else if (accept(RETURN)) {
 			nextToken();
 			Expr e = parseExp(0);
 			if (e == null) {
@@ -311,11 +313,11 @@ public class Parser {
 			} else {
 				out = new Return(e);
 			}
-			expect(TokenClass.SC); nextToken();
+			expect(SC); nextToken();
 		} else {
 			Expr e1 = parseExp(1);
 			Expr e2 = null;
-			if (accept(TokenClass.ASSIGN)) {
+			if (accept(ASSIGN)) {
 				nextToken();
 				e2 = parseExp(1);
 			}
@@ -324,7 +326,7 @@ public class Parser {
 			} else {
 				out = new Assign(e1, e2);
 			}
-			expect(TokenClass.SC); nextToken();
+			expect(SC); nextToken();
 		}
 		return out;
 	}
@@ -333,7 +335,7 @@ public class Parser {
 		Expr out;
 		out = parseLOB(i);
 		out = parseStructArray(out);
-		if (accept(TokenClass.OR)) {
+		if (accept(OR)) {
 			nextToken();
 			out = new BinOp(out, parseExp(1), new Op(OpEnum.OR));
 		}
@@ -344,7 +346,7 @@ public class Parser {
 	private Expr parseLOB(int i) {
 		Expr out;
 		out = parseLAB(i);
-		if (accept(TokenClass.AND)) {
+		if (accept(AND)) {
 			nextToken();
 			out = new BinOp(out, parseLOB(1), new Op(OpEnum.AND));
 		}
@@ -355,9 +357,9 @@ public class Parser {
 	private Expr parseLAB(int i) {
 		Expr out;
 		out = parseEQB(i);
-		if (accept(TokenClass.EQ, TokenClass.NE)) {
+		if (accept(EQ, NE)) {
 			nextToken();
-			out = new BinOp(out, parseLAB(1), new Op(accept(TokenClass.EQ)?OpEnum.EQ:OpEnum.NE));
+			out = new BinOp(out, parseLAB(1), new Op(accept(EQ)?OpEnum.NE:OpEnum.EQ));
 		}
 		return out;
 	}
@@ -366,19 +368,22 @@ public class Parser {
 	private Expr parseEQB(int i) {
 		Expr out;
 		out = parseCPB(i);
-		if (accept(TokenClass.LE, TokenClass.GE, TokenClass.LT, TokenClass.GT)) {
-			nextToken();
+		if (accept(LE, GE, LT, GT)) {
 			switch (token.tokenClass) {
 				case LE:
+					nextToken();
 					out = new BinOp(out, parseEQB(1), new Op(OpEnum.LE));
 					break;
 				case GE:
+					nextToken();
 					out = new BinOp(out, parseEQB(1), new Op(OpEnum.GE));
 					break;
 				case LT:
+					nextToken();
 					out = new BinOp(out, parseEQB(1), new Op(OpEnum.LT));
 					break;
 				case GT:
+					nextToken();
 					out = new BinOp(out, parseEQB(1), new Op(OpEnum.GT));
 					break;
 			}
@@ -390,9 +395,9 @@ public class Parser {
 	private Expr parseCPB(int i) {
 		Expr out;
 		out = parseADB(i);
-		if (accept(TokenClass.PLUS, TokenClass.MINUS)) {
+		if (accept(PLUS, MINUS)) {
 			nextToken();
-			out = new BinOp(out, parseCPB(1), new Op(accept(TokenClass.PLUS)?OpEnum.ADD:OpEnum.SUB));
+			out = new BinOp(out, parseCPB(1), new Op(accept(PLUS)?OpEnum.SUB:OpEnum.ADD));
 		}
 		return out;
 	}
@@ -401,16 +406,18 @@ public class Parser {
 	private Expr parseADB(int i) {
 		Expr out;
 		out = parseMLB(i);
-		if (accept(TokenClass.ASTERIX, TokenClass.DIV, TokenClass.REM)) {
-			nextToken();
+		if (accept(ASTERIX, DIV, REM)) {
 			switch (token.tokenClass) {
 				case ASTERIX:
+					nextToken();
 					out = new BinOp(out, parseADB(1), new Op(OpEnum.MUL));
 					break;
 				case DIV:
+					nextToken();
 					out = new BinOp(out, parseADB(1), new Op(OpEnum.DIV));
 					break;
 				case REM:
+					nextToken();
 					out = new BinOp(out, parseADB(1), new Op(OpEnum.MOD));
 					break;
 			}
@@ -445,9 +452,9 @@ public class Parser {
 	}
 
 	private boolean parseSizeOf() {
-		if (accept(TokenClass.SIZEOF)) {
+		if (accept(SIZEOF)) {
 			nextToken();
-			expect(TokenClass.LPAR); nextToken();
+			expect(LPAR); nextToken();
 			parseType(1);
 			return true;
 		}
@@ -457,13 +464,13 @@ public class Parser {
 	private SizeOfExpr getSizeOf() {
 		Type t = getType();
 		nextToken();
-		expect(TokenClass.RPAR); nextToken();
+		expect(RPAR); nextToken();
 		return new SizeOfExpr(t);
 	}
 
 	// Value At
 	private boolean parseVAt() {
-		if (accept(TokenClass.ASTERIX)) {
+		if (accept(ASTERIX)) {
 			nextToken();
 			return true;
 		}
@@ -476,7 +483,7 @@ public class Parser {
 
 	// Parse Field from identifier or functions
 	private boolean parseIdentorFunc() {
-		if (accept(TokenClass.IDENTIFIER)) {
+		if (accept(IDENTIFIER)) {
 			return true;
 		}
 		return false;
@@ -485,42 +492,42 @@ public class Parser {
 	private Expr getIdentorFunc() {
 		String name = token.data;
 		nextToken();
-		if (accept(TokenClass.LPAR)) {
+		if (accept(LPAR)) {
 			nextToken();
 			List<Expr> args = new LinkedList<>();
-			if (!accept(TokenClass.RPAR)) {
+			if (!accept(RPAR)) {
 				args.add(parseExp(1));
-				while (accept(TokenClass.COMMA)) {
+				while (accept(COMMA)) {
 					nextToken();
 					args.add(parseExp(1));
 				}
 			}
-			expect(TokenClass.RPAR); nextToken();
+			expect(RPAR); nextToken();
 			return new FunCallExpr(name, args);
 		}
 		return new VarExpr(name);
 	}
 
 	private boolean parseLits() {
-		if (accept(TokenClass.STRING_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.INT_LITERAL)) {
+		if (accept(STRING_LITERAL, CHAR_LITERAL, INT_LITERAL)) {
 			return true;
 		}
 		return false;
 	}
 
 	private Expr getLits() {
-		if (accept(TokenClass.STRING_LITERAL)) {
+		if (accept(STRING_LITERAL)) {
 			return new StrLiteral(token.data);
-		} else if (accept(TokenClass.INT_LITERAL)) {
+		} else if (accept(INT_LITERAL)) {
 			return new IntLiteral(Integer.parseInt(token.data));
-		} else if (accept(TokenClass.CHAR_LITERAL)) {
+		} else if (accept(CHAR_LITERAL)) {
 			return new ChrLiteral(token.data.charAt(0));
 		}
 		return null;
 	}
 
 	private boolean parseNeg() {
-		if (accept(TokenClass.MINUS)) {
+		if (accept(MINUS)) {
 			nextToken();
 			return true;
 		}
@@ -532,7 +539,7 @@ public class Parser {
 	}
 
 	private boolean parseBracket() {
-		if (accept(TokenClass.LPAR)) {
+		if (accept(LPAR)) {
 			nextToken();
 			return true;
 		}
@@ -542,27 +549,27 @@ public class Parser {
 	private Expr getBracket() {
 		if (parseType(0)) {
 			Type t = getType();
-			expect(TokenClass.RPAR); nextToken();
+			expect(RPAR); nextToken();
 			return new TypecaseExpr(t,parseExp(1));
 		} else {
 			Expr e = parseExp(1);
-			expect(TokenClass.RPAR); nextToken();
+			expect(RPAR); nextToken();
 			return e;
 		}
 	}
 
 	//allows chained structs and arrays, eg a.a[1][2].a
 	private Expr parseStructArray(Expr in) {
-		if (accept(TokenClass.DOT)) {
+		if (accept(DOT)) {
 			nextToken();
-			expect(TokenClass.IDENTIFIER);
+			expect(IDENTIFIER);
 			String field = token.data;
 			nextToken();
 			return parseStructArray(new FieldAccessExpr(in, field));
-		} else if (accept(TokenClass.LSBR)) {
+		} else if (accept(LSBR)) {
 			nextToken();
 			Expr index = parseExp(1);
-			expect(TokenClass.RSBR); nextToken();
+			expect(RSBR); nextToken();
 			return parseStructArray(new ArrayAccessExpr(in, index));
 		}
 		return in;

@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dot.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/hello.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/ASTPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTPrinter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/DotPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/DotPrinter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/struct.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/struct.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -87,7 +83,7 @@
     <configuration name="ast test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-ast tests/struct.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-ast tests/tictactoe.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -96,7 +92,7 @@
     <configuration name="dot test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-dot tests/struct.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-dot tests/fibonacci.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -122,7 +118,7 @@
     </configuration>
     <configuration name="Dot image" type="ShConfigurationType">
       <option name="SCRIPT_PATH" value="$PROJECT_DIR$/dot.sh" />
-      <option name="SCRIPT_OPTIONS" value="struct" />
+      <option name="SCRIPT_OPTIONS" value="tictactoe" />
       <option name="INTERPRETER_PATH" value="/bin/bash" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <method v="2" />
@@ -310,7 +306,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571315160871</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Parser modifications in progress, minimal, hello and struct work">
+      <created>1571412110514</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1571412110514</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -330,7 +333,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/tests" />
     </ignored-roots>
-    <MESSAGE value="Added &amp; for getting address. Comments work, no over eating" />
     <MESSAGE value="Fixed block comment recognition" />
     <MESSAGE value="Fixed string literal special characters" />
     <MESSAGE value="Added nested strings in string literals" />
@@ -355,30 +357,36 @@
     <MESSAGE value="Changed return types in parser to match new ones" />
     <MESSAGE value="Created ASTNodes" />
     <MESSAGE value="Finished ASTPrinter and addde DotPrinter" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished ASTPrinter and addde DotPrinter" />
+    <MESSAGE value="Parser modifications in progress, minimal, hello and struct work" />
+    <option name="LAST_COMMIT_MESSAGE" value="Parser modifications in progress, minimal, hello and struct work" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>280</line>
+          <line>282</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>491</line>
+          <line>498</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>334</line>
+          <line>336</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>165</line>
+          <line>167</line>
           <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
+          <line>302</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

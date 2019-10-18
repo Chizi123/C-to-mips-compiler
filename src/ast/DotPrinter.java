@@ -247,10 +247,10 @@ public class DotPrinter implements ASTVisitor<String> {
     @Override
     public String visitTypecastExpr(TypecaseExpr te) {
         String TCId = "Node"+NodeCnt++;
-        writer.println(TCId+" [label=\"TypecaseExpr\"];");
+        writer.println(TCId+" [label=\"TypecastExpr\"];");
         writer.println(TCId+" -> "+te.type.accept(this)+";");
         writer.println(TCId+" -> "+te.exp.accept(this)+";");
-        return null;
+        return TCId;
     }
 
     @Override
