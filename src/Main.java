@@ -53,6 +53,9 @@ public class Main {
             case "-ast":
                 mode = Mode.AST;
                 break;
+            case "-dot":
+                mode = Mode.DOT;
+                break;
             case "-sem":
                 mode = Mode.SEMANTICANALYSIS;
                 break;

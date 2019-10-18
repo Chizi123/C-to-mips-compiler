@@ -2,17 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ast/BaseTypeEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/DotPrinter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/OpEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dot.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/hello.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/ASTPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTPrinter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/BaseType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/BaseType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/Op.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Op.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Program.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/DotPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/DotPrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/struct.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/struct.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,6 +35,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/dot.sh" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -61,7 +59,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Ant Target.build">
+  <component name="RunManager" selected="Shell Script.Dot image">
     <configuration name="Clean" type="AntRunConfiguration">
       <antsettings antfile="file://$PROJECT_DIR$/build.xml" target="clean" />
       <method v="2">
@@ -86,23 +84,48 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ast test" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="Project" />
+      <option name="PROGRAM_PARAMETERS" value="-ast tests/struct.c dummy.out" />
+      <option name="VM_PARAMETERS" value="-cp bin" />
+      <method v="2">
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
+      </method>
+    </configuration>
+    <configuration name="dot test" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="Project" />
+      <option name="PROGRAM_PARAMETERS" value="-dot tests/struct.c dummy.out" />
+      <option name="VM_PARAMETERS" value="-cp bin" />
+      <method v="2">
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
+      </method>
+    </configuration>
     <configuration name="lexer test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-lexer tests/arithmetic.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-lexer tests/struct.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
-        <option name="Make" enabled="true" />
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
       </method>
     </configuration>
     <configuration name="parser test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-parser tests/arithmetic.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-parser tests/struct.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
-        <option name="Make" enabled="true" />
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
       </method>
+    </configuration>
+    <configuration name="Dot image" type="ShConfigurationType">
+      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/dot.sh" />
+      <option name="SCRIPT_OPTIONS" value="struct" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Ant Target.Main" />
@@ -110,6 +133,9 @@
       <item itemvalue="Ant Target.Clean" />
       <item itemvalue="Application.lexer test" />
       <item itemvalue="Application.parser test" />
+      <item itemvalue="Application.ast test" />
+      <item itemvalue="Application.dot test" />
+      <item itemvalue="Shell Script.Dot image" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -277,7 +303,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570718934380</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Finished ASTPrinter and addde DotPrinter">
+      <created>1571315160870</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1571315160871</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -297,7 +330,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/tests" />
     </ignored-roots>
-    <MESSAGE value="Lexer completed but a massive mess, warnings need to be fixed" />
     <MESSAGE value="Added &amp; for getting address. Comments work, no over eating" />
     <MESSAGE value="Fixed block comment recognition" />
     <MESSAGE value="Fixed string literal special characters" />
@@ -322,6 +354,33 @@
     <MESSAGE value="Reformatted code, added some comments" />
     <MESSAGE value="Changed return types in parser to match new ones" />
     <MESSAGE value="Created ASTNodes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created ASTNodes" />
+    <MESSAGE value="Finished ASTPrinter and addde DotPrinter" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished ASTPrinter and addde DotPrinter" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
+          <line>280</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
+          <line>491</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
+          <line>334</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
+          <line>165</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

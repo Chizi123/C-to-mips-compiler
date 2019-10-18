@@ -15,12 +15,12 @@ public class DotPrinter implements ASTVisitor<String> {
     @Override
     public String visitBlock(Block b) {
         String BlockNodeId = "Node" + NodeCnt++;
-        writer.println(BlockNodeId + " label=[\"Block\"];");
+        writer.println(BlockNodeId + " [label=\"Block\"];");
         for (VarDecl v : b.varDeclList) {
-            writer.println(BlockNodeId+" -> "+v.accept(this)+":");
+            writer.println(BlockNodeId+" -> "+v.accept(this)+";");
         }
         for (Stmt s : b.stmtList) {
-            writer.println(BlockNodeId+" -> "+s.accept(this)+":");
+            writer.println(BlockNodeId+" -> "+s.accept(this)+";");
         }
         return BlockNodeId;
     }
@@ -28,8 +28,8 @@ public class DotPrinter implements ASTVisitor<String> {
     @Override
     public String visitFunDecl(FunDecl fd) {
         String FunDeclId = "Node"+NodeCnt++;
-        writer.println(FunDeclId+" label=[\"Function("+fd.name+")\"];");
-        writer.println(FunDeclId+" -> "+fd.type.accept(this));
+        writer.println(FunDeclId+" [label=\"Function("+fd.name+")\"];");
+        writer.println(FunDeclId+" -> "+fd.type.accept(this)+";");
         for (VarDecl vd : fd.params) {
             writer.println(FunDeclId+" -> "+vd.accept(this)+";");
         }
@@ -42,7 +42,7 @@ public class DotPrinter implements ASTVisitor<String> {
         writer.println("digraph ast {");
         NodeCnt=0;
         String ProgramId = "Node"+NodeCnt++;
-        writer.println(ProgramId+" label=[\"Program\"];");
+        writer.println(ProgramId+" [label=\"Program\"];");
         for (StructTypeDecl std : p.structTypeDecls) {
             writer.println(ProgramId+" -> "+std.accept(this)+";");
         }
@@ -52,27 +52,28 @@ public class DotPrinter implements ASTVisitor<String> {
         for (FunDecl fd : p.funDecls) {
             writer.println(ProgramId+" -> "+fd.accept(this)+";");
         }
+        writer.println("}");
 	    writer.flush();
-        return null;
+        return ProgramId;
     }
 
     @Override
     public String visitVarDecl(VarDecl vd){
         String VDId = "Node"+NodeCnt++;
-        writer.println(VDId+" label=[\"VarDecl("+vd.varName+")\"];");
+        writer.println(VDId+" [label=\"VarDecl("+vd.varName+")\"];");
         writer.println(VDId+" -> "+vd.type.accept(this)+";");
-        return null;
+        return VDId;
     }
 
     @Override
     public String visitVarExpr(VarExpr v) {
-        writer.println("Node"+NodeCnt+" label=[\"VarExpr("+v.name+")\"];");
+        writer.println("Node"+NodeCnt+" [label=\"VarExpr("+v.name+")\"];");
         return "Node"+NodeCnt++;
     }
 
     @Override
     public String visitBaseType(BaseType bt) {
-        writer.print("Node"+NodeCnt+" label=[\"Type(");
+        writer.print("Node"+NodeCnt+" [label=\"Type(");
         switch (bt.type) {
             case INT:
                 writer.print("INT");
@@ -84,14 +85,14 @@ public class DotPrinter implements ASTVisitor<String> {
                 writer.print("VOID");
                 break;
         }
-        writer.print("\"];");
+        writer.println(")\"];");
         return "Node"+NodeCnt++;
     }
 
     @Override
     public String visitStructTypeDecl(StructTypeDecl st) {
         String STDId = "Node"+NodeCnt++;
-        writer.println(STDId+" label=[\"StructTypeDecl("+st.st.accept(this)+"\"];");
+        writer.println(STDId+" [label=\"StructTypeDecl("+st.st.name+")\"];");
         for (VarDecl v : st.varDeclList) {
             writer.println(STDId+" -> "+v.accept(this)+";");
         }
@@ -100,13 +101,15 @@ public class DotPrinter implements ASTVisitor<String> {
 
     @Override
     public String visitStructType(StructType st) {
-        return st.name;
+        String STId = "Node"+NodeCnt++;
+        writer.println(STId+" [label=\"StructType("+st.name+")\"];");
+        return STId;
     }
 
     @Override
     public String visitPointerType(PointerType pt) {
         String PTId = "Node"+NodeCnt++;
-        writer.println(PTId+" label=[\"PointerType\"]);");
+        writer.println(PTId+" [label=\"PointerType\"];");
         writer.println(PTId+" -> "+pt.type.accept(this)+";");
         return PTId;
     }
@@ -114,33 +117,33 @@ public class DotPrinter implements ASTVisitor<String> {
     @Override
     public String visitArrayType(ArrayType at) {
         String ATId = "Node"+NodeCnt++;
-        writer.println(ATId+" label=[\"ArrayType("+at.size+"\"];");
+        writer.println(ATId+" [label=\"ArrayType("+at.size+")\"];");
         writer.println(ATId+" -> "+at.type.accept(this)+";");
         return ATId;
     }
 
     @Override
     public String visitIntLiteral(IntLiteral il) {
-        writer.println("Node"+NodeCnt+" label=[\"IntLiteral("+il.number+")\"];");
+        writer.println("Node"+NodeCnt+" [label=\"IntLiteral("+il.number+")\"];");
         return "Node"+NodeCnt++;
     }
 
     @Override
     public String visitStringLiteral(StrLiteral sl) {
-        writer.println("Node"+NodeCnt+" label=[\"StringLiteral("+sl.string+"\"];");
+        writer.println("Node"+NodeCnt+" [label=\"StringLiteral("+sl.string+")\"];");
         return "Node"+NodeCnt++;
     }
 
     @Override
     public String visitChrLiteral(ChrLiteral cl) {
-        writer.println("Node"+NodeCnt+" label=[\"ChrLiteral("+cl.c+")\"];");
+        writer.println("Node"+NodeCnt+" [label=\"ChrLiteral("+cl.c+")\"];");
         return "Node"+NodeCnt++;
     }
 
     @Override
     public String visitFunCallExpr(FunCallExpr fce) {
         String FCId = "Node"+NodeCnt++;
-        writer.println(FCId+" label=[\"FunCallExpr("+fce.name+")\"];");
+        writer.println(FCId+" [label=\"FunCallExpr("+fce.name+")\"];");
         for (Expr e : fce.args) {
             writer.println(FCId+" -> "+e.accept(this)+";");
         }
@@ -150,7 +153,7 @@ public class DotPrinter implements ASTVisitor<String> {
     @Override
     public String visitBinOp(BinOp bo) {
         String BOId = "Node"+NodeCnt++;
-        writer.println(BOId+" label=[\"BinOp\"];");
+        writer.println(BOId+" [label=\"BinOp\"];");
         writer.println(BOId+" -> "+bo.E1.accept(this)+";");
         writer.println(BOId+" -> "+bo.op.accept(this)+";");
         writer.println(BOId+" -> "+bo.E2.accept(this)+";");
@@ -159,7 +162,7 @@ public class DotPrinter implements ASTVisitor<String> {
 
     @Override
     public String visitOp(Op o) {
-        writer.print("Node"+NodeCnt+" label=[\"");
+        writer.print("Node"+NodeCnt+" [label=\"");
         switch (o.op) {
             case ADD:
                 writer.print("ADD");
@@ -208,20 +211,18 @@ public class DotPrinter implements ASTVisitor<String> {
     @Override
     public String visitArrayAccessExpr(ArrayAccessExpr aae) {
         String AAId = "Node"+NodeCnt++;
-        writer.println(AAId+" label=[\"ArrayAccessExpr\"];");
+        writer.println(AAId+" [label=\"ArrayAccessExpr\"];");
         writer.println(AAId+" -> "+aae.exp.accept(this)+";");
-        writer.println("Node"+NodeCnt+" label=[\"index("+aae.index+"\"];");
-        writer.println(AAId+" -> "+"Node"+NodeCnt+";");
-        NodeCnt++;
+        writer.println(AAId+" -> "+aae.index.accept(this)+";");
         return AAId;
     }
 
     @Override
     public String visitFieldAccessExpr(FieldAccessExpr fae) {
         String FAId = "Node"+NodeCnt++;
-        writer.println(FAId+" label=[\"FieldAccessExpr\"]");
+        writer.println(FAId+" [label=\"FieldAccessExpr\"];");
         writer.println(FAId+" -> "+fae.struct.accept(this)+";");
-        writer.println("Node"+NodeCnt+" label=[\"field("+fae+"\"];");
+        writer.println("Node"+NodeCnt+" [label=\"field("+fae.field+")\"];");
         writer.println(FAId+" -> "+"Node"+NodeCnt+";");
         NodeCnt++;
         return FAId;
@@ -230,7 +231,7 @@ public class DotPrinter implements ASTVisitor<String> {
     @Override
     public String visitValueAtExpr(ValueAtExpr vae) {
         String VAId = "Node"+NodeCnt++;
-        writer.println(VAId+" label=[\"ValueAtExpr\"];");
+        writer.println(VAId+" [label=\"ValueAtExpr\"];");
         writer.println(VAId+" -> "+vae.exp.accept(this)+";");
         return VAId;
     }
@@ -238,7 +239,7 @@ public class DotPrinter implements ASTVisitor<String> {
     @Override
     public String visitSizeOfExpr(SizeOfExpr soe) {
         String SOId = "Node"+NodeCnt++;
-        writer.println(SOId+" label=[\"SizeOfExpr\"];");
+        writer.println(SOId+" [label=\"SizeOfExpr\"];");
         writer.println(SOId+" -> "+soe.type.accept(this)+";");
         return SOId;
     }
@@ -246,7 +247,7 @@ public class DotPrinter implements ASTVisitor<String> {
     @Override
     public String visitTypecastExpr(TypecaseExpr te) {
         String TCId = "Node"+NodeCnt++;
-        writer.println(TCId+" label=[\"TypecaseExpr\"];");
+        writer.println(TCId+" [label=\"TypecaseExpr\"];");
         writer.println(TCId+" -> "+te.type.accept(this)+";");
         writer.println(TCId+" -> "+te.exp.accept(this)+";");
         return null;
@@ -255,7 +256,7 @@ public class DotPrinter implements ASTVisitor<String> {
     @Override
     public String visitExprStmt(ExprStmt es) {
         String EId = "Node"+NodeCnt++;
-        writer.println(EId+" label=[\"ExprStmt\"];");
+        writer.println(EId+" [label=\"ExprStmt\"];");
         writer.println(EId+" -> "+es.exp.accept(this)+";");
         return EId;
     }
@@ -263,7 +264,7 @@ public class DotPrinter implements ASTVisitor<String> {
     @Override
     public String visitWhile(While w) {
         String WId = "Node"+NodeCnt++;
-        writer.println(WId+" label=[\"While\"];");
+        writer.println(WId+" [label=\"While\"];");
         writer.println(WId+" -> "+w.cond.accept(this)+";");
         writer.println(WId+" -> "+w.loop.accept(this)+";");
         return WId;
@@ -272,7 +273,7 @@ public class DotPrinter implements ASTVisitor<String> {
     @Override
     public String visitIf(If i) {
         String IId = "Node"+NodeCnt++;
-        writer.println(IId+" label=[\"If\"];");
+        writer.println(IId+" [label=\"If\"];");
         writer.println(IId+" -> "+i.cond.accept(this)+";");
         writer.println(IId+" -> "+i.st1.accept(this)+";");
         if (i.st2 != null) {
@@ -284,16 +285,16 @@ public class DotPrinter implements ASTVisitor<String> {
     @Override
     public String visitAssign(Assign a) {
         String AId = "Node"+NodeCnt++;
-        writer.println(AId+" label=[\"Assign\"];");
+        writer.println(AId+" [label=\"Assign\"];");
         writer.println(AId+" -> "+a.e1.accept(this)+";");
-        writer.println(AId+" -> "+a.e2.accept(this)+":");
+        writer.println(AId+" -> "+a.e2.accept(this)+";");
         return AId;
     }
 
     @Override
     public String visitReturn(Return r) {
         String RId = "Node"+NodeCnt++;
-        writer.println(RId+" label=[\"Return\"];");
+        writer.println(RId+" [label=\"Return\"];");
         if (r.exp != null)
             writer.println(RId+" -> "+r.exp.accept(this)+";");
         return RId;

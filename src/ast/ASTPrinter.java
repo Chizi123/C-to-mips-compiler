@@ -166,9 +166,12 @@ public class ASTPrinter implements ASTVisitor<Void> {
         writer.print("FunCallExpr(");
         writer.print(fce.name);
         writer.print(",");
-        for (Expr e : fce.args) {
-            e.accept(this);
-            writer.print(",");
+        if (fce.args.size()!=0) {
+            fce.args.get(0).accept(this);
+            for (Expr e : fce.args.subList(1,fce.args.size())) {
+                writer.print(",");
+                e.accept(this);
+            }
         }
         writer.print(")");
         return null;
@@ -237,7 +240,7 @@ public class ASTPrinter implements ASTVisitor<Void> {
         writer.print("ArrayAccessExpr(");
         aae.exp.accept(this);
         writer.print(",");
-        writer.print(aae.index);
+        aae.index.accept(this);
         writer.print(")");
         return null;
     }
@@ -324,7 +327,7 @@ public class ASTPrinter implements ASTVisitor<Void> {
     public Void visitReturn(Return r) {
         writer.print("RETURN(");
         if (r.exp != null)
-            writer.print(r.exp.accept(this));
+            r.exp.accept(this);
         writer.print(")");
         return null;
     }

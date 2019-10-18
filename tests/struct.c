@@ -18,4 +18,5 @@ int main ()
 
 	return aaa.i;
 	return aaa.j;
+	return;
 }
