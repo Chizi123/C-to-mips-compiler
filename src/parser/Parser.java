@@ -334,11 +334,11 @@ public class Parser {
 	private Expr parseExp(int i) {
 		Expr out;
 		out = parseLOB(i);
-		out = parseStructArray(out);
 		if (accept(OR)) {
 			nextToken();
 			out = new BinOp(out, parseExp(1), new Op(OpEnum.OR));
 		}
+		out = parseStructArray(out);
 		return out;
 	}
 
@@ -358,8 +358,16 @@ public class Parser {
 		Expr out;
 		out = parseEQB(i);
 		if (accept(EQ, NE)) {
-			nextToken();
-			out = new BinOp(out, parseLAB(1), new Op(accept(EQ)?OpEnum.NE:OpEnum.EQ));
+			switch(token.tokenClass) {
+				case EQ:
+					nextToken();
+					out = new BinOp(out,parseLAB(1), new Op(OpEnum.EQ));
+					break;
+				case NE:
+					nextToken();
+					out = new BinOp(out,parseLAB(1),new Op(OpEnum.NE));
+					break;
+			}
 		}
 		return out;
 	}
@@ -396,8 +404,15 @@ public class Parser {
 		Expr out;
 		out = parseADB(i);
 		if (accept(PLUS, MINUS)) {
-			nextToken();
-			out = new BinOp(out, parseCPB(1), new Op(accept(PLUS)?OpEnum.SUB:OpEnum.ADD));
+			switch (token.tokenClass) {
+				case PLUS:
+					nextToken();
+					out = new BinOp(out, parseCPB(1), new Op(OpEnum.ADD));
+					break;
+				case MINUS:
+					nextToken();
+					out = new BinOp(out, parseCPB(1), new Op(OpEnum.SUB));
+			}
 		}
 		return out;
 	}
@@ -440,6 +455,8 @@ public class Parser {
 			out = getNeg();
 		} else if (parseBracket()) {
 			out = getBracket();
+//		} else if (accept(DOT)) {
+//			out = parseStructArray(out);
 		} else {
 			if (i != 0) {
 				System.out.println("Parsing error: unexpected expression at " + token.position + ", with token: " + token.tokenClass);
@@ -489,6 +506,7 @@ public class Parser {
 	}
 
 	private Expr getIdentorFunc() {
+		Expr out;
 		String name = token.data;
 		nextToken();
 		if (accept(LPAR)) {
@@ -502,9 +520,12 @@ public class Parser {
 				}
 			}
 			expect(RPAR); nextToken();
-			return new FunCallExpr(name, args);
+			out = new FunCallExpr(name, args);
+		} else {
+			out = new VarExpr(name);
 		}
-		return new VarExpr(name);
+//		out = parseStructArray(out);
+		return out;
 	}
 
 	private boolean parseLits() {
@@ -553,6 +574,7 @@ public class Parser {
 		} else {
 			Expr e = parseExp(1);
 			expect(RPAR); nextToken();
+//			e = parseStructArray(e);
 			return e;
 		}
 	}
