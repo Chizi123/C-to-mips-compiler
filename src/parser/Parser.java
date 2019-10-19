@@ -493,8 +493,15 @@ public class Parser {
 		return false;
 	}
 
-	private ValueAtExpr getVAt() {
-		return new ValueAtExpr(parseExp(1));
+	private Expr getVAt() {
+		Expr out = null;
+		if (parseBracket()) {
+			out = new ValueAtExpr(getBracket());
+		} else if (parseIdentorFunc()) {
+			out = new ValueAtExpr(getIdentorFunc());
+		}
+		out = parseStructArray(out);
+		return out;
 	}
 
 	// Parse Field from identifier or functions
