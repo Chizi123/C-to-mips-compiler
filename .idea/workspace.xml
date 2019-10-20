@@ -3,8 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/FunCallExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/FunCallExpr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/loops.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/loops.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -91,7 +92,7 @@
     <configuration name="dot test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-dot tests/fibonacci.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-dot tests/loops.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -118,7 +119,7 @@
     <configuration name="sem test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-sem tests/hello.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-sem tests/loops.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -126,7 +127,7 @@
     </configuration>
     <configuration name="Dot image" type="ShConfigurationType">
       <option name="SCRIPT_PATH" value="$PROJECT_DIR$/dot.sh" />
-      <option name="SCRIPT_OPTIONS" value="struct" />
+      <option name="SCRIPT_OPTIONS" value="loops" />
       <option name="INTERPRETER_PATH" value="/bin/bash" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <method v="2" />
@@ -357,7 +358,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571591112050</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Name analysis now tags function and variable expressions to their declarations">
+      <created>1571592589693</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1571592589693</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -377,7 +385,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/tests" />
     </ignored-roots>
-    <MESSAGE value="Parser first draft. Fibonacci works" />
     <MESSAGE value="Fixed some small bugs with test files" />
     <MESSAGE value="Fixed endless looping blocks" />
     <MESSAGE value="New test" />
@@ -402,20 +409,26 @@
     <MESSAGE value="Moved operators from ternary to switch. working now. Problem with getting value at structs" />
     <MESSAGE value="Hacked changes to VAt to break grammar but allows structs and arrays after references" />
     <MESSAGE value="Name analysis working, i think. doesnt check struct fields." />
-    <option name="LAST_COMMIT_MESSAGE" value="Name analysis working, i think. doesnt check struct fields." />
+    <MESSAGE value="Name analysis now tags function and variable expressions to their declarations" />
+    <option name="LAST_COMMIT_MESSAGE" value="Name analysis now tags function and variable expressions to their declarations" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>113</line>
-          <option name="timeStamp" value="30" />
+          <line>109</line>
+          <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>88</line>
-          <option name="timeStamp" value="31" />
+          <line>108</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
+          <line>266</line>
+          <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

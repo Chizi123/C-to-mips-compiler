@@ -253,16 +253,32 @@ public class Parser {
 		if (parseType(0)) {
 			Type t = getType();
 			expect(IDENTIFIER);
-			out.add(new VarDecl(t, token.data));
+			String name = token.data;
 			nextToken();
+			while (accept(LSBR)) {
+				nextToken();
+				expect(INT_LITERAL);
+				t = new ArrayType(t,Integer.parseInt(token.data));
+				nextToken();
+				expect(RSBR); nextToken();
+			}
+			out.add(new VarDecl(t, name));
 		}
 		while (accept(COMMA)) {
 			nextToken();
 			parseType(1);
 			Type t = getType();
 			expect(IDENTIFIER);
-			out.add(new VarDecl(t, token.data));
+			String name = token.data;
 			nextToken();
+			while (accept(LSBR)) {
+				nextToken();
+				expect(INT_LITERAL);
+				t = new ArrayType(t,Integer.parseInt(token.data));
+				nextToken();
+				expect(RSBR); nextToken();
+			}
+			out.add(new VarDecl(t, name));
 		}
 		return out;
 	}

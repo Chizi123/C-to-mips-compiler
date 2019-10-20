@@ -134,7 +134,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		boolean declared = false;
 		for (funvar j : vars.getFirst()) {
 			if (j.name.equals(vd.varName)) {
-				error("Double variable declaration in block");
+				error("Double variable declaration of variable "+j.name);
 				declared = true;
 			}
 		}
