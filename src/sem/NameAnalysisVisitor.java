@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
-	private ArrayDeque<LinkedList<String>> vars;
+	private ArrayDeque<LinkedList<funvar>> vars;
 	private Hashtable<String,LinkedList<String>> structs;
 
 	@Override
@@ -25,7 +25,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 			error("Double declaration of struct "+sts.st.name);
 		} else {
 			structs.put(sts.st.name, new LinkedList<>());
-			vars.getLast().add(sts.st.name);
+			vars.getLast().add(new funvar(sts.st.name));
 		}
 
 		//variable declaration doubling in structs
@@ -69,14 +69,14 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	public Void visitFunDecl(FunDecl p) {
 		// add function name to list of global identifiers
 		boolean declared = false;
-		for (String i : vars.getLast()) {
-			if (i.equals(p.name)) {
+		for (funvar i : vars.getLast()) {
+			if (i.name.equals(p.name)) {
 				error("Double declaration of function: " + p.name);
 				declared = true;
 			}
 		}
 		if (!declared) {
-			vars.getLast().add(p.name);
+			vars.getLast().add(new funvar(p.name,p));
 		}
 
 		//add parameters to list of function parameters above global variables
@@ -118,25 +118,28 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	}
 
 	private void add_canned_functions() {
-		vars.getLast().add("print_s");
-		vars.getLast().add("print_i");
-		vars.getLast().add("print_c");
-		vars.getLast().add("read_c");
-		vars.getLast().add("read_i");
-		vars.getLast().add("mcmalloc");
+		vars.getLast().add(new funvar("print_s", new FunDecl(new BaseType(BaseTypeEnum.VOID),"print_s",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
+		vars.getLast().getLast().fun.params.add(new VarDecl(new PointerType(new BaseType(BaseTypeEnum.CHAR)), "s"));
+		vars.getLast().add(new funvar("print_i", new FunDecl(new BaseType(BaseTypeEnum.VOID),"print_i",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
+		vars.getLast().getLast().fun.params.add(new VarDecl(new BaseType(BaseTypeEnum.INT), "i"));
+		vars.getLast().add(new funvar("print_c", new FunDecl(new BaseType(BaseTypeEnum.VOID),"print_c",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
+		vars.getLast().getLast().fun.params.add(new VarDecl(new BaseType(BaseTypeEnum.CHAR), "c"));
+		vars.getLast().add(new funvar("read_c", new FunDecl(new BaseType(BaseTypeEnum.CHAR),"read_c",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
+		vars.getLast().add(new funvar("read_i", new FunDecl(new BaseType(BaseTypeEnum.INT),"read_i",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
+		vars.getLast().add(new funvar("mcmalloc", new FunDecl(new PointerType(new BaseType(BaseTypeEnum.VOID)),"mcmalloc",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
 	}
 
 	@Override
 	public Void visitVarDecl(VarDecl vd) {
 		boolean declared = false;
-		for (String j : vars.getFirst()) {
-			if (j.equals(vd.varName)) {
+		for (funvar j : vars.getFirst()) {
+			if (j.name.equals(vd.varName)) {
 				error("Double variable declaration in block");
 				declared = true;
 			}
 		}
 		if (!declared) {
-			vars.getFirst().add(vd.varName);
+			vars.getFirst().add(new funvar(vd.varName,vd));
 		}
 		// To be completed...
 		return null;
@@ -145,10 +148,18 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	@Override
 	public Void visitVarExpr(VarExpr v) {
 		boolean declared = false;
-		for (LinkedList<String> i : vars) {
-			if (i.contains(v.name)) {
-				declared = true;
-				break;
+		found:
+		for (LinkedList<funvar> i : vars) {
+			for (funvar j : i) {
+				if (j.name.equals(v.name)) {
+					if (j.var == null) {
+						error("Trying to shadow function +"+j.name+"with a variable");
+					} else {
+						v.vd = j.var;
+						declared = true;
+						break found;
+					}
+				}
 			}
 		}
 		if (!declared) {
@@ -207,10 +218,14 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitFunCallExpr(FunCallExpr fce) {
-		if (!vars.getLast().contains(fce.name)) {
-			for (String i : vars.getLast()) {
-				System.out.println(i);
+		boolean declared = false;
+		for (funvar i : vars.getLast()) {
+			if (i.name.equals(fce.name) && i.fun != null) {
+				declared = true;
+				fce.fd = i.fun;
 			}
+		}
+		if (!declared) {
 			error("Function call to undeclared function "+fce.name);
 		}
 		return null;
@@ -292,5 +307,25 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		if (r.exp!=null)
 			r.exp.accept(this);
 		return null;
+	}
+}
+
+class funvar {
+	public String name;
+	public FunDecl fun;
+	public VarDecl var;
+
+	public funvar(String name, FunDecl fun) {
+		this.name = name;
+		this.fun = fun;
+	}
+
+	public funvar(String name, VarDecl var) {
+		this.name = name;
+		this.var = var;
+	}
+
+	public funvar(String name) {
+		this.name = name;
 	}
 }
