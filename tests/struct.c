@@ -6,10 +6,13 @@ struct test
     char *a[5];
 };
 
+int strcpy(char *src, char* dest){}
+
 int main ()
 {
 	struct test aaa;
 	struct test* bbb;
+	int a[5][10];
 	aaa.i = 3;
 	aaa.j = 4;
     (aaa.a)[1];

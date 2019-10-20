@@ -169,7 +169,7 @@ public class Parser {
 			expect(IDENTIFIER);
 			String name = token.data;
 			nextToken();
-			if (accept(LSBR)) {
+			while (accept(LSBR)) {
 				nextToken();
 				expect(INT_LITERAL);
 				t = new ArrayType(t,Integer.parseInt(token.data));

@@ -45,6 +45,7 @@ void null(){}
 
 int main() {
     int m;
+    int i;
     int *n;
     int nn[2];
     char o;

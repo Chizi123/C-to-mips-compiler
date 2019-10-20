@@ -1,5 +1,6 @@
 int main()
 {
+    int i;
     while(1) {
         if (i==1) {
             return;
