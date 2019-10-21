@@ -5,6 +5,7 @@ public class ChrLiteral extends Expr {
 
 	public ChrLiteral(char c) {
 		this.c = c;
+		this.type = new BaseType(BaseTypeEnum.CHAR);
 	}
 
 	@Override

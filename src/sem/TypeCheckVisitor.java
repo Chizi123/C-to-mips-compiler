@@ -41,16 +41,18 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		return null;
 	}
 
+	private Type funretT;
 	@Override
 	public Type visitFunDecl(FunDecl p) {
+		funretT = p.type;
 		//check for void parameters
 		for (VarDecl i : p.params) {
 			i.accept(this);
 		}
 		// To be completed...
+		p.block.accept(this);
 		return null;
 	}
-
 
 	@Override
 	public Type visitProgram(Program p) {
@@ -186,12 +188,13 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitFieldAccessExpr(FieldAccessExpr fae) {
-		fae.struct.accept(this);
-		StructTypeDecl f = structs.get((((StructType) fae.struct.type).name));
+		Type t = fae.struct.accept(this);
+		StructTypeDecl f = structs.get((((StructType) t).name));
 		fae.type = null;
 		for (VarDecl i: f.varDeclList) {
 			if (i.varName.equals(fae.field)) {
 				fae.type = i.type;
+				break;
 			}
 		}
 		if (fae.type == null) {
@@ -229,7 +232,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		} else if (te.exp.type instanceof PointerType) {
 			return new PointerType(te.type);
 		} else {
-			error("");
+			error("Invalid Type cast");
 		}
 		return null;
 	}
@@ -241,21 +244,42 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitWhile(While w) {
+		if (w.cond.accept(this) != BaseTypeEnum.INT) {
+			error("While condition not int");
+		}
 		return null;
 	}
 
 	@Override
 	public Type visitIf(If i) {
+		if (i.cond.accept(this) != BaseTypeEnum.INT) {
+			error("If condition not int");
+		}
 		return null;
 	}
 
 	@Override
 	public Type visitAssign(Assign a) {
+		Type e1 = a.e1.accept(this);
+		Type e2 = a.e2.accept(this);
+		if ((e1.accept(this) == BaseTypeEnum.VOID || e1 instanceof ArrayType) &&
+				(e2.accept(this) == BaseTypeEnum.VOID || e2 instanceof ArrayType)) {
+			error("Assignment of Void or Array Types");
+		}
 		return null;
 	}
 
 	@Override
 	public Type visitReturn(Return r) {
+		if (funretT.accept(this) == BaseTypeEnum.VOID) {
+			if (r.exp != null) {
+				error("Trying to return value from void function");
+			}
+		} else {
+			if (funretT.accept(this) != r.exp.accept(this)) {
+				error("Returning wrong type from function");
+			}
+		}
 		return null;
 	}
 }
