@@ -1,21 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="Working type checking for all tests. Need to write tests for every failure">
-      <change afterPath="$PROJECT_DIR$/tests/vmin.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ASTNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ASTVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Type.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/Scope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/Scope.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/SemanticAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/SemanticAnalyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/SemanticVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/SemanticVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/all.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/all.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/if.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/if.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/nested_comments.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/nested_comments.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/struct.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/struct.c" afterDir="false" />
+    <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/tests.sh" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -422,7 +409,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571678645830</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Ran through intellij's suggestions">
+      <created>1571686469750</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1571686469750</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -442,7 +436,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/tests" />
     </ignored-roots>
-    <MESSAGE value="Nested structs and arrays working, broke grammar for struct ending" />
     <MESSAGE value="Indenting with tabs" />
     <MESSAGE value="Require something after a dot" />
     <MESSAGE value="IDK, allowing structs or arrays to follow eachother, not exp" />
@@ -467,7 +460,8 @@
     <MESSAGE value="sub for testing" />
     <MESSAGE value="Made Op and BaseType enums instead of classes. allows cyclical accepting" />
     <MESSAGE value="Working type checking for all tests. Need to write tests for every failure" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working type checking for all tests. Need to write tests for every failure" />
+    <MESSAGE value="Ran through intellij's suggestions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ran through intellij's suggestions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
