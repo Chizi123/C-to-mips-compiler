@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
+    <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="Working type checking for all tests. Need to write tests for every failure">
+      <change afterPath="$PROJECT_DIR$/tests/vmin.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ASTPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTPrinter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/BaseType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/BaseType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/BaseTypeEnum.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ChrLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ChrLiteral.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/DotPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/DotPrinter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/IntLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/IntLiteral.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/Op.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Op.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/OpEnum.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/StrLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/StrLiteral.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/ASTNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/ASTVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Type.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/Scope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/Scope.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/SemanticAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/SemanticAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/SemanticVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/SemanticVisitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/all.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/all.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/if.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/if.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/nested_comments.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/nested_comments.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/struct.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/struct.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,7 +41,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/dot.sh" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests.sh" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -65,7 +65,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Shell Script.Dot image">
+  <component name="RunManager" selected="Application.sem test">
     <configuration name="Clean" type="AntRunConfiguration">
       <antsettings antfile="file://$PROJECT_DIR$/build.xml" target="clean" />
       <method v="2">
@@ -93,7 +93,7 @@
     <configuration name="ast test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-ast tests/struct.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-ast tests/fibonacci.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -129,8 +129,17 @@
     <configuration name="sem test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-sem tests/struct.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-sem tests/vmin.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
+      <method v="2">
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
+      </method>
+    </configuration>
+    <configuration name="All Tests" type="ShConfigurationType">
+      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/tests.sh" />
+      <option name="SCRIPT_OPTIONS" value="sem" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="INTERPRETER_OPTIONS" value="" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
       </method>
@@ -140,7 +149,9 @@
       <option name="SCRIPT_OPTIONS" value="arithmetic" />
       <option name="INTERPRETER_PATH" value="/bin/bash" />
       <option name="INTERPRETER_OPTIONS" value="" />
-      <method v="2" />
+      <method v="2">
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
+      </method>
     </configuration>
     <list>
       <item itemvalue="Ant Target.Main" />
@@ -151,6 +162,7 @@
       <item itemvalue="Application.ast test" />
       <item itemvalue="Application.dot test" />
       <item itemvalue="Application.sem test" />
+      <item itemvalue="Shell Script.All Tests" />
       <item itemvalue="Shell Script.Dot image" />
     </list>
   </component>
@@ -403,7 +415,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571669982995</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Made Op and BaseType enums instead of classes. allows cyclical accepting">
+      <created>1571678645830</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1571678645830</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -423,8 +442,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/tests" />
     </ignored-roots>
-    <MESSAGE value="Fixed assignment consumption" />
-    <MESSAGE value="Moved struct and array, not working" />
     <MESSAGE value="Nested structs and arrays working, broke grammar for struct ending" />
     <MESSAGE value="Indenting with tabs" />
     <MESSAGE value="Require something after a dot" />
@@ -448,25 +465,37 @@
     <MESSAGE value="Parameters are now in first block scope" />
     <MESSAGE value="Unary fixed, plus misc others" />
     <MESSAGE value="sub for testing" />
-    <option name="LAST_COMMIT_MESSAGE" value="sub for testing" />
+    <MESSAGE value="Made Op and BaseType enums instead of classes. allows cyclical accepting" />
+    <MESSAGE value="Working type checking for all tests. Need to write tests for every failure" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working type checking for all tests. Need to write tests for every failure" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>277</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>211</line>
+          <line>215</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>285</line>
-          <option name="timeStamp" value="9" />
+          <line>112</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>155</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>56</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
+          <line>163</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

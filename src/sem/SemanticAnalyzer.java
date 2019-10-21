@@ -7,6 +7,7 @@ public class SemanticAnalyzer {
 	public SemanticAnalyzer() {
 	}
 
+	@SuppressWarnings("unchecked")
 	public int analyze(ast.Program prog) {
 		// List of visitors
 		ArrayList<SemanticVisitor> visitors = new ArrayList<SemanticVisitor>() {{

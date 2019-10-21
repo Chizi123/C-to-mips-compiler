@@ -34,7 +34,8 @@ int foo(int j, char k, struct aaa l) {
     void *r;
     struct bbb s;
     struct bbb *t;
-    return print_s("Hello World");
+    return read_i();
+//    return print_s("Hello World");
 } //valid
 
 void bar() {

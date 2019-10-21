@@ -1,32 +1,32 @@
 package ast;
 
 public interface ASTVisitor<T> {
-    public T visitBaseType(BaseType bt);
-    public T visitStructTypeDecl(StructTypeDecl st);
-    public T visitBlock(Block b);
-    public T visitFunDecl(FunDecl p);
-    public T visitProgram(Program p);
-    public T visitVarDecl(VarDecl vd);
-    public T visitVarExpr(VarExpr v);
+    T visitBaseType(BaseType bt);
+    T visitStructTypeDecl(StructTypeDecl st);
+    T visitBlock(Block b);
+    T visitFunDecl(FunDecl p);
+    T visitProgram(Program p);
+    T visitVarDecl(VarDecl vd);
+    T visitVarExpr(VarExpr v);
 
     // to complete ... (should have one visit method for each concrete AST node class)
-    public T visitPointerType(PointerType pt);
-    public T visitStructType(StructType st);
-    public T visitArrayType(ArrayType at);
-    public T visitIntLiteral(IntLiteral il);
-    public T visitStringLiteral(StrLiteral sl);
-    public T visitChrLiteral(ChrLiteral cl);
-    public T visitFunCallExpr(FunCallExpr fce);
-    public T visitBinOp(BinOp bo);
-    public T visitOp(Op o);
-    public T visitArrayAccessExpr(ArrayAccessExpr aae);
-    public T visitFieldAccessExpr(FieldAccessExpr fae);
-    public T visitValueAtExpr(ValueAtExpr vae);
-    public T visitSizeOfExpr(SizeOfExpr soe);
-    public T visitTypecastExpr(TypecastExpr te);
-    public T visitExprStmt(ExprStmt es);
-    public T visitWhile(While w);
-    public T visitIf(If i);
-    public T visitAssign(Assign a);
-    public T visitReturn(Return r);
+    T visitPointerType(PointerType pt);
+    T visitStructType(StructType st);
+    T visitArrayType(ArrayType at);
+    T visitIntLiteral(IntLiteral il);
+    T visitStringLiteral(StrLiteral sl);
+    T visitChrLiteral(ChrLiteral cl);
+    T visitFunCallExpr(FunCallExpr fce);
+    T visitBinOp(BinOp bo);
+    T visitOp(Op o);
+    T visitArrayAccessExpr(ArrayAccessExpr aae);
+    T visitFieldAccessExpr(FieldAccessExpr fae);
+    T visitValueAtExpr(ValueAtExpr vae);
+    T visitSizeOfExpr(SizeOfExpr soe);
+    T visitTypecastExpr(TypecastExpr te);
+    T visitExprStmt(ExprStmt es);
+    T visitWhile(While w);
+    T visitIf(If i);
+    T visitAssign(Assign a);
+    T visitReturn(Return r);
 }

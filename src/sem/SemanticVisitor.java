@@ -10,5 +10,5 @@ public interface SemanticVisitor<T> extends ast.ASTVisitor<T> {
 	 * Returns a count of errors determined by the visitor during a single AST traversal.
 	 * @return number of errors
 	 */
-	public int getErrorCount();
+	int getErrorCount();
 }

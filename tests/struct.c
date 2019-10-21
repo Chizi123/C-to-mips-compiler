@@ -20,7 +20,7 @@ int main ()
 	strcpy("Hello", aaa.str);
 	aaa.i = 4;
 //	*(bbb.a[1])[0].a.a = 'c';
-	a[1][1] = 2;
+	a[1][1][3] = 2;
 
 	return aaa.i;
 	return aaa.j;

@@ -8,6 +8,7 @@ import lexer.Token.TokenClass;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Queue;
 
 import static lexer.Token.TokenClass.*;
@@ -103,9 +104,7 @@ public class Parser {
 	private Token expect(TokenClass... expected) {
 		for (TokenClass e : expected) {
 			if (e == token.tokenClass) {
-				Token cur = token;
-//				nextToken();
-				return cur;
+				return token;
 			}
 		}
 
@@ -201,9 +200,7 @@ public class Parser {
 
 	private boolean parseType(int i) {
 		if (i == 0) {
-			if (accept(INT, CHAR, VOID) || parseStructType()) {
-				return true;
-			}
+			return accept(INT, CHAR, VOID) || parseStructType();
 		} else { //must parse type
 			if (!parseType(0)) {
 				error(INT, VOID, CHAR, STRUCT);
@@ -237,9 +234,7 @@ public class Parser {
 	private boolean parseStructType() {
 		if (accept(STRUCT)) {
 			nextToken();
-			if (accept(IDENTIFIER)) {
-				return true;
-			}
+			return accept(IDENTIFIER);
 		}
 		return false;
 	}
@@ -522,10 +517,7 @@ public class Parser {
 
 	// Parse Field from identifier or functions
 	private boolean parseIdentorFunc() {
-		if (accept(IDENTIFIER)) {
-			return true;
-		}
-		return false;
+		return accept(IDENTIFIER);
 	}
 
 	private Expr getIdentorFunc() {
@@ -552,10 +544,7 @@ public class Parser {
 	}
 
 	private boolean parseLits() {
-		if (accept(STRING_LITERAL, CHAR_LITERAL, INT_LITERAL)) {
-			return true;
-		}
-		return false;
+		return accept(STRING_LITERAL, CHAR_LITERAL, INT_LITERAL);
 	}
 
 	private Expr getLits() {

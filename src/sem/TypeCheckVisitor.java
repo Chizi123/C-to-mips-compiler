@@ -10,9 +10,6 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitBaseType(BaseType bt) {
-		if (bt.type == 3) {
-			error("Declaration of variable of type \"VOID\"");
-		}
 		// To be completed...
 		return bt;
 	}
@@ -75,7 +72,9 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	@Override
 	public Type visitVarDecl(VarDecl vd) {
 		//check for void variables
-		vd.type.accept(this);
+		if (vd.type.accept(this) == BaseType.VOID) {
+			error("Declaration of variable "+vd.varName+" of type \"VOID\"");
+		}
 		// To be completed...
 		return null;
 	}
@@ -106,12 +105,17 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitPointerType(PointerType pt) {
+		if (pt.type instanceof StructType) {
+			if (!(structs.containsKey(((StructType) pt.type).name))) {
+				error("Pointer to undeclared struct type "+((StructType) pt.type).name);
+			}
+		}
 		return pt;
 	}
 
 	@Override
 	public Type visitStructType(StructType st) {
-		if (!(structs.keySet().contains(st.name))) {
+		if (!(structs.containsKey(st.name))) {
 			error("Use of undeclared struct type "+st.name);
 		}
 		return st;
@@ -150,11 +154,11 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		Type e2 = bo.E2.accept(this);
 		if (bo.op == Op.NE || bo.op == Op.EQ) {
 			if ((e1 instanceof StructType || e1 instanceof ArrayType || e1.accept(this) == BaseType.VOID) &&
-					(e2 instanceof StructType || e2 instanceof ArrayType || e2.accept(this) == BaseType.VOID) &&
-					e1.accept(this) != e2.accept(this)) {
+					(e2 instanceof StructType || e2 instanceof ArrayType || e2.accept(this) == BaseType.VOID) ||
+					(e1.accept(this) != e2.accept(this))) {
 				error("Bad argument types for equality comparison");
 			} else {
-				bo.type = e1;
+				bo.type = BaseType.INT;
 				return bo.type;
 			}
 		} else {

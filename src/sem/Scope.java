@@ -3,11 +3,9 @@ package sem;
 import java.util.Map;
 
 public class Scope {
-	private Scope outer;
 	private Map<String, Symbol> symbolTable;
 	
-	public Scope(Scope outer) { 
-		this.outer = outer; 
+	public Scope(Scope outer) {
 	}
 	
 	public Scope() { this(null); }
