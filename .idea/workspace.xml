@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/loops.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/loops.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/SemanticAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/SemanticAnalyzer.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -365,7 +364,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571592589693</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Parser now allows arrays as function parameters">
+      <created>1571593743768</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1571593743768</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -385,7 +391,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/tests" />
     </ignored-roots>
-    <MESSAGE value="Fixed some small bugs with test files" />
     <MESSAGE value="Fixed endless looping blocks" />
     <MESSAGE value="New test" />
     <MESSAGE value="Arithmetic brackets and structs working" />
@@ -410,7 +415,8 @@
     <MESSAGE value="Hacked changes to VAt to break grammar but allows structs and arrays after references" />
     <MESSAGE value="Name analysis working, i think. doesnt check struct fields." />
     <MESSAGE value="Name analysis now tags function and variable expressions to their declarations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Name analysis now tags function and variable expressions to their declarations" />
+    <MESSAGE value="Parser now allows arrays as function parameters" />
+    <option name="LAST_COMMIT_MESSAGE" value="Parser now allows arrays as function parameters" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
