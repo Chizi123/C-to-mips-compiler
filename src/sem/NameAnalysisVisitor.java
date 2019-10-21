@@ -25,7 +25,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 			error("Double declaration of struct "+sts.st.name);
 		} else {
 			structs.put(sts.st.name, new LinkedList<>());
-			vars.getLast().add(new funvar(sts.st.name));
+//			vars.getLast().add(new funvar(sts.st.name));
 		}
 
 		//variable declaration doubling in structs
@@ -325,7 +325,7 @@ class funvar {
 		this.var = var;
 	}
 
-	public funvar(String name) {
-		this.name = name;
-	}
+//	public funvar(String name) {
+//		this.name = name;
+//	}
 }
