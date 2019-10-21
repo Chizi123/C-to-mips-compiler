@@ -76,7 +76,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		boolean declared = false;
 		for (funvar i : vars.getLast()) {
 			if (i.name.equals(p.name)) {
-				error("Double declaration of function: " + p.name);
+				error("Double declaration of function with name: " + p.name);
 				declared = true;
 			}
 		}
@@ -274,7 +274,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	}
 
 	@Override
-	public Void visitTypecastExpr(TypecaseExpr te) {
+	public Void visitTypecastExpr(TypecastExpr te) {
 		te.exp.accept(this);
 		return null;
 	}

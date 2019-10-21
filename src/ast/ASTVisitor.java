@@ -23,7 +23,7 @@ public interface ASTVisitor<T> {
     public T visitFieldAccessExpr(FieldAccessExpr fae);
     public T visitValueAtExpr(ValueAtExpr vae);
     public T visitSizeOfExpr(SizeOfExpr soe);
-    public T visitTypecastExpr(TypecaseExpr te);
+    public T visitTypecastExpr(TypecastExpr te);
     public T visitExprStmt(ExprStmt es);
     public T visitWhile(While w);
     public T visitIf(If i);

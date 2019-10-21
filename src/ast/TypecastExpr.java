@@ -1,10 +1,10 @@
 package ast;
 
-public class TypecaseExpr extends Expr {
+public class TypecastExpr extends Expr {
 	public Type type;
 	public Expr exp;
 
-	public TypecaseExpr(Type type, Expr exp) {
+	public TypecastExpr(Type type, Expr exp) {
 		this.type = type;
 		this.exp = exp;
 	}

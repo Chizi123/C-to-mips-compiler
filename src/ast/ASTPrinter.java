@@ -272,7 +272,7 @@ public class ASTPrinter implements ASTVisitor<Void> {
     }
 
     @Override
-    public Void visitTypecastExpr(TypecaseExpr te) {
+    public Void visitTypecastExpr(TypecastExpr te) {
         writer.print("TypecastExpr(");
         te.type.accept(this);
         writer.print(",");

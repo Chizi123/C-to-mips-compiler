@@ -578,7 +578,7 @@ public class Parser {
 	}
 
 	private Expr getNeg() {
-		return new BinOp(new IntLiteral(-1), parseExp(1), new Op(OpEnum.MUL));
+		return new BinOp(new IntLiteral(0), parseExp(1), new Op(OpEnum.SUB));
 	}
 
 	private boolean parseBracket() {
@@ -593,7 +593,7 @@ public class Parser {
 		if (parseType(0)) {
 			Type t = getType();
 			expect(RPAR); nextToken();
-			return new TypecaseExpr(t,parseExp(1));
+			return new TypecastExpr(t,parseExp(1));
 		} else {
 			Expr e = parseExp(1);
 			expect(RPAR); nextToken();
