@@ -44,10 +44,15 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		return null;
 	}
 
+	private boolean fun2block;
 	@Override
 	public Void visitBlock(Block b) {
 		//add new scope level for block
-		vars.push(new LinkedList<>());
+		if (fun2block) {
+			fun2block = false;
+		} else {
+			vars.push(new LinkedList<>());
+		}
 
 		//check variable declaration in block
 		for (VarDecl i : b.varDeclList) {
@@ -86,10 +91,11 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		}
 
 		//visit block of function
+		fun2block = true;
 		p.block.accept(this);
 
 		//remove function parameters
-		vars.pop();
+//		vars.pop();
 		// To be completed...
 		return null;
 	}
