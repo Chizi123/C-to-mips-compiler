@@ -3,10 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/ASTPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTPrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/BaseType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/BaseType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/BaseTypeEnum.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/ChrLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ChrLiteral.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/DotPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/DotPrinter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/IntLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/IntLiteral.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/Op.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Op.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/OpEnum.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/StrLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/StrLiteral.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/struct.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/struct.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -56,7 +65,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.sem test">
+  <component name="RunManager" selected="Shell Script.Dot image">
     <configuration name="Clean" type="AntRunConfiguration">
       <antsettings antfile="file://$PROJECT_DIR$/build.xml" target="clean" />
       <method v="2">
@@ -128,7 +137,7 @@
     </configuration>
     <configuration name="Dot image" type="ShConfigurationType">
       <option name="SCRIPT_PATH" value="$PROJECT_DIR$/dot.sh" />
-      <option name="SCRIPT_OPTIONS" value="struct" />
+      <option name="SCRIPT_OPTIONS" value="arithmetic" />
       <option name="INTERPRETER_PATH" value="/bin/bash" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <method v="2" />
@@ -387,7 +396,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571667006621</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="sub for testing">
+      <created>1571669982995</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1571669982995</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -407,7 +423,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/tests" />
     </ignored-roots>
-    <MESSAGE value="Added some movement. Assignement eats next character in lexer" />
     <MESSAGE value="Fixed assignment consumption" />
     <MESSAGE value="Moved struct and array, not working" />
     <MESSAGE value="Nested structs and arrays working, broke grammar for struct ending" />
@@ -432,25 +447,26 @@
     <MESSAGE value="Structs are types and their names dont exist in the global space" />
     <MESSAGE value="Parameters are now in first block scope" />
     <MESSAGE value="Unary fixed, plus misc others" />
-    <option name="LAST_COMMIT_MESSAGE" value="Unary fixed, plus misc others" />
+    <MESSAGE value="sub for testing" />
+    <option name="LAST_COMMIT_MESSAGE" value="sub for testing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>273</line>
+          <line>277</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>207</line>
+          <line>211</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>190</line>
-          <option name="timeStamp" value="8" />
+          <line>285</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -75,13 +75,13 @@ public class DotPrinter implements ASTVisitor<String> {
     public String visitBaseType(BaseType bt) {
         writer.print("Node"+NodeCnt+" [label=\"Type(");
         switch (bt.type) {
-            case INT:
+            case 1:
                 writer.print("INT");
                 break;
-            case CHAR:
+            case 2:
                 writer.print("CHAR");
                 break;
-            case VOID:
+            case 3:
                 writer.print("VOID");
                 break;
         }
@@ -164,43 +164,43 @@ public class DotPrinter implements ASTVisitor<String> {
     public String visitOp(Op o) {
         writer.print("Node"+NodeCnt+" [label=\"");
         switch (o.op) {
-            case ADD:
+            case 1:
                 writer.print("ADD");
                 break;
-            case SUB:
+            case 2:
                 writer.print("SUB");
                 break;
-            case MUL:
+            case 3:
                 writer.print("MUL");
                 break;
-            case DIV:
+            case 4:
                 writer.print("DIV");
                 break;
-            case MOD:
+            case 5:
                 writer.print("MOD");
                 break;
-            case GT:
+            case 6:
                 writer.print("GT");
                 break;
-            case LT:
+            case 7:
                 writer.print("LT");
                 break;
-            case GE:
+            case 8:
                 writer.print("GE");
                 break;
-            case LE:
+            case 9:
                 writer.print("LE");
                 break;
-            case NE:
+            case 10:
                 writer.print("NE");
                 break;
-            case EQ:
+            case 11:
                 writer.print("EQ");
                 break;
-            case OR:
+            case 12:
                 writer.print("OR");
                 break;
-            case AND:
+            case 13:
                 writer.print("AND");
                 break;
         }

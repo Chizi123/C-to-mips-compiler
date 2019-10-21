@@ -10,11 +10,11 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitBaseType(BaseType bt) {
-		if (bt.type == BaseTypeEnum.VOID) {
+		if (bt.type == 3) {
 			error("Declaration of variable of type \"VOID\"");
 		}
 		// To be completed...
-		return bt.type;
+		return bt;
 	}
 
 	@Override
@@ -148,9 +148,9 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	public Type visitBinOp(BinOp bo) {
 		Type e1 = bo.E1.accept(this);
 		Type e2 = bo.E2.accept(this);
-		if (bo.op.op == OpEnum.NE || bo.op.op == OpEnum.EQ) {
-			if ((e1 instanceof StructType || e1 instanceof ArrayType || e1.accept(this) == BaseTypeEnum.VOID) &&
-					(e2 instanceof StructType || e2 instanceof ArrayType || e2.accept(this) == BaseTypeEnum.VOID) &&
+		if (bo.op == Op.NE || bo.op == Op.EQ) {
+			if ((e1 instanceof StructType || e1 instanceof ArrayType || e1.accept(this) == BaseType.VOID) &&
+					(e2 instanceof StructType || e2 instanceof ArrayType || e2.accept(this) == BaseType.VOID) &&
 					e1.accept(this) != e2.accept(this)) {
 				error("Bad argument types for equality comparison");
 			} else {
@@ -158,8 +158,8 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 				return bo.type;
 			}
 		} else {
-			if (e1.accept(this) == BaseTypeEnum.INT && e2.accept(this) == BaseTypeEnum.INT) {
-				bo.type = BaseTypeEnum.INT;
+			if (e1.accept(this) == BaseType.INT && e2.accept(this) == BaseType.INT) {
+				bo.type = BaseType.INT;
 				return bo.type;
 			} else {
 				error("BinOp with expressions that aren't INT");
@@ -177,7 +177,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	@Override
 	public Type visitArrayAccessExpr(ArrayAccessExpr aae) {
 		aae.exp.accept(this);
-		if ((aae.exp.type instanceof ArrayType || aae.exp.type instanceof PointerType) && aae.index.type.accept(this) == BaseTypeEnum.INT) {
+		if ((aae.exp.type instanceof ArrayType || aae.exp.type instanceof PointerType) && aae.index.type.accept(this) == BaseType.INT) {
 			aae.type = aae.exp.type.accept(this);
 			return aae.type;
 		} else {
@@ -189,6 +189,10 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	@Override
 	public Type visitFieldAccessExpr(FieldAccessExpr fae) {
 		Type t = fae.struct.accept(this);
+		if (t instanceof PointerType) {
+			error("Trying to use a pointer without accessing its value");
+			return null;
+		}
 		StructTypeDecl f = structs.get((((StructType) t).name));
 		fae.type = null;
 		for (VarDecl i: f.varDeclList) {
@@ -216,13 +220,13 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitSizeOfExpr(SizeOfExpr soe) {
-		return new BaseType(BaseTypeEnum.INT);
+		return BaseType.INT;
 	}
 
 	@Override
 	public Type visitTypecastExpr(TypecastExpr te) {
-		if (te.type.accept(this) == BaseTypeEnum.INT && te.exp.type.accept(this) == BaseTypeEnum.CHAR) {
-			return new BaseType(BaseTypeEnum.INT);
+		if (te.type.accept(this) == BaseType.INT && te.exp.type.accept(this) == BaseType.CHAR) {
+			return BaseType.INT;
 		} else if (te.exp.type instanceof ArrayType) {
 			if ((te.type) == ((ArrayType) te.exp.type).type) {
 				return new PointerType(te.type);
@@ -244,7 +248,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitWhile(While w) {
-		if (w.cond.accept(this) != BaseTypeEnum.INT) {
+		if (w.cond.accept(this) != BaseType.INT) {
 			error("While condition not int");
 		}
 		return null;
@@ -252,7 +256,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitIf(If i) {
-		if (i.cond.accept(this) != BaseTypeEnum.INT) {
+		if (i.cond.accept(this) != BaseType.INT) {
 			error("If condition not int");
 		}
 		return null;
@@ -262,8 +266,8 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	public Type visitAssign(Assign a) {
 		Type e1 = a.e1.accept(this);
 		Type e2 = a.e2.accept(this);
-		if ((e1.accept(this) == BaseTypeEnum.VOID || e1 instanceof ArrayType) &&
-				(e2.accept(this) == BaseTypeEnum.VOID || e2 instanceof ArrayType)) {
+		if ((e1.accept(this) == BaseType.VOID || e1 instanceof ArrayType) &&
+				(e2.accept(this) == BaseType.VOID || e2 instanceof ArrayType)) {
 			error("Assignment of Void or Array Types");
 		}
 		return null;
@@ -271,12 +275,14 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitReturn(Return r) {
-		if (funretT.accept(this) == BaseTypeEnum.VOID) {
+		if (funretT.accept(this) == BaseType.VOID) {
 			if (r.exp != null) {
 				error("Trying to return value from void function");
 			}
 		} else {
-			if (funretT.accept(this) != r.exp.accept(this)) {
+			if (r.exp == null) {
+				error("no return value specified");
+			} else if (funretT.accept(this) != r.exp.accept(this).accept(this)) {
 				error("Returning wrong type from function");
 			}
 		}

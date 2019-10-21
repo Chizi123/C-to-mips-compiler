@@ -1,9 +1,17 @@
 package ast;
 
-public class BaseType implements Type {
-    public BaseTypeEnum type;
+public enum BaseType implements Type {
+    INT(1), CHAR(2), VOID(3);
 
-    public BaseType(BaseTypeEnum type) {
+//    public BaseTypeEnum type;
+
+//    public BaseType(BaseTypeEnum type) {
+//        this.type = type;
+//    }
+
+    public int type;
+
+    BaseType(int type) {
         this.type = type;
     }
 

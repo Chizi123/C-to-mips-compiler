@@ -1,9 +1,11 @@
 package ast;
 
-public class Op implements ASTNode {
-	public OpEnum op;
+public enum Op implements ASTNode {
+	ADD(1), SUB(2), MUL(3), DIV(4), MOD(5), GT(6), LT(7), GE(8), LE(9), NE(10), EQ(11), OR(12), AND(13);
 
-	public Op(OpEnum op) {
+	public int op;
+
+	Op(int op) {
 		this.op = op;
 	}
 

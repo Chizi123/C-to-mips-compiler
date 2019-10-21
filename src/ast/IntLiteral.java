@@ -5,7 +5,7 @@ public class IntLiteral extends Expr {
 
 	public IntLiteral(int number) {
 		this.number = number;
-		this.type = new BaseType(BaseTypeEnum.INT);
+		this.type = BaseType.INT;
 	}
 
 	@Override

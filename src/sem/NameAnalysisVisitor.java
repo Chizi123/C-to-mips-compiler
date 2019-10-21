@@ -124,15 +124,15 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	}
 
 	private void add_canned_functions() {
-		vars.getLast().add(new funvar("print_s", new FunDecl(new BaseType(BaseTypeEnum.VOID),"print_s",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
-		vars.getLast().getLast().fun.params.add(new VarDecl(new PointerType(new BaseType(BaseTypeEnum.CHAR)), "s"));
-		vars.getLast().add(new funvar("print_i", new FunDecl(new BaseType(BaseTypeEnum.VOID),"print_i",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
-		vars.getLast().getLast().fun.params.add(new VarDecl(new BaseType(BaseTypeEnum.INT), "i"));
-		vars.getLast().add(new funvar("print_c", new FunDecl(new BaseType(BaseTypeEnum.VOID),"print_c",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
-		vars.getLast().getLast().fun.params.add(new VarDecl(new BaseType(BaseTypeEnum.CHAR), "c"));
-		vars.getLast().add(new funvar("read_c", new FunDecl(new BaseType(BaseTypeEnum.CHAR),"read_c",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
-		vars.getLast().add(new funvar("read_i", new FunDecl(new BaseType(BaseTypeEnum.INT),"read_i",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
-		vars.getLast().add(new funvar("mcmalloc", new FunDecl(new PointerType(new BaseType(BaseTypeEnum.VOID)),"mcmalloc",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
+		vars.getLast().add(new funvar("print_s", new FunDecl(BaseType.VOID,"print_s",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
+		vars.getLast().getLast().fun.params.add(new VarDecl(new PointerType(BaseType.CHAR), "s"));
+		vars.getLast().add(new funvar("print_i", new FunDecl(BaseType.VOID,"print_i",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
+		vars.getLast().getLast().fun.params.add(new VarDecl(BaseType.INT, "i"));
+		vars.getLast().add(new funvar("print_c", new FunDecl(BaseType.VOID,"print_c",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
+		vars.getLast().getLast().fun.params.add(new VarDecl(BaseType.CHAR, "c"));
+		vars.getLast().add(new funvar("read_c", new FunDecl(BaseType.CHAR,"read_c",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
+		vars.getLast().add(new funvar("read_i", new FunDecl(BaseType.INT,"read_i",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
+		vars.getLast().add(new funvar("mcmalloc", new FunDecl(new PointerType(BaseType.VOID),"mcmalloc",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
 	}
 
 	@Override
