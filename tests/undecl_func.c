@@ -9,7 +9,6 @@ struct aaa bar()
 {
     struct aaa thing;
     thing.i = 1;
-//    thing.j = 2;
     return thing;
 }
 

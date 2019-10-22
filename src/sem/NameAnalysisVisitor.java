@@ -23,6 +23,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		//struct already declared
 		if (structs.keySet().contains(sts.st.name)) {
 			error("Double declaration of struct "+sts.st.name);
+			return null;
 		} else {
 			structs.put(sts.st.name, new LinkedList<>());
 //			vars.getLast().add(new funvar(sts.st.name));
@@ -170,6 +171,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		}
 		if (!declared) {
 			error("Undeclared variable "+v.name);
+			v.vd = new VarDecl(BaseType.VOID,v.name);
 		}
 		// To be completed...
 		return null;

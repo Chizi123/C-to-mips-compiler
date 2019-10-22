@@ -183,9 +183,13 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitArrayAccessExpr(ArrayAccessExpr aae) {
-		aae.exp.accept(this);
+		aae.type = aae.exp.accept(this);
+		if (aae.type instanceof ArrayType) {
+			aae.type = ((ArrayType) aae.type).type;
+		} else if (aae.type instanceof PointerType) {
+			aae.type = ((PointerType) aae.type).type;
+		}
 		if ((aae.exp.type instanceof ArrayType || aae.exp.type instanceof PointerType) && aae.index.type.accept(this) == BaseType.INT) {
-			aae.type = aae.exp.type.accept(this);
 			return aae.type;
 		} else {
 			error("Array access to instance not array or pointer");
@@ -232,7 +236,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitTypecastExpr(TypecastExpr te) {
-		if (te.type.accept(this) == BaseType.INT && te.exp.type.accept(this) == BaseType.CHAR) {
+		if (te.type.accept(this) == BaseType.INT && te.exp.accept(this) == BaseType.CHAR) {
 			return BaseType.INT;
 		} else if (te.exp.type instanceof ArrayType) {
 			if ((te.type) == ((ArrayType) te.exp.type).type) {
@@ -273,11 +277,17 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	public Type visitAssign(Assign a) {
 		Type e1 = a.e1.accept(this);
 		Type e2 = a.e2.accept(this);
+		if (!(a.e1 instanceof VarExpr || a.e1 instanceof FieldAccessExpr || a.e1 instanceof ArrayAccessExpr || a.e1 instanceof ValueAtExpr)) {
+			error("Invalid LHS of assignment");
+		}
 		if (e1 == null || e2 == null)
 			return null;
 		if ((e1.accept(this) == BaseType.VOID || e1 instanceof ArrayType) &&
 				(e2.accept(this) == BaseType.VOID || e2 instanceof ArrayType)) {
 			error("Assignment of Void or Array Types");
+		}
+		if (e1 != e2) {
+			error("Assignment of different types");
 		}
 		return null;
 	}
@@ -285,16 +295,12 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	@Override
 	public Type visitReturn(Return r) {
 		Type t1 = funretT.accept(this);
-		if (r.exp == null) {
-			error("No return value specified");
-			return null;
-		}
-		Type t2 = r.exp.accept(this);
 		if (t1 == BaseType.VOID) {
 			if (r.exp != null) {
 				error("Trying to return value from void function");
 			}
 		} else {
+			Type t2 = r.exp.accept(this);
 			if (t1 instanceof StructType && t2 instanceof StructType) {
 				if (!((StructType) t1).name.equals(((StructType) t2).name)) {
 					error("Returning wrong struct type from function");

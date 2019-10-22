@@ -1,26 +1,26 @@
 #include "minic-stdlib.c"
 #include "thing.c"
 
+struct bbb {
+    int i;
+}; //valid
+
 struct aaa {
     int a;
     int *b;
     char c;
     char *d;
-    void e;
+//    void e;
     void *f;
     struct bbb g;
     struct bbb *h;
-}; //valid
-
-struct bbb {
-    int i;
 }; //valid
 
 int a;
 int *b;
 char c;
 char *d;
-void e;
+//void e;
 void *f;
 struct bbb g;
 struct bbb *h;
@@ -30,7 +30,7 @@ int foo(int j, char k, struct aaa l) {
     int *n;
     char o;
     char *p;
-    void q;
+//    void q;
     void *r;
     struct bbb s;
     struct bbb *t;
@@ -52,7 +52,7 @@ int main() {
     char o;
     char *p;
     char pp[2];
-    void q;
+//    void q;
     void *r;
     void rr[2];
     struct bbb s;
@@ -91,4 +91,5 @@ int main() {
     i>i;
     sizeof(int);
     (int) i;
+    return (int) o;
 }
