@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/undecl_func.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/undecl_func.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/undecl_func.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -418,7 +418,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571686469750</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Functions can have struct types, checked that struct are declared before usage">
+      <created>1571735025641</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1571735025641</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -438,7 +445,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/tests" />
     </ignored-roots>
-    <MESSAGE value="Indenting with tabs" />
     <MESSAGE value="Require something after a dot" />
     <MESSAGE value="IDK, allowing structs or arrays to follow eachother, not exp" />
     <MESSAGE value="Mandatory second parts to ops" />
@@ -463,7 +469,8 @@
     <MESSAGE value="Made Op and BaseType enums instead of classes. allows cyclical accepting" />
     <MESSAGE value="Working type checking for all tests. Need to write tests for every failure" />
     <MESSAGE value="Ran through intellij's suggestions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ran through intellij's suggestions" />
+    <MESSAGE value="Functions can have struct types, checked that struct are declared before usage" />
+    <option name="LAST_COMMIT_MESSAGE" value="Functions can have struct types, checked that struct are declared before usage" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -485,8 +492,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>43</line>
-          <option name="timeStamp" value="18" />
+          <line>292</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>297</line>
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

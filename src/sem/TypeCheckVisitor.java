@@ -209,7 +209,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			}
 		}
 		if (fae.type == null) {
-			error("Accessing field "+fae.field+" on struct "+f.st.name+"which doesn't exist");
+			error("Accessing field "+fae.field+" on struct "+f.st.name+" which doesn't exist");
 		}
 		return fae.type;
 	}
@@ -273,6 +273,8 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	public Type visitAssign(Assign a) {
 		Type e1 = a.e1.accept(this);
 		Type e2 = a.e2.accept(this);
+		if (e1 == null || e2 == null)
+			return null;
 		if ((e1.accept(this) == BaseType.VOID || e1 instanceof ArrayType) &&
 				(e2.accept(this) == BaseType.VOID || e2 instanceof ArrayType)) {
 			error("Assignment of Void or Array Types");
@@ -282,14 +284,22 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitReturn(Return r) {
-		if (funretT.accept(this) == BaseType.VOID) {
+		Type t1 = funretT.accept(this);
+		if (r.exp == null) {
+			error("No return value specified");
+			return null;
+		}
+		Type t2 = r.exp.accept(this);
+		if (t1 == BaseType.VOID) {
 			if (r.exp != null) {
 				error("Trying to return value from void function");
 			}
 		} else {
-			if (r.exp == null) {
-				error("no return value specified");
-			} else if (funretT.accept(this) != r.exp.accept(this).accept(this)) {
+			if (t1 instanceof StructType && t2 instanceof StructType) {
+				if (!((StructType) t1).name.equals(((StructType) t2).name)) {
+					error("Returning wrong struct type from function");
+				}
+			} else if (t1.accept(this) != t2.accept(this).accept(this)) {
 				error("Returning wrong type from function");
 			}
 		}
