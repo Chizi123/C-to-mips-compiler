@@ -42,6 +42,9 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	@Override
 	public Type visitFunDecl(FunDecl p) {
 		funretT = p.type;
+		if (p.type instanceof StructType) {
+			p.type.accept(this);
+		}
 		//check for void parameters
 		for (VarDecl i : p.params) {
 			i.accept(this);
