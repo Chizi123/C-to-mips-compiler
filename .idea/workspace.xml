@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="Can return structs from functions">
-      <change afterPath="$PROJECT_DIR$/tests/fail/struct_double.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/str_arr.c" afterDir="false" />
+    <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/all.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/all.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/no_bracket_func.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fail/no_bracket_func.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/unary.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/unary.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/undecl_func.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/undecl_func.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/struct.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/struct.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -130,7 +124,7 @@
     <configuration name="sem test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-sem tests/all.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-sem tests/struct.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -444,7 +438,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571735845813</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Assignment checking">
+      <created>1571738647280</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1571738647280</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -464,7 +465,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/tests" />
     </ignored-roots>
-    <MESSAGE value="IDK, allowing structs or arrays to follow eachother, not exp" />
     <MESSAGE value="Mandatory second parts to ops" />
     <MESSAGE value="VarDecls tests for not functions, fixed FunDecls, corrected sizeof pars" />
     <MESSAGE value="Moved bracket identification to bottom of calls" />
@@ -489,25 +489,26 @@
     <MESSAGE value="Ran through intellij's suggestions" />
     <MESSAGE value="Functions can have struct types, checked that struct are declared before usage" />
     <MESSAGE value="Can return structs from functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Can return structs from functions" />
+    <MESSAGE value="Assignment checking" />
+    <option name="LAST_COMMIT_MESSAGE" value="Assignment checking" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>222</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>238</line>
+          <line>242</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>296</line>
+          <line>300</line>
           <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>210</line>
+          <option name="timeStamp" value="32" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

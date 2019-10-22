@@ -204,6 +204,10 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			error("Trying to use a pointer without accessing its value");
 			return null;
 		}
+		if (t == null) {
+			error("Trying to access instance as struct when not");
+			return fae.type = null;
+		}
 		StructTypeDecl f = structs.get((((StructType) t).name));
 		fae.type = null;
 		for (VarDecl i: f.varDeclList) {
