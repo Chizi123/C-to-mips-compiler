@@ -258,7 +258,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitExprStmt(ExprStmt es) {
-		return null;
+		return es.exp.accept(this);
 	}
 
 	@Override

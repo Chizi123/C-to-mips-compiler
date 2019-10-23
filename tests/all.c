@@ -90,6 +90,5 @@ int main() {
     i<i;
     i>i;
     sizeof(int);
-    (int) i;
     return (int) o;
 }
