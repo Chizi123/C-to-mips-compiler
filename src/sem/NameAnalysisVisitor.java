@@ -236,6 +236,9 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		if (!declared) {
 			error("Function call to undeclared function "+fce.name);
 		}
+		for (Expr i : fce.args) {
+			i.accept(this);
+		}
 		return null;
 	}
 

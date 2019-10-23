@@ -70,7 +70,7 @@ int main() {
     }
 
     bar();
-    foo(m,o,tt[0]);
+    foo(m,o, ((struct aaa*) (struct bbb*) tt)[0]);
     1;i;
     -1;
     i=-1;

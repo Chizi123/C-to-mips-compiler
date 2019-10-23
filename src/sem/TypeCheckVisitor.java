@@ -79,7 +79,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			error("Declaration of variable "+vd.varName+" of type \"VOID\"");
 		}
 		// To be completed...
-		return null;
+		return vd.type;
 	}
 
 	@Override
@@ -148,6 +148,40 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	@Override
 	public Type visitFunCallExpr(FunCallExpr fce) {
 		fce.type = fce.fd.type;
+		if (fce.args.size() != fce.fd.params.size()) {
+			error("Insufficient arguments for function "+fce.name);
+		}
+		for (int i = 0; i < fce.args.size(); i++) {
+			Type arg = fce.args.get(i).accept(this);
+			Type param = fce.fd.params.get(i).accept(this);
+			if (param instanceof PointerType) {
+				param = ((PointerType) param).type;
+				if (arg instanceof PointerType ){//&& fce.args.get(i) instanceof ValueAtExpr) {
+					arg = ((PointerType) arg).type;
+				} else if (arg instanceof ArrayType && fce.args.get(i) instanceof ArrayAccessExpr) {
+					arg = ((ArrayType) arg).type;
+				} else if (fce.args.get(i) instanceof StrLiteral) {
+					arg = BaseType.CHAR;
+				} else {
+					error("Argument to function "+fce.name+" not pointer");
+				}
+			} else if (arg instanceof PointerType && fce.args.get(i) instanceof ValueAtExpr) {
+				arg = ((PointerType) arg).type;
+			} else if (arg instanceof PointerType && fce.args.get(i) instanceof ArrayAccessExpr) {
+				arg = ((PointerType) arg).type;
+			}
+			if (param instanceof StructType) {
+				if (arg instanceof StructType) {
+					if (!((StructType) param).name.equals(((StructType) arg).name)) {
+						error("Arg struct type not right type");
+					}
+				} else {
+					error("Arg not struct when expecting struct");
+				}
+			} else if (arg != param) {
+				error("Argument of wrong type for function "+fce.name);
+			}
+		}
 		return fce.type;
 	}
 
@@ -184,13 +218,10 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	@Override
 	public Type visitArrayAccessExpr(ArrayAccessExpr aae) {
 		aae.type = aae.exp.accept(this);
-		if (aae.type instanceof ArrayType) {
-			aae.type = ((ArrayType) aae.type).type;
-		} else if (aae.type instanceof PointerType) {
-			aae.type = ((PointerType) aae.type).type;
-		}
-		if ((aae.exp.type instanceof ArrayType || aae.exp.type instanceof PointerType) && aae.index.type.accept(this) == BaseType.INT) {
-			return aae.type;
+		if (aae.type instanceof ArrayType && aae.index.type.accept(this) == BaseType.INT) {
+			return ((ArrayType) aae.type).type;
+		} else if (aae.type instanceof PointerType && aae.index.type.accept(this) == BaseType.INT) {
+			return ((PointerType) aae.type).type;
 		} else {
 			error("Array access to instance not array or pointer");
 		}
@@ -240,15 +271,27 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitTypecastExpr(TypecastExpr te) {
+		te.exp.accept(this);
 		if (te.type.accept(this) == BaseType.INT && te.exp.accept(this) == BaseType.CHAR) {
 			return BaseType.INT;
 		} else if (te.exp.type instanceof ArrayType) {
-			if ((te.type) == ((ArrayType) te.exp.type).type) {
-				return new PointerType(te.type);
+			if (!(te.type instanceof PointerType)) {
+				error("Casting array to something non pointer");
+			}
+			Type ptype = ((PointerType) te.type).type;
+			if (ptype instanceof StructType) {
+				if (((ArrayType) te.exp.type).type instanceof StructType) {
+					if (((StructType) ptype).name.equals(((StructType) ((ArrayType) te.exp.type).type).name)) {
+						return te.type;
+					}
+				}
+			}
+			if ((((PointerType) te.type).type) == ((ArrayType) te.exp.type).type) {
+				return new PointerType(ptype);
 			} else {
 				error("Casting array to pointer of different type");
 			}
-		} else if (te.exp.type instanceof PointerType) {
+		} else if (te.exp.accept(this) instanceof PointerType) {
 			return new PointerType(te.type);
 		} else {
 			error("Invalid Type cast");
