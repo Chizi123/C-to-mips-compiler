@@ -224,7 +224,7 @@ public class Parser {
 			out = getStruct();
 		}
 		nextToken();
-		if (accept(ASTERIX)) {
+		while (accept(ASTERIX)) {
 			nextToken();
 			out = new PointerType(out);
 		}
