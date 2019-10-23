@@ -149,37 +149,38 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	public Type visitFunCallExpr(FunCallExpr fce) {
 		fce.type = fce.fd.type;
 		if (fce.args.size() != fce.fd.params.size()) {
-			error("Insufficient arguments for function "+fce.name);
-		}
-		for (int i = 0; i < fce.args.size(); i++) {
-			Type arg = fce.args.get(i).accept(this);
-			Type param = fce.fd.params.get(i).accept(this);
-			if (param instanceof PointerType) {
-				param = ((PointerType) param).type;
-				if (arg instanceof PointerType ){//&& fce.args.get(i) instanceof ValueAtExpr) {
-					arg = ((PointerType) arg).type;
-				} else if (arg instanceof ArrayType && fce.args.get(i) instanceof ArrayAccessExpr) {
-					arg = ((ArrayType) arg).type;
-				} else if (fce.args.get(i) instanceof StrLiteral) {
-					arg = BaseType.CHAR;
-				} else {
-					error("Argument to function "+fce.name+" not pointer");
-				}
-			} else if (arg instanceof PointerType && fce.args.get(i) instanceof ValueAtExpr) {
-				arg = ((PointerType) arg).type;
-			} else if (arg instanceof PointerType && fce.args.get(i) instanceof ArrayAccessExpr) {
-				arg = ((PointerType) arg).type;
-			}
-			if (param instanceof StructType) {
-				if (arg instanceof StructType) {
-					if (!((StructType) param).name.equals(((StructType) arg).name)) {
-						error("Arg struct type not right type");
+			error("Wrong number of arguments for function "+fce.name);
+		} else {
+			for (int i = 0; i < fce.args.size(); i++) {
+				Type arg = fce.args.get(i).accept(this);
+				Type param = fce.fd.params.get(i).accept(this);
+				if (param instanceof PointerType) {
+					param = ((PointerType) param).type;
+					if (arg instanceof PointerType) {//&& fce.args.get(i) instanceof ValueAtExpr) {
+						arg = ((PointerType) arg).type;
+					} else if (arg instanceof ArrayType && fce.args.get(i) instanceof ArrayAccessExpr) {
+						arg = ((ArrayType) arg).type;
+					} else if (fce.args.get(i) instanceof StrLiteral) {
+						arg = BaseType.CHAR;
+					} else {
+						error("Argument to function " + fce.name + " not pointer");
 					}
-				} else {
-					error("Arg not struct when expecting struct");
+				} else if (arg instanceof PointerType && fce.args.get(i) instanceof ValueAtExpr) {
+					arg = ((PointerType) arg).type;
+				} else if (arg instanceof PointerType && fce.args.get(i) instanceof ArrayAccessExpr) {
+					arg = ((PointerType) arg).type;
 				}
-			} else if (arg != param) {
-				error("Argument of wrong type for function "+fce.name);
+				if (param instanceof StructType) {
+					if (arg instanceof StructType) {
+						if (!((StructType) param).name.equals(((StructType) arg).name)) {
+							error("Arg struct type not right type");
+						}
+					} else {
+						error("Arg not struct when expecting struct");
+					}
+				} else if (arg != param) {
+					error("Argument of wrong type for function " + fce.name);
+				}
 			}
 		}
 		return fce.type;
