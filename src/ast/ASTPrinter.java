@@ -325,7 +325,7 @@ public class ASTPrinter implements ASTVisitor<Void> {
 
     @Override
     public Void visitReturn(Return r) {
-        writer.print("RETURN(");
+        writer.print("Return(");
         if (r.exp != null)
             r.exp.accept(this);
         writer.print(")");

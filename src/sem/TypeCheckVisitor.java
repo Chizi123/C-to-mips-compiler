@@ -290,7 +290,13 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 				(e2.accept(this) == BaseType.VOID || e2 instanceof ArrayType)) {
 			error("Assignment of Void or Array Types");
 		}
-		if (e1 != e2) {
+		if (e1 instanceof PointerType && a.e1 instanceof ValueAtExpr) {
+			e1 = ((PointerType) ((ValueAtExpr) a.e1).type).type;
+		}
+		if (e2 instanceof PointerType && a.e2 instanceof ValueAtExpr) {
+			e2 = ((PointerType) ((ValueAtExpr) a.e2).type).type;
+		}
+		if (e1.accept(this) != e2.accept(this)) {
 			error("Assignment of different types");
 		}
 		return null;

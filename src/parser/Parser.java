@@ -144,7 +144,7 @@ public class Parser {
 	private List<StructTypeDecl> parseStructDecls() {
 		// to be completed ...
 		List<StructTypeDecl> out = new LinkedList<>();
-		while (accept(STRUCT)) {
+		while (accept(STRUCT) && lookAhead(2).tokenClass == LBRA) {
 			nextToken();
 			expect(IDENTIFIER);
 			StructType st = new StructType(token.data);
