@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="Forgot to write exprstmt">
+    <list default="true" id="65b17691-ba66-430f-a9ce-c7c01c5264c8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/all.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/all.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -60,7 +58,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Shell Script.All Tests">
+  <component name="RunManager" selected="Application.sem test">
     <configuration name="Clean" type="AntRunConfiguration">
       <antsettings antfile="file://$PROJECT_DIR$/build.xml" target="clean" />
       <method v="2">
@@ -480,7 +478,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571846847063</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Check for too many args">
+      <created>1571853689292</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1571853689292</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -500,7 +505,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/tests" />
     </ignored-roots>
-    <MESSAGE value="Created ASTNodes" />
     <MESSAGE value="Finished ASTPrinter and addde DotPrinter" />
     <MESSAGE value="Parser modifications in progress, minimal, hello and struct work" />
     <MESSAGE value="ASTPrinter and generation working. Lets see tomorrow morning" />
@@ -525,7 +529,8 @@
     <MESSAGE value="Allow multiple pointers, eg. int **a;" />
     <MESSAGE value="modified tests for more complex testing, still passing" />
     <MESSAGE value="Forgot to write exprstmt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Forgot to write exprstmt" />
+    <MESSAGE value="Check for too many args" />
+    <option name="LAST_COMMIT_MESSAGE" value="Check for too many args" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
