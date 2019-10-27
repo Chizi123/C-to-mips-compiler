@@ -2,6 +2,7 @@ package ast;
 
 public class StrLiteral extends Expr {
 	public String string;
+	public int id;
 
 	public StrLiteral(String string) {
 		this.string = string;

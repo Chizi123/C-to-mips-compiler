@@ -182,55 +182,65 @@ public class Tokeniser {
 
 		// Literals
 		if (c == '\"') {
+			boolean escape = false;
 			int sline = line;
 			int scol = column;
 			try {
 				while ((c = scanner.next()) != '\"') {
 					column++;
-					if (c == '\\' && scanner.peek() == '\"') {
-						out.append('\"');
-						scanner.next();
-						column++;
-					} else if (c == '\\' && scanner.peek() == '\\') {
-						out.append('\\');
-						scanner.next();
-						column++;
-					} else if (c == '\\' && scanner.peek() == 'n') {
-						out.append('\n');
-						scanner.next();
-						column++;
-					} else if (c == '\\' && scanner.peek() == 't') {
-						out.append('\t');
-						scanner.next();
-						column++;
-					} else if (c == '\\' && scanner.peek() == 'b') {
-						out.append('\b');
-						scanner.next();
-						column++;
-					} else if (c == '\\' && scanner.peek() == 'r') {
-						out.append('\r');
-						scanner.next();
-						column++;
-					} else if (c == '\\' && scanner.peek() == 'f') {
-						out.append('\f');
-						scanner.next();
-						column++;
-					} else if (c == '\\' && scanner.peek() == '0') {
-						out.append('\0');
-						scanner.next();
-						column++;
-					} else if (c == '\\' && scanner.peek() == '\n') {
-						out.append('\n');
-						scanner.next();
-						line++;
-						column = 0;
-					} else if (c == '\\') {
-						System.out.println("Invalid escape sequence at "+line+":"+column);
-					} else if (c == '\n') {
-						System.out.println("Missing terminating \" character for string starting at " + sline + ":" + scol);
-						error++;
+					if (!escape) {
+						if (c == '\n') {
+							System.out.println("Missing terminating \" character for string starting at " + sline + ":" + scol);
+							error++;
+						} else {
+							out.append(c);
+						}
 					} else {
-						out.append(c);
+						if (c == '\\' && scanner.peek() == '\"') {
+							out.append('\"');
+							scanner.next();
+							column++;
+						} else if (c == '\\' && scanner.peek() == '\\') {
+							out.append('\\');
+							scanner.next();
+							column++;
+						} else if (c == '\\' && scanner.peek() == 'n') {
+							out.append('\n');
+							scanner.next();
+							column++;
+						} else if (c == '\\' && scanner.peek() == 't') {
+							out.append('\t');
+							scanner.next();
+							column++;
+						} else if (c == '\\' && scanner.peek() == 'b') {
+							out.append('\b');
+							scanner.next();
+							column++;
+						} else if (c == '\\' && scanner.peek() == 'r') {
+							out.append('\r');
+							scanner.next();
+							column++;
+						} else if (c == '\\' && scanner.peek() == 'f') {
+							out.append('\f');
+							scanner.next();
+							column++;
+						} else if (c == '\\' && scanner.peek() == '0') {
+							out.append('\0');
+							scanner.next();
+							column++;
+						} else if (c == '\\' && scanner.peek() == '\n') {
+							out.append('\n');
+							scanner.next();
+							line++;
+							column = 0;
+						} else if (c == '\\') {
+							System.out.println("Invalid escape sequence at " + line + ":" + column);
+						} else if (c == '\n') {
+							System.out.println("Missing terminating \" character for string starting at " + sline + ":" + scol);
+							error++;
+						} else {
+							out.append(c);
+						}
 					}
 				}
 			} catch (EOFException e) {
