@@ -250,67 +250,63 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
 
         } else if (pass == 1) {
+            Register e2 = bo.E2.accept(this); //parser right fills tree
             Register e1 = bo.E1.accept(this);
-            Register e2 = bo.E2.accept(this);
-            Register out = getRegister();
+//            Register out = getRegister();
             if (bo.op == Op.DIV || bo.op == Op.MUL) {
                 if (bo.op == Op.DIV) {
                     writer.println("\tDIV "+e1+", "+e2);
                 } else {
                     writer.println("\tMUL "+e1+", "+e2);
                 }
-                writer.println("\tMFLO "+out);
+                writer.println("\tMFLO "+e1);
             } else if (bo.op == Op.MOD) {
                 writer.println("\tDIV "+e1+", "+e2);
-                writer.println("\tMFHI "+out);
+                writer.println("\tMFHI "+e1);
             } else if (bo.op == Op.ADD) {
-                writer.println("\tADD "+out+", "+e1+" "+e2);
+                writer.println("\tADD "+e1+", "+e1+" "+e2);
             } else if (bo.op == Op.SUB) {
-                writer.println("\tSUB "+out+", "+e1+" "+e2);
+                writer.println("\tSUB "+e1+", "+e1+" "+e2);
             } else if (bo.op == Op.GT) {
-                writer.println("\tSGE "+out+", "+e1+" "+e2);
+                writer.println("\tSGE "+e1+", "+e1+" "+e2);
             } else if (bo.op == Op.LT) {
-                writer.println("\tSLT "+out+", "+e1+" "+e2);
+                writer.println("\tSLT "+e1+", "+e1+" "+e2);
             } else if (bo.op == Op.GE) {
-                writer.println("\tSGE "+out+", "+e1+" "+e2);
+                writer.println("\tSGE "+e1+", "+e1+" "+e2);
             } else if (bo.op == Op.LE) {
-                writer.println("\tSLE "+out+", "+e1+" "+e2);
+                writer.println("\tSLE "+e1+", "+e1+" "+e2);
             } else if (bo.op == Op.NE) {
-                writer.println("\tSEQ "+out+", "+e1+" "+e2);
+                writer.println("\tSEQ "+e1+", "+e1+" "+e2);
                 Register temp = getRegister();
                 writer.println("\tLI "+temp+", 1");
-                writer.println("\tSUB "+out+", "+temp+" "+out);
+                writer.println("\tSUB "+e1+", "+temp+" "+e1);
                 freeRegister(temp);
             } else if (bo.op == Op.EQ) {
-                writer.println("\tSEQ "+out+", "+e1+" "+e2);
+                writer.println("\tSEQ "+e1+", "+e1+" "+e2);
             } else if (bo.op == Op.OR) { //sequence wise or, not bitwise
-                writer.println("\tSEQ "+out+", $zero "+e1);
-                Register temp = getRegister();
-                writer.println("\tSEQ "+temp+", $zero "+e2);
+                writer.println("\tSEQ "+e1+", $zero "+e1);
+                writer.println("\tSEQ "+e2+", $zero "+e2);
                 Register temp2 = getRegister();
                 writer.println("\tLI "+temp2+", 1");
-                writer.println("\tSUB "+temp+", "+temp2+" "+temp);
-                writer.println("\tSUB "+out+", "+temp2+" "+out);
-                writer.println("\tAND "+out+", "+out+" "+temp);
-                freeRegister(temp);
-                writer.println("\tSUB "+out+", "+temp2+" "+out);
+                writer.println("\tSUB "+e2+", "+temp2+" "+e2);
+                writer.println("\tSUB "+e1+", "+temp2+" "+e1);
+                writer.println("\tAND "+e1+", "+e2+" "+e1);
+                writer.println("\tSUB "+e1+", "+temp2+" "+e1);
                 freeRegister(temp2);
             } else if (bo.op == Op.AND) { //sequence wise or, not bitwise
-                writer.println("\tSEQ "+out+", $zero "+e1);
-                Register temp = getRegister();
-                writer.println("\tSEQ "+temp+", $zero "+e2);
+                writer.println("\tSEQ "+e1+", $zero "+e1);
+                writer.println("\tSEQ "+e2+", $zero "+e2);
                 Register temp2 = getRegister();
                 writer.println("\tLI "+temp2+", 1");
-                writer.println("\tSUB "+out+", "+temp2+" "+out);
-                writer.println("\tSUB "+temp+", "+temp2+" "+temp);
-                writer.println("\tOR "+out+", "+out+" "+temp);
-                freeRegister(temp);
-                writer.println("\tSUB "+out+", "+temp2+" "+out);
+                writer.println("\tSUB "+e1+", "+temp2+" "+e1);
+                writer.println("\tSUB "+e2+", "+temp2+" "+e2);
+                writer.println("\tOR "+e1+", "+e1+" "+e2);
+                writer.println("\tSUB "+e1+", "+temp2+" "+e1);
                 freeRegister(temp2);
             }
-            freeRegister(e1);
+//            freeRegister(e1);
             freeRegister(e2);
-            return out;
+            return e1;
         }
         return null;
     }
