@@ -44,7 +44,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     private int pass;
-    private int strID;
+    private int ID;
     private HashMap<String, LinkedList<offset>> structs;
 
     @Override
@@ -111,8 +111,9 @@ public class CodeGenerator implements ASTVisitor<Register> {
             i.accept(this);
         }
         //look through for global variables and strings
-        pass = 0; strID = 0;
+        pass = 0; ID = 0;
         writer.println(".data");
+        writer.println("\tString"+(ID++)+": .asciiz \"\\n\"");
         for (VarDecl i : p.varDecls) {
             i.accept(this);
         }
@@ -128,7 +129,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         }
         // TODO: to complete
         //default exit
-        writer.println("\tli $v0, 10\n\tsyscall");
+        writer.println("\tLI $v0, 10\n\tSYSCALL");
         return null;
     }
 
@@ -180,6 +181,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitIntLiteral(IntLiteral il) {
         if (pass == 0) {
 
+        } else if (pass == 1) {
+            Register reg = getRegister();
+            writer.println("\tli "+reg+", "+il.number);
+            return reg;
         }
         return null;
     }
@@ -187,7 +192,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     @Override
     public Register visitStringLiteral(StrLiteral sl) {
         if (pass == 0) {
-            sl.id = strID++;
+            sl.id = ID++;
             writer.println("\tString"+sl.id+": .asciiz \""+sl.string+"\"");
         }
         return null;
@@ -209,12 +214,21 @@ public class CodeGenerator implements ASTVisitor<Register> {
             }
         } else if (pass == 1) {
             switch (fce.name) {
-                case "print_s":
-                    writer.println("\tli $v0, 4");
-                    writer.println("\tla $a0, String"+((StrLiteral) fce.args.get(0)).id);
+                case "print_s": //to make generic
+                    writer.println("\tLI $v0, 4");
+                    writer.println("\tLA $a0, String"+((StrLiteral) fce.args.get(0)).id);
                     writer.println("\tsyscall");
                     break;
                 case "print_i":
+                    Register reg = fce.args.get(0).accept(this);
+                    writer.println("\tMOVE $a0, "+reg);
+                    freeRegister(reg);
+                    writer.println("\tLI $v0, 1");
+                    writer.println("\tSYSCALL");
+                    //newline
+                    writer.println("\tLA $a0, String0");
+                    writer.println("\tLI $v0, 4");
+                    writer.println("\tSYSCALL");
                     break;
                 case "print_c":
                     break;
@@ -235,6 +249,68 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitBinOp(BinOp bo) {
         if (pass == 0) {
 
+        } else if (pass == 1) {
+            Register e1 = bo.E1.accept(this);
+            Register e2 = bo.E2.accept(this);
+            Register out = getRegister();
+            if (bo.op == Op.DIV || bo.op == Op.MUL) {
+                if (bo.op == Op.DIV) {
+                    writer.println("\tDIV "+e1+", "+e2);
+                } else {
+                    writer.println("\tMUL "+e1+", "+e2);
+                }
+                writer.println("\tMFLO "+out);
+            } else if (bo.op == Op.MOD) {
+                writer.println("\tDIV "+e1+", "+e2);
+                writer.println("\tMFHI "+out);
+            } else if (bo.op == Op.ADD) {
+                writer.println("\tADD "+out+", "+e1+" "+e2);
+            } else if (bo.op == Op.SUB) {
+                writer.println("\tSUB "+out+", "+e1+" "+e2);
+            } else if (bo.op == Op.GT) {
+                writer.println("\tSGE "+out+", "+e1+" "+e2);
+            } else if (bo.op == Op.LT) {
+                writer.println("\tSLT "+out+", "+e1+" "+e2);
+            } else if (bo.op == Op.GE) {
+                writer.println("\tSGE "+out+", "+e1+" "+e2);
+            } else if (bo.op == Op.LE) {
+                writer.println("\tSLE "+out+", "+e1+" "+e2);
+            } else if (bo.op == Op.NE) {
+                writer.println("\tSEQ "+out+", "+e1+" "+e2);
+                Register temp = getRegister();
+                writer.println("\tLI "+temp+", 1");
+                writer.println("\tSUB "+out+", "+temp+" "+out);
+                freeRegister(temp);
+            } else if (bo.op == Op.EQ) {
+                writer.println("\tSEQ "+out+", "+e1+" "+e2);
+            } else if (bo.op == Op.OR) { //sequence wise or, not bitwise
+                writer.println("\tSEQ "+out+", $zero "+e1);
+                Register temp = getRegister();
+                writer.println("\tSEQ "+temp+", $zero "+e2);
+                Register temp2 = getRegister();
+                writer.println("\tLI "+temp2+", 1");
+                writer.println("\tSUB "+temp+", "+temp2+" "+temp);
+                writer.println("\tSUB "+out+", "+temp2+" "+out);
+                writer.println("\tAND "+out+", "+out+" "+temp);
+                freeRegister(temp);
+                writer.println("\tSUB "+out+", "+temp2+" "+out);
+                freeRegister(temp2);
+            } else if (bo.op == Op.AND) { //sequence wise or, not bitwise
+                writer.println("\tSEQ "+out+", $zero "+e1);
+                Register temp = getRegister();
+                writer.println("\tSEQ "+temp+", $zero "+e2);
+                Register temp2 = getRegister();
+                writer.println("\tLI "+temp2+", 1");
+                writer.println("\tSUB "+out+", "+temp2+" "+out);
+                writer.println("\tSUB "+temp+", "+temp2+" "+temp);
+                writer.println("\tOR "+out+", "+out+" "+temp);
+                freeRegister(temp);
+                writer.println("\tSUB "+out+", "+temp2+" "+out);
+                freeRegister(temp2);
+            }
+            freeRegister(e1);
+            freeRegister(e2);
+            return out;
         }
         return null;
     }
@@ -242,7 +318,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     @Override
     public Register visitOp(Op o) {
         if (pass == 0) {
-
+        } else if (pass == 1) {
         }
         return null;
     }

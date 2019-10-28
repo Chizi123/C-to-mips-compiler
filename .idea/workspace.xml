@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/gen.sh" afterDir="false" />
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Working for Hello World. first pass finds all global data, second pass does text">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/StrLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/StrLiteral.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lexer/Tokeniser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/Tokeniser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/hello.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/hello.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -246,12 +243,12 @@
       <option name="project" value="LOCAL" />
       <updated>1570702778574</updated>
     </task>
-    <task id="LOCAL-00007" summary="Character escape codes for string literals">
-      <created>1569185458991</created>
+    <task id="LOCAL-00007" summary="Working for Hello World. first pass finds all global data, second pass does text">
+      <created>1572201661496</created>
       <option name="number" value="00007" />
       <option name="presentableId" value="LOCAL-00007" />
       <option name="project" value="LOCAL" />
-      <updated>1569185458991</updated>
+      <updated>1572201661496</updated>
     </task>
     <task id="LOCAL-00008" summary="Fixed some small bugs with test files">
       <created>1569689891604</created>
@@ -372,7 +369,7 @@
       <option name="project" value="LOCAL" />
       <updated>1571412110514</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
@@ -403,7 +400,8 @@
     <MESSAGE value="Updated repo for part 2" />
     <MESSAGE value="Added link to part 2 on main README file" />
     <MESSAGE value="Added abstract grammar" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added abstract grammar" />
+    <MESSAGE value="Working for Hello World. first pass finds all global data, second pass does text" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working for Hello World. first pass finds all global data, second pass does text" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
