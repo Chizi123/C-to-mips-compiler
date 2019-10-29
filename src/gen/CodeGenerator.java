@@ -45,6 +45,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     private int pass;
     private int ID;
+    private int fSize;
     private HashMap<String, LinkedList<offset>> structs;
 
     @Override
@@ -80,6 +81,11 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 i.accept(this);
             }
         } else if (pass == 1){
+            //save old frame pointer and stack pointer
+            writer.println("\tSW $fp, 4($sp)");
+            writer.println("\tSW $sp, 8($sp)");
+            writer.println("\tMOVE $fp, $sp");
+            fSize=8;
             for (VarDecl i : b.varDeclList) {
                 i.accept(this);
             }
@@ -97,6 +103,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
             p.block.accept(this);
         } else if (pass == 1) { //need to figure out what to do with parameters
             writer.println(p.name+":");
+//            if()
             p.block.accept(this);
         }
         // TODO: to complete
@@ -138,7 +145,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
             writer.println("\t"+vd.varName+": .space "+findSize(vd.type));
         } else if (pass == 1) {
-
+            vd.offset=fSize;
+            fSize+=findSize(vd.type);
         }
         // TODO: to complete
         return null;
@@ -250,18 +258,17 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
 
         } else if (pass == 1) {
-            Register e2 = bo.E2.accept(this); //parser right fills tree
-            Register e1 = bo.E1.accept(this);
-//            Register out = getRegister();
+            Register e1 = bo.E1.accept(this); //parser fills left tree
+            Register e2 = bo.E2.accept(this);
             if (bo.op == Op.DIV || bo.op == Op.MUL) {
                 if (bo.op == Op.DIV) {
-                    writer.println("\tDIV "+e1+", "+e2);
+                    writer.println("\tDIV "+e1+", "+e1+" "+e2);
                 } else {
-                    writer.println("\tMUL "+e1+", "+e2);
+                    writer.println("\tMUL "+e1+", "+e1+" "+e2);
                 }
                 writer.println("\tMFLO "+e1);
             } else if (bo.op == Op.MOD) {
-                writer.println("\tDIV "+e1+", "+e2);
+                writer.println("\tDIV "+e1+", "+e1+" "+e2);
                 writer.println("\tMFHI "+e1);
             } else if (bo.op == Op.ADD) {
                 writer.println("\tADD "+e1+", "+e1+" "+e2);
@@ -304,7 +311,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 writer.println("\tSUB "+e1+", "+temp2+" "+e1);
                 freeRegister(temp2);
             }
-//            freeRegister(e1);
             freeRegister(e2);
             return e1;
         }

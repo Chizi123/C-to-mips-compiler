@@ -9,10 +9,13 @@ int main ()
     print_i(2>1);
     print_i(1==1);
     print_i(0!=1);
-    print_i(4-(3+4));
+    print_i(4-3-4);
     print_i(3<=2);
     print_i(2>=1);
     print_i(1&&1);
     print_i(0&&1);
     print_i(1+1+1+1+1+1+1+1+1+1+1+1+11+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1);
+    print_i(5*4);
+    print_i(5/4);
+    print_i(5%4);
 }

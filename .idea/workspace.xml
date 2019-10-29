@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Have binary operations working">
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Reduced number of registers BinOp needs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/VarDecl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/VarDecl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/hello.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/hello.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -107,7 +109,7 @@
     <configuration name="dot test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-dot tests/dpointers.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-dot tests/hello.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -160,7 +162,7 @@
     </configuration>
     <configuration name="Dot image" type="ShConfigurationType">
       <option name="SCRIPT_PATH" value="$PROJECT_DIR$/dot.sh" />
-      <option name="SCRIPT_OPTIONS" value="all" />
+      <option name="SCRIPT_OPTIONS" value="hello" />
       <option name="INTERPRETER_PATH" value="/bin/bash" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <method v="2">
@@ -257,12 +259,12 @@
       <option name="project" value="LOCAL" />
       <updated>1572280425756</updated>
     </task>
-    <task id="LOCAL-00009" summary="Fixed endless looping blocks">
-      <created>1569690789206</created>
+    <task id="LOCAL-00009" summary="Reduced number of registers BinOp needs">
+      <created>1572281025108</created>
       <option name="number" value="00009" />
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
-      <updated>1569690789206</updated>
+      <updated>1572281025108</updated>
     </task>
     <task id="LOCAL-00010" summary="New test">
       <created>1569691139364</created>
@@ -369,7 +371,7 @@
       <option name="project" value="LOCAL" />
       <updated>1571412110514</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
@@ -402,14 +404,15 @@
     <MESSAGE value="Added abstract grammar" />
     <MESSAGE value="Working for Hello World. first pass finds all global data, second pass does text" />
     <MESSAGE value="Have binary operations working" />
-    <option name="LAST_COMMIT_MESSAGE" value="Have binary operations working" />
+    <MESSAGE value="Reduced number of registers BinOp needs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reduced number of registers BinOp needs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>86</line>
+          <line>92</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
       </breakpoints>

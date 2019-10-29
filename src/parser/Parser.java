@@ -345,9 +345,9 @@ public class Parser {
 	private Expr parseExp(int i) {
 		Expr out;
 		out = parseLOB(i);
-		if (accept(OR)) {
+		while (accept(OR)) {
 			nextToken();
-			out = new BinOp(out, parseExp(1), Op.OR);
+			out = new BinOp(out, parseLOB(1), Op.OR);
 		}
 		out = parseStructArray(out);
 		return out;
@@ -357,9 +357,9 @@ public class Parser {
 	private Expr parseLOB(int i) {
 		Expr out;
 		out = parseLAB(i);
-		if (accept(AND)) {
+		while (accept(AND)) {
 			nextToken();
-			out = new BinOp(out, parseLOB(1), Op.AND);
+			out = new BinOp(out, parseLAB(1), Op.AND);
 		}
 		return out;
 	}
@@ -368,15 +368,15 @@ public class Parser {
 	private Expr parseLAB(int i) {
 		Expr out;
 		out = parseEQB(i);
-		if (accept(EQ, NE)) {
+		while (accept(EQ, NE)) {
 			switch(token.tokenClass) {
 				case EQ:
 					nextToken();
-					out = new BinOp(out,parseLAB(1), Op.EQ);
+					out = new BinOp(out,parseEQB(1), Op.EQ);
 					break;
 				case NE:
 					nextToken();
-					out = new BinOp(out,parseLAB(1), Op.NE);
+					out = new BinOp(out,parseEQB(1), Op.NE);
 					break;
 			}
 		}
@@ -387,23 +387,23 @@ public class Parser {
 	private Expr parseEQB(int i) {
 		Expr out;
 		out = parseCPB(i);
-		if (accept(LE, GE, LT, GT)) {
+		while (accept(LE, GE, LT, GT)) {
 			switch (token.tokenClass) {
 				case LE:
 					nextToken();
-					out = new BinOp(out, parseEQB(1), Op.LE);
+					out = new BinOp(out, parseCPB(1), Op.LE);
 					break;
 				case GE:
 					nextToken();
-					out = new BinOp(out, parseEQB(1), Op.GE);
+					out = new BinOp(out, parseCPB(1), Op.GE);
 					break;
 				case LT:
 					nextToken();
-					out = new BinOp(out, parseEQB(1), Op.LT);
+					out = new BinOp(out, parseCPB(1), Op.LT);
 					break;
 				case GT:
 					nextToken();
-					out = new BinOp(out, parseEQB(1), Op.GT);
+					out = new BinOp(out, parseCPB(1), Op.GT);
 					break;
 			}
 		}
@@ -414,15 +414,15 @@ public class Parser {
 	private Expr parseCPB(int i) {
 		Expr out;
 		out = parseADB(i);
-		if (accept(PLUS, MINUS)) {
+		while (accept(PLUS, MINUS)) {
 			switch (token.tokenClass) {
 				case PLUS:
 					nextToken();
-					out = new BinOp(out, parseCPB(1), Op.ADD);
+					out = new BinOp(out, parseADB(1), Op.ADD);
 					break;
 				case MINUS:
 					nextToken();
-					out = new BinOp(out, parseCPB(1), Op.SUB);
+					out = new BinOp(out, parseADB(1), Op.SUB);
 			}
 		}
 		return out;
@@ -432,19 +432,19 @@ public class Parser {
 	private Expr parseADB(int i) {
 		Expr out;
 		out = parseMLB(i);
-		if (accept(ASTERIX, DIV, REM)) {
+		while (accept(ASTERIX, DIV, REM)) {
 			switch (token.tokenClass) {
 				case ASTERIX:
 					nextToken();
-					out = new BinOp(out, parseADB(1), Op.MUL);
+					out = new BinOp(out, parseMLB(1), Op.MUL);
 					break;
 				case DIV:
 					nextToken();
-					out = new BinOp(out, parseADB(1), Op.DIV);
+					out = new BinOp(out, parseMLB(1), Op.DIV);
 					break;
 				case REM:
 					nextToken();
-					out = new BinOp(out, parseADB(1), Op.MOD);
+					out = new BinOp(out, parseMLB(1), Op.MOD);
 					break;
 			}
 		}
