@@ -291,25 +291,15 @@ public class CodeGenerator implements ASTVisitor<Register> {
             } else if (bo.op == Op.EQ) {
                 writer.println("\tSEQ "+e1+", "+e1+" "+e2);
             } else if (bo.op == Op.OR) { //sequence wise or, not bitwise
-                writer.println("\tSEQ "+e1+", $zero "+e1);
-                writer.println("\tSEQ "+e2+", $zero "+e2);
-                Register temp2 = getRegister();
-                writer.println("\tLI "+temp2+", 1");
-                writer.println("\tSUB "+e2+", "+temp2+" "+e2);
-                writer.println("\tSUB "+e1+", "+temp2+" "+e1);
-                writer.println("\tAND "+e1+", "+e2+" "+e1);
-                writer.println("\tSUB "+e1+", "+temp2+" "+e1);
-                freeRegister(temp2);
-            } else if (bo.op == Op.AND) { //sequence wise or, not bitwise
-                writer.println("\tSEQ "+e1+", $zero "+e1);
-                writer.println("\tSEQ "+e2+", $zero "+e2);
-                Register temp2 = getRegister();
-                writer.println("\tLI "+temp2+", 1");
-                writer.println("\tSUB "+e1+", "+temp2+" "+e1);
-                writer.println("\tSUB "+e2+", "+temp2+" "+e2);
                 writer.println("\tOR "+e1+", "+e1+" "+e2);
-                writer.println("\tSUB "+e1+", "+temp2+" "+e1);
-                freeRegister(temp2);
+                writer.println("\tSEQ "+e1+", $zero "+e1);
+                writer.println("\tLI "+e2+", 1");
+                writer.println("\tSUB "+e1+", "+e2+" "+e1);
+            } else if (bo.op == Op.AND) { //sequence wise or, not bitwise
+                writer.println("\tAND "+e1+", "+e1+" "+e2);
+                writer.println("\tSEQ "+e1+", $zero "+e1);
+                writer.println("\tLI "+e2+", 1");
+                writer.println("\tSUB "+e1+", "+e2+" "+e1);
             }
             freeRegister(e2);
             return e1;
