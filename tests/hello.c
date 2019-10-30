@@ -19,4 +19,5 @@ int main ()
     print_i(5/4);
     print_i(5%4);
     print_i((1||0)+(0||1)+(1&&1)+(1&&1));
+    print_c('c');
 }

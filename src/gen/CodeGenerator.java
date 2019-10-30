@@ -120,7 +120,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
         //look through for global variables and strings
         pass = 0; ID = 0;
         writer.println(".data");
-        writer.println("\tString"+(ID++)+": .asciiz \"\\n\"");
         for (VarDecl i : p.varDecls) {
             i.accept(this);
         }
@@ -210,6 +209,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitChrLiteral(ChrLiteral cl) {
         if (pass == 0) {
 
+        } else if (pass == 1) {
+            Register out = getRegister();
+            writer.println("\tLI "+out+", '"+cl.c+"'");
+            return out;
         }
         return null;
     }
@@ -221,6 +224,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 i.accept(this);
             }
         } else if (pass == 1) {
+            Register out;
             switch (fce.name) {
                 case "print_s": //to make generic
                     writer.println("\tLI $v0, 4");
@@ -228,17 +232,26 @@ public class CodeGenerator implements ASTVisitor<Register> {
                     writer.println("\tsyscall");
                     break;
                 case "print_i":
-                    Register reg = fce.args.get(0).accept(this);
-                    writer.println("\tMOVE $a0, "+reg);
-                    freeRegister(reg);
+                    out = fce.args.get(0).accept(this);
+                    writer.println("\tMOVE $a0, "+out);
+                    freeRegister(out);
                     writer.println("\tLI $v0, 1");
                     writer.println("\tSYSCALL");
                     //newline
-                    writer.println("\tLA $a0, String0");
-                    writer.println("\tLI $v0, 4");
+                    writer.println("\tLI $a0, 10");
+                    writer.println("\tLI $v0, 11");
                     writer.println("\tSYSCALL");
                     break;
                 case "print_c":
+                    out = fce.args.get(0).accept(this);
+                    writer.println("\tMOVE $a0, "+out);
+                    freeRegister(out);
+                    writer.println("\tLI $v0, 11");
+                    writer.println("\tSYSCALL");
+                    //newline
+                    writer.println("\tLI $a0, 10");
+                    writer.println("\tLI $v0, 11");
+                    writer.println("\tSYSCALL");
                     break;
                 case "read_i":
                     break;
