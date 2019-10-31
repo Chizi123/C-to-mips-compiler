@@ -68,12 +68,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
             } else {
                 current.add(new offset(i.varName, current.getLast().pos + sizeLast));
             }
-            sizeLast = findSize(i.type);
+            sizeLast = findSize(i.type) + (4-findSize(i.type)%4)%4;
         }
         current.add(new offset(current.getLast().pos+sizeLast));
         return null;
     }
 
+    int funcall;
     @Override
     public Register visitBlock(Block b) {
         if (pass == 0) {
@@ -81,17 +82,24 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 i.accept(this);
             }
         } else if (pass == 1){
-            //save old frame pointer and stack pointer
-            writer.println("\tSW $fp, 4($sp)");
-            writer.println("\tSW $sp, 8($sp)");
-            writer.println("\tMOVE $fp, $sp");
-            fSize=8;
+        	if (funcall == 1) {
+	            //save old frame pointer and stack pointer
+	            writer.println("\tSW $fp, 4($sp)");
+	            writer.println("\tSW $sp, 8($sp)");
+	            writer.println("\tSW $ra, 12($sp)");
+	            writer.println("\tMOVE $fp, $sp");
+	            fSize=12;
+	            funcall = 0;
+            }
             for (VarDecl i : b.varDeclList) {
                 i.accept(this);
             }
+            writer.println("\tADDI $sp, $sp "+fSize);
             for (Stmt i : b.stmtList) {
                 i.accept(this);
             }
+
+            writer.println("\tjr $ra");
         }
         // TODO: to complete
         return null;
@@ -103,7 +111,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
             p.block.accept(this);
         } else if (pass == 1) { //need to figure out what to do with parameters
             writer.println(p.name+":");
-//            if()
             p.block.accept(this);
         }
         // TODO: to complete
@@ -130,12 +137,15 @@ public class CodeGenerator implements ASTVisitor<Register> {
         //write text segment
         pass=1;
         writer.println(".text");
-        for (FunDecl i : p.funDecls) {
+        writer.println("\tjal main");
+        writer.println("\tLI $v0, 10\n\tSYSCALL");
+	    for (FunDecl i : p.funDecls) {
+        	if (i.name.equals("main")) {
+        		funcall=1;
+	        }
             i.accept(this);
         }
         // TODO: to complete
-        //default exit
-        writer.println("\tLI $v0, 10\n\tSYSCALL");
         return null;
     }
 
@@ -143,9 +153,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitVarDecl(VarDecl vd) {
         if (pass == 0) {
             writer.println("\t"+vd.varName+": .space "+findSize(vd.type));
+            vd.offset=-1;
         } else if (pass == 1) {
-            vd.offset=fSize;
             fSize+=findSize(vd.type);
+            vd.offset=fSize;
         }
         // TODO: to complete
         return null;
@@ -155,6 +166,26 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitVarExpr(VarExpr v) {
         if (pass == 0) {
 
+        } else if (pass == 1) {
+            Register out = getRegister();
+            switch (findSize(v.vd.type)) {
+                case 1:
+                    writer.print("\tLB ");
+                    break;
+                case 4:
+                    writer.print("\tLW ");
+                    break;
+                default:
+                    System.out.println("Some thing has gone wrong, Weird variable size");
+                    break;
+            }
+            writer.print(out+", ");
+            if (v.vd.offset == -1) {
+                writer.println(v.name);
+            } else {
+                writer.println(v.vd.offset+"($fp)");
+            }
+            return out;
         }
         // TODO: to complete
         return null;
@@ -201,6 +232,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
             sl.id = ID++;
             writer.println("\tString"+sl.id+": .asciiz \""+sl.string+"\"");
+        } else if (pass == 1) {
+        	Register out = getRegister();
+        	writer.println("\tLA "+out+", String"+sl.id);
+        	return out;
         }
         return null;
     }
@@ -244,34 +279,28 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 i.accept(this);
             }
         } else if (pass == 1) {
+        	for (int i = 0; i < fce.args.size(); i++) {
+        		if (i<3) {
+			        Register aux = fce.args.get(i).accept(this);
+			        writer.println("\tMOVE " + Register.paramRegs[i] + ", " + aux);
+			        freeRegister(aux);
+		        } else {
+        			//TODO push onto stack
+		        }
+	        }
             Register out;
             switch (fce.name) {
                 case "print_s": //to make generic
                     writer.println("\tLI $v0, 4");
-                    writer.println("\tLA $a0, String"+((StrLiteral) fce.args.get(0)).id);
                     writer.println("\tsyscall");
                     break;
                 case "print_i":
-                    out = fce.args.get(0).accept(this);
-                    writer.println("\tMOVE $a0, "+out);
-                    freeRegister(out);
                     writer.println("\tLI $v0, 1");
                     writer.println("\tSYSCALL");
-//                    //newline
-//                    writer.println("\tLI $a0, '\\n'");
-//                    writer.println("\tLI $v0, 11");
-//                    writer.println("\tSYSCALL");
                     break;
                 case "print_c":
-                    out = fce.args.get(0).accept(this);
-                    writer.println("\tMOVE $a0, "+out);
-                    freeRegister(out);
                     writer.println("\tLI $v0, 11");
                     writer.println("\tSYSCALL");
-//                    //newline
-//                    writer.println("\tLI $a0, '\\n'");
-//                    writer.println("\tLI $v0, 11");
-//                    writer.println("\tSYSCALL");
                     break;
                 case "read_i":
                     break;
@@ -280,7 +309,12 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 case "mcmalloc":
                     break;
                 default:
-                    break;
+                	funcall = 1;
+                	writer.println("\tjal "+fce.name);
+                	writer.println("\tLW $ra, 12($fp)");
+                	writer.println("\tLW $sp, 8($fp)");
+                	writer.println("\tLW $fp, 4($fp)");
+                	return Register.v0;
             }
         }
         return null;
@@ -356,10 +390,38 @@ public class CodeGenerator implements ASTVisitor<Register> {
         return null;
     }
 
+    int addr;
     @Override
     public Register visitArrayAccessExpr(ArrayAccessExpr aae) {
         if (pass == 0) {
 
+        } else if (pass == 1) {
+        	Register out;
+        	if (aae.exp instanceof ValueAtExpr) {
+				addr = -1;
+				aae.exp.accept(this);
+	        } else if (aae.exp instanceof ArrayAccessExpr) {
+        		Register index = ((ArrayAccessExpr) aae.exp).index.accept(this);
+
+	        } else if (aae.exp instanceof VarExpr) {
+        		if (addr == -1) {
+			        out = getRegister();
+			        switch (findSize(aae.type)) {
+				        case 4:
+					        writer.print("\tLW ");
+					        break;
+				        case 1:
+					        writer.print("\tLB");
+			        }
+			        writer.println("");
+		        } else {
+
+		        }
+	        } else if (aae.exp instanceof FunCallExpr) {
+
+	        } else {
+        		System.out.println("Problem in array access");
+	        }
         }
         return null;
     }
@@ -368,6 +430,14 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitFieldAccessExpr(FieldAccessExpr fae) {
         if (pass == 0) {
 
+        } else if (pass == 1) {
+        	if (fae.struct.type instanceof StructType) {
+
+	        } else if (fae.struct instanceof FunCallExpr) {
+
+	        } else if (fae.struct instanceof FieldAccessExpr) {
+
+	        }
         }
         return null;
     }
@@ -376,6 +446,12 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitValueAtExpr(ValueAtExpr vae) {
         if (pass == 0) {
 
+        } else if (pass == 1) {
+        	if (addr == -1) {
+
+	        } else {
+		        vae.exp.accept(this);
+	        }
         }
         return null;
     }
@@ -384,6 +460,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitSizeOfExpr(SizeOfExpr soe) {
         if (pass == 0) {
 
+        } else if (pass == 1) {
+            Register out = getRegister();
+            writer.println("\tLI "+out+", "+findSize(soe.type));
+            return out;
         }
         return null;
     }
@@ -424,15 +504,46 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
             a.e1.accept(this);
             a.e2.accept(this);
+        } else if (pass == 1) {
+            Register out = a.e2.accept(this);
+            if (a.e1 instanceof ValueAtExpr ) {
+
+            } else if (a.e1 instanceof ArrayAccessExpr) {
+//                switch ()
+            } else if (a.e1 instanceof VarExpr) {
+                switch (findSize(((VarExpr) a.e1).vd.type)) {
+                    case 1:
+                        writer.print("\tSB ");
+                        break;
+                    case 4:
+                        writer.print("\tSW ");
+                        break;
+                    default:
+                        System.out.println("Some thing has gone wrong, Weird variable size");
+                        break;
+                }
+                writer.println(out+", "+((VarExpr) a.e1).vd.offset+"($fp)");
+            } else if (a.e1 instanceof FieldAccessExpr) {
+
+            } else {
+                System.out.println("Something Wrong, unknown LHS of assignemnt");
+            }
         }
         return null;
     }
 
     @Override
     public Register visitReturn(Return r) {
-        if (r.exp != null) {
-            r.exp.accept(this);
-        }
+    	if (pass == 0) {
+
+	    } else if (pass == 1) {
+		    Register out;
+		    if (r.exp != null) {
+			    out = r.exp.accept(this);
+			    writer.println("MOVE $v0, "+out);
+		    }
+		    writer.println("jr $ra");
+	    }
         return null;
     }
 
@@ -446,7 +557,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 return 1;
             }
         } else if (t instanceof ArrayType) {
-            return ((ArrayType) t).size * findSize(((ArrayType) t).type);
+            int i = ((ArrayType) t).size * findSize(((ArrayType) t).type);
+            return i + (4-i%4)%4;
         } else if (t instanceof StructType) {
             return structs.get(((StructType) t).name).getLast().pos;
         }

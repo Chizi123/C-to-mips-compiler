@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Newline now printed as char, print_c implimented">
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Print_c does escape chars. BinOp uses stack to minimise reg use">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/hello.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/hello.c" afterDir="false" />
@@ -278,12 +278,12 @@
       <option name="project" value="LOCAL" />
       <updated>1572444890548</updated>
     </task>
-    <task id="LOCAL-00012" summary="Fixed assignment consumption">
-      <created>1569922134968</created>
+    <task id="LOCAL-00012" summary="Print_c does escape chars. BinOp uses stack to minimise reg use">
+      <created>1572529582673</created>
       <option name="number" value="00012" />
       <option name="presentableId" value="LOCAL-00012" />
       <option name="project" value="LOCAL" />
-      <updated>1569922134968</updated>
+      <updated>1572529582673</updated>
     </task>
     <task id="LOCAL-00013" summary="Nested structs and arrays working, broke grammar for struct ending">
       <created>1569970413148</created>
@@ -369,7 +369,7 @@
       <option name="project" value="LOCAL" />
       <updated>1571412110514</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView">
@@ -405,18 +405,8 @@
     <MESSAGE value="Reduced number of registers BinOp needs" />
     <MESSAGE value="Reduced instructions for AND and OR" />
     <MESSAGE value="Newline now printed as char, print_c implimented" />
-    <option name="LAST_COMMIT_MESSAGE" value="Newline now printed as char, print_c implimented" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>92</line>
-          <option name="timeStamp" value="57" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Print_c does escape chars. BinOp uses stack to minimise reg use" />
+    <option name="LAST_COMMIT_MESSAGE" value="Print_c does escape chars. BinOp uses stack to minimise reg use" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Project$sem_test.ic" NAME="sem test Coverage Results" MODIFIED="1571736782589" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
