@@ -211,7 +211,27 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         } else if (pass == 1) {
             Register out = getRegister();
-            writer.println("\tLI "+out+", '"+cl.c+"'");
+            writer.print("\tLI " + out + ", '");
+            if (cl.c == '\n') {
+                writer.print("\\n");
+            } else if (cl.c == '\"') {
+                writer.print("\"");
+            } else if (cl.c == '\\') {
+                writer.print("\\\\");
+            } else if (cl.c == '\t') {
+                writer.print("\\t");
+            } else if (cl.c == '\b') {
+                writer.print("\\b");
+            } else if (cl.c == '\r') {
+                writer.print("\\r");
+            } else if (cl.c == '\f') {
+                writer.print("\\f");
+            } else if (cl.c == '\0') {
+                writer.print("\\0");
+            } else {
+                writer.print(cl.c);
+            }
+            writer.println("'");
             return out;
         }
         return null;
@@ -237,10 +257,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
                     freeRegister(out);
                     writer.println("\tLI $v0, 1");
                     writer.println("\tSYSCALL");
-                    //newline
-                    writer.println("\tLI $a0, 10");
-                    writer.println("\tLI $v0, 11");
-                    writer.println("\tSYSCALL");
+//                    //newline
+//                    writer.println("\tLI $a0, '\\n'");
+//                    writer.println("\tLI $v0, 11");
+//                    writer.println("\tSYSCALL");
                     break;
                 case "print_c":
                     out = fce.args.get(0).accept(this);
@@ -248,10 +268,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
                     freeRegister(out);
                     writer.println("\tLI $v0, 11");
                     writer.println("\tSYSCALL");
-                    //newline
-                    writer.println("\tLI $a0, 10");
-                    writer.println("\tLI $v0, 11");
-                    writer.println("\tSYSCALL");
+//                    //newline
+//                    writer.println("\tLI $a0, '\\n'");
+//                    writer.println("\tLI $v0, 11");
+//                    writer.println("\tSYSCALL");
                     break;
                 case "read_i":
                     break;
@@ -272,7 +292,15 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         } else if (pass == 1) {
             Register e1 = bo.E1.accept(this); //parser fills left tree
+            //store intermediate results onto the stack to save registers
+            writer.println("\tSW "+e1+", 4($sp)");
+            writer.println("\tADDI $sp, $sp 4");
+            freeRegister(e1);
             Register e2 = bo.E2.accept(this);
+            //get intermediate results off stack
+            e1=getRegister();
+            writer.println("\tLW "+e1+", ($sp)");
+            writer.println("\tSUBI $sp, $sp 4");
             if (bo.op == Op.DIV || bo.op == Op.MUL) {
                 if (bo.op == Op.DIV) {
                     writer.println("\tDIV "+e1+", "+e1+" "+e2);

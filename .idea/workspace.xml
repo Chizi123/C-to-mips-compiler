@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Reduced instructions for AND and OR">
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Newline now printed as char, print_c implimented">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/hello.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/hello.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -270,12 +271,12 @@
       <option name="project" value="LOCAL" />
       <updated>1572444158325</updated>
     </task>
-    <task id="LOCAL-00011" summary="Arithmetic brackets and structs working">
-      <created>1569778797737</created>
+    <task id="LOCAL-00011" summary="Newline now printed as char, print_c implimented">
+      <created>1572444890548</created>
       <option name="number" value="00011" />
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
-      <updated>1569778797737</updated>
+      <updated>1572444890548</updated>
     </task>
     <task id="LOCAL-00012" summary="Fixed assignment consumption">
       <created>1569922134968</created>
@@ -368,7 +369,7 @@
       <option name="project" value="LOCAL" />
       <updated>1571412110514</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TodoView">
@@ -403,7 +404,8 @@
     <MESSAGE value="Have binary operations working" />
     <MESSAGE value="Reduced number of registers BinOp needs" />
     <MESSAGE value="Reduced instructions for AND and OR" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reduced instructions for AND and OR" />
+    <MESSAGE value="Newline now printed as char, print_c implimented" />
+    <option name="LAST_COMMIT_MESSAGE" value="Newline now printed as char, print_c implimented" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
