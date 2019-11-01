@@ -14,7 +14,7 @@ int main ()
     print_c('\n');
     print_i(square(9999));
     print_c('\n');
-    print_s("hello world!\n");
+    print_s((char*) "hello world!\n");
 //    print_s("This is working\n");
 //    print_i(4+3+4+5+6+7+8+9+10+11);
 //    print_c('\n');

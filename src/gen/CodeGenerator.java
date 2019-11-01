@@ -475,6 +475,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitTypecastExpr(TypecastExpr te) {
         if (pass == 0) {
             te.exp.accept(this);
+        } else if (pass == 1) {
+            return te.exp.accept(this);
         }
         return null;
     }

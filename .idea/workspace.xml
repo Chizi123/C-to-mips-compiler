@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Print_c does escape chars. BinOp uses stack to minimise reg use">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Simple single level nested functions implimented">
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/hello.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/hello.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -284,12 +284,12 @@
       <option name="project" value="LOCAL" />
       <updated>1572529582673</updated>
     </task>
-    <task id="LOCAL-00013" summary="Nested structs and arrays working, broke grammar for struct ending">
-      <created>1569970413148</created>
+    <task id="LOCAL-00013" summary="Simple single level nested functions implimented">
+      <created>1572568556975</created>
       <option name="number" value="00013" />
       <option name="presentableId" value="LOCAL-00013" />
       <option name="project" value="LOCAL" />
-      <updated>1569970413148</updated>
+      <updated>1572568556975</updated>
     </task>
     <task id="LOCAL-00014" summary="Indenting with tabs">
       <created>1569970480663</created>
@@ -368,7 +368,7 @@
       <option name="project" value="LOCAL" />
       <updated>1571412110514</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView">
@@ -405,14 +405,15 @@
     <MESSAGE value="Reduced instructions for AND and OR" />
     <MESSAGE value="Newline now printed as char, print_c implimented" />
     <MESSAGE value="Print_c does escape chars. BinOp uses stack to minimise reg use" />
-    <option name="LAST_COMMIT_MESSAGE" value="Print_c does escape chars. BinOp uses stack to minimise reg use" />
+    <MESSAGE value="Simple single level nested functions implimented" />
+    <option name="LAST_COMMIT_MESSAGE" value="Simple single level nested functions implimented" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>542</line>
+          <line>545</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
