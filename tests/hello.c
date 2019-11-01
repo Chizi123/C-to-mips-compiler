@@ -12,7 +12,7 @@ int main ()
     i = i * i * i *i*i*i+i+i+i+(-i)+i+i+i;
     print_i(i);
     print_c('\n');
-    print_i(square(5));
+    print_i(square(9999));
     print_c('\n');
     print_s("hello world!\n");
 //    print_s("This is working\n");

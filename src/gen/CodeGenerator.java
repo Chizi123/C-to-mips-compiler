@@ -74,7 +74,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
         return null;
     }
 
-    int funcall;
     @Override
     public Register visitBlock(Block b) {
         if (pass == 0) {
@@ -82,15 +81,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 i.accept(this);
             }
         } else if (pass == 1){
-        	if (funcall == 1) {
-	            //save old frame pointer and stack pointer
-	            writer.println("\tSW $fp, 4($sp)");
-	            writer.println("\tSW $sp, 8($sp)");
-	            writer.println("\tSW $ra, 12($sp)");
-	            writer.println("\tMOVE $fp, $sp");
-	            fSize=12;
-	            funcall = 0;
-            }
             for (VarDecl i : b.varDeclList) {
                 i.accept(this);
             }
@@ -110,6 +100,9 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
             p.block.accept(this);
         } else if (pass == 1) { //need to figure out what to do with parameters
+            for (int i = 0; i < p.params.size(); i++) {
+                p.params.get(i).offset = -i-2;
+            }
             writer.println(p.name+":");
             p.block.accept(this);
         }
@@ -137,12 +130,11 @@ public class CodeGenerator implements ASTVisitor<Register> {
         //write text segment
         pass=1;
         writer.println(".text");
-        writer.println("\tjal main");
+        writer.println("\tMOVE $fp, $sp");
+        fSize=0;
+        writer.println("\tJAL main");
         writer.println("\tLI $v0, 10\n\tSYSCALL");
 	    for (FunDecl i : p.funDecls) {
-        	if (i.name.equals("main")) {
-        		funcall=1;
-	        }
             i.accept(this);
         }
         // TODO: to complete
@@ -168,22 +160,26 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         } else if (pass == 1) {
             Register out = getRegister();
-            switch (findSize(v.vd.type)) {
-                case 1:
-                    writer.print("\tLB ");
-                    break;
-                case 4:
-                    writer.print("\tLW ");
-                    break;
-                default:
-                    System.out.println("Some thing has gone wrong, Weird variable size");
-                    break;
-            }
-            writer.print(out+", ");
-            if (v.vd.offset == -1) {
-                writer.println(v.name);
+            if (v.vd.offset < -1) {
+                out = Register.paramRegs[-1*v.vd.offset-2];
             } else {
-                writer.println(v.vd.offset+"($fp)");
+                switch (findSize(v.vd.type)) {
+                    case 1:
+                        writer.print("\tLB ");
+                        break;
+                    case 4:
+                        writer.print("\tLW ");
+                        break;
+                    default:
+                        System.out.println("Some thing has gone wrong, Weird variable size");
+                        break;
+                }
+                writer.print(out + ", ");
+                if (v.vd.offset == -1) {
+                    writer.println(v.name);
+                } else {
+                    writer.println(v.vd.offset + "($fp)");
+                }
             }
             return out;
         }
@@ -309,8 +305,15 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 case "mcmalloc":
                     break;
                 default:
-                	funcall = 1;
+                    //save old frame
+                    writer.println("\tSW $fp, 4($sp)");
+                    writer.println("\tSW $sp, 8($sp)");
+                    writer.println("\tSW $ra, 12($sp)");
+                    writer.println("\tMOVE $fp, $sp");
+                    fSize=12;
+                    //jump to function
                 	writer.println("\tjal "+fce.name);
+                	//restore old frame
                 	writer.println("\tLW $ra, 12($fp)");
                 	writer.println("\tLW $sp, 8($fp)");
                 	writer.println("\tLW $fp, 4($fp)");
@@ -540,7 +543,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 		    Register out;
 		    if (r.exp != null) {
 			    out = r.exp.accept(this);
-			    writer.println("MOVE $v0, "+out);
+			    writer.println("\tMOVE $v0, "+out);
 		    }
 		    writer.println("jr $ra");
 	    }
