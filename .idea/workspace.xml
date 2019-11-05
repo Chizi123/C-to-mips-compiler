@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Simple single level nested functions implimented">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/hello.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/hello.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/nest_func.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/nest_func.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -115,7 +117,7 @@
     <configuration name="gen test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-gen tests/hello.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-gen tests/nest_func.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -413,7 +415,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>545</line>
+          <line>579</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
