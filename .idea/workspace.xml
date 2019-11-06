@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="can assign to global variables. working on function arguments">
-      <change afterPath="$PROJECT_DIR$/tests/if2.c" afterDir="false" />
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="If working with short circuit evaluation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/hello.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/hello.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/loops.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/loops.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -117,7 +116,7 @@
     <configuration name="gen test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-gen tests/if2.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-gen tests/loops.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -300,12 +299,12 @@
       <option name="project" value="LOCAL" />
       <updated>1572982804291</updated>
     </task>
-    <task id="LOCAL-00015" summary="Require something after a dot">
-      <created>1569970742836</created>
+    <task id="LOCAL-00015" summary="If working with short circuit evaluation">
+      <created>1573054801390</created>
       <option name="number" value="00015" />
       <option name="presentableId" value="LOCAL-00015" />
       <option name="project" value="LOCAL" />
-      <updated>1569970742836</updated>
+      <updated>1573054801390</updated>
     </task>
     <task id="LOCAL-00016" summary="IDK, allowing structs or arrays to follow eachother, not exp">
       <created>1570027413073</created>
@@ -370,7 +369,7 @@
       <option name="project" value="LOCAL" />
       <updated>1571412110514</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TodoView">
@@ -409,14 +408,15 @@
     <MESSAGE value="Print_c does escape chars. BinOp uses stack to minimise reg use" />
     <MESSAGE value="Simple single level nested functions implimented" />
     <MESSAGE value="can assign to global variables. working on function arguments" />
-    <option name="LAST_COMMIT_MESSAGE" value="can assign to global variables. working on function arguments" />
+    <MESSAGE value="If working with short circuit evaluation" />
+    <option name="LAST_COMMIT_MESSAGE" value="If working with short circuit evaluation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>654</line>
+          <line>629</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

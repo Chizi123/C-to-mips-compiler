@@ -89,7 +89,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 i.accept(this);
             }
 
-            writer.println("\tjr $ra");
+//            writer.println("\tjr $ra");
         }
         // TODO: to complete
         return null;
@@ -111,6 +111,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
             }
             writer.println(p.name+":");
             p.block.accept(this);
+            writer.println("\tjr $ra");
         }
         // TODO: to complete
         return null;
@@ -406,7 +407,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 } else if (bo.op == Op.SUB) {
                     writer.println("\tSUB "+e1+", "+e1+" "+e2);
                 } else if (bo.op == Op.GT) {
-                    writer.println("\tSGE "+e1+", "+e1+" "+e2);
+                    writer.println("\tSGT "+e1+", "+e1+" "+e2);
                 } else if (bo.op == Op.LT) {
                     writer.println("\tSLT "+e1+", "+e1+" "+e2);
                 } else if (bo.op == Op.GE) {
@@ -547,8 +548,14 @@ public class CodeGenerator implements ASTVisitor<Register> {
             w.cond.accept(this);
             w.loop.accept(this);
         } else if (pass == 1) {
-            String WhileID = "While"+ID++;
-
+            String WhileSID = "WhileS"+ID;
+            String WhileEID = "WhileE"+ID++;
+            writer.println(WhileSID+":");
+            Register c = w.cond.accept(this);
+            writer.println("\tBEQZ "+c+", "+WhileEID);
+            w.loop.accept(this);
+            writer.println("\tJ "+WhileSID);
+            writer.println(WhileEID+":");
         }
         return null;
     }
