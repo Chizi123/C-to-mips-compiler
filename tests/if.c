@@ -1,4 +1,4 @@
-int main()
+int test()
 {
     char i;
 	if(i=='a') {
@@ -15,4 +15,10 @@ int main()
 		return 4;
 	} else
 		return 5;
+}
+
+int main()
+{
+    print_i(test());
+    print_c('\n');
 }

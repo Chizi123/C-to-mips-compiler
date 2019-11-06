@@ -1,9 +1,9 @@
 #include "minic-stdlib.h"
 
-//int square(int i)
-//{
-//    return i*i;
-//}
+int square(int i)
+{
+    return i*i;
+}
 //
 //int mult(int i, int j)
 //{
@@ -23,6 +23,8 @@ int main ()
 //    i = i * i * i *i*i*i+i+i+i+(-i)+i+i+i;
 //    print_i(i);
 //    print_c('\n');
+    print_i(square(square(5)));
+    print_c('\n');
 //    print_i(mult(square(square(square(5))),1));//,square(mult(6,7))));
 //    print_c('\n');
 //    print_s((char*) "hello world!\n");

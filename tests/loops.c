@@ -10,18 +10,18 @@ int main(char *argc[10], int argv)
         print_c('\n');
         i=i+1;
     }
-//    while(1) {
-//        int i;
-//        if (i==1) {
-//            int i;
-//            return;
-//        }
-//        while(0) {
-//            int i;
-//            i=i+i+1;
-//            i;
-//        }
-//    }
+    while(1) {
+        int i;
+        if (i==1) {
+            int i;
+            return;
+        }
+        while(0) {
+            int i;
+            i=i+i+1;
+            i;
+        }
+    }
     print_i(i);
     return i;
     return 1;

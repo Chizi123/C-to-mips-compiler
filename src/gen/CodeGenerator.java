@@ -45,7 +45,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     private int pass;
     private int ID;
-    private int fSize;
+    private Stack<Integer> fSize;
     private HashMap<String, LinkedList<offset>> structs;
 
     @Override
@@ -74,6 +74,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         return null;
     }
 
+    int curr_add;
     @Override
     public Register visitBlock(Block b) {
         if (pass == 0) {
@@ -81,13 +82,17 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 i.accept(this);
             }
         } else if (pass == 1){
+            curr_add=0;
             for (VarDecl i : b.varDeclList) {
                 i.accept(this);
             }
-            writer.println("\tADDI $sp, $sp "+fSize);
+            fSize.push(curr_add);
+            writer.println("\tADDI $sp, $sp "+fSize.peek());
             for (Stmt i : b.stmtList) {
                 i.accept(this);
             }
+            //Move stack pointer back down
+            writer.println("\tSUBI $sp, $sp "+fSize.pop());
 
 //            writer.println("\tjr $ra");
         }
@@ -138,7 +143,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         pass=1;
         writer.println(".text");
         writer.println("\tMOVE $fp, $sp");
-        fSize=0;
+        fSize=new Stack<>();
         writer.println("\tJAL main");
         writer.println("\tLI $v0, 10\n\tSYSCALL");
 	    for (FunDecl i : p.funDecls) {
@@ -154,8 +159,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
             writer.println("\t"+vd.varName+": .space "+findSize(vd.type));
             vd.offset=-1;
         } else if (pass == 1) {
-            fSize+=findSize(vd.type);
-            vd.offset=fSize;
+            curr_add+=findSize(vd.type);
+            vd.offset=curr_add;
         }
         // TODO: to complete
         return null;
@@ -340,7 +345,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                     writer.println("\tSW $sp, 8($sp)");
                     writer.println("\tSW $ra, 12($sp)");
                     writer.println("\tMOVE $fp, $sp");
-                    fSize=12;
+                    writer.println("\tADDI $sp, $sp 12");
                     //jump to function
                 	writer.println("\tjal "+fce.name);
                 	//restore old frame
@@ -358,7 +363,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
 
         } else if (pass == 1) {
-            if (bo.op == Op.OR || bo.op == Op.AND) {
+            if (bo.op == Op.OR || bo.op == Op.AND) { //short circuit operation
                 Register e1 = bo.E1.accept(this);
                 String end = "end"+ID;
                 String pass = "pass"+ID;
@@ -381,7 +386,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 writer.println("\tLI "+e1+", 0");
                 writer.println(end+":");
                 return e1;
-            } else {
+            } else { //other operations
                 Register e1 = bo.E1.accept(this); //parser fills left tree
                 //store intermediate results onto the stack to save registers
                 writer.println("\tSW "+e1+", 4($sp)");
@@ -422,16 +427,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
                     freeRegister(temp);
                 } else if (bo.op == Op.EQ) {
                     writer.println("\tSEQ "+e1+", "+e1+" "+e2);
-//                } else if (bo.op == Op.OR) { //sequence wise or, not bitwise
-//                    writer.println("\tOR "+e1+", "+e1+" "+e2);
-//                    writer.println("\tSEQ "+e1+", $zero "+e1);
-//                    writer.println("\tLI "+e2+", 1");
-//                    writer.println("\tSUB "+e1+", "+e2+" "+e1);
-//                } else if (bo.op == Op.AND) { //sequence wise or, not bitwise
-//                    writer.println("\tAND "+e1+", "+e1+" "+e2);
-//                    writer.println("\tSEQ "+e1+", $zero "+e1);
-//                    writer.println("\tLI "+e2+", 1");
-//                    writer.println("\tSUB "+e1+", "+e2+" "+e1);
                 }
                 freeRegister(e2);
                 return e1;
@@ -576,7 +571,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
             writer.println("\tBEQZ "+res+", "+Case2);
             i.st1.accept(this);
             writer.println(Case2+":");
-            i.st2.accept(this);
+            if (i.st2 != null)
+                i.st2.accept(this);
         }
         return null;
     }
