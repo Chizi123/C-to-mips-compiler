@@ -357,59 +357,84 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
 
         } else if (pass == 1) {
-            Register e1 = bo.E1.accept(this); //parser fills left tree
-            //store intermediate results onto the stack to save registers
-            writer.println("\tSW "+e1+", 4($sp)");
-            writer.println("\tADDI $sp, $sp 4");
-            freeRegister(e1);
-            Register e2 = bo.E2.accept(this);
-            //get intermediate results off stack
-            e1=getRegister();
-            writer.println("\tLW "+e1+", ($sp)");
-            writer.println("\tSUBI $sp, $sp 4");
-            if (bo.op == Op.DIV || bo.op == Op.MUL) {
-                if (bo.op == Op.DIV) {
-                    writer.println("\tDIV "+e1+", "+e1+" "+e2);
+            if (bo.op == Op.OR || bo.op == Op.AND) {
+                Register e1 = bo.E1.accept(this);
+                String end = "end"+ID;
+                String pass = "pass"+ID;
+                String fail = "fail"+ID++;
+                if (bo.op == Op.OR) {
+                    writer.println("\tBNEZ "+e1+", "+pass);
+                    e1 = bo.E2.accept(this);
+                    writer.println("\tBNEZ "+e1+", "+pass);
+                    writer.println("\tJ "+fail);
                 } else {
-                    writer.println("\tMUL "+e1+", "+e1+" "+e2);
+                    writer.println("\tBEQZ "+e1+", "+fail);
+                    e1 = bo.E2.accept(this);
+                    writer.println("\tBEQZ "+e1+", "+fail);
+                    writer.println("\tJ "+pass);
                 }
-                writer.println("\tMFLO "+e1);
-            } else if (bo.op == Op.MOD) {
-                writer.println("\tDIV "+e1+", "+e1+" "+e2);
-                writer.println("\tMFHI "+e1);
-            } else if (bo.op == Op.ADD) {
-                writer.println("\tADD "+e1+", "+e1+" "+e2);
-            } else if (bo.op == Op.SUB) {
-                writer.println("\tSUB "+e1+", "+e1+" "+e2);
-            } else if (bo.op == Op.GT) {
-                writer.println("\tSGE "+e1+", "+e1+" "+e2);
-            } else if (bo.op == Op.LT) {
-                writer.println("\tSLT "+e1+", "+e1+" "+e2);
-            } else if (bo.op == Op.GE) {
-                writer.println("\tSGE "+e1+", "+e1+" "+e2);
-            } else if (bo.op == Op.LE) {
-                writer.println("\tSLE "+e1+", "+e1+" "+e2);
-            } else if (bo.op == Op.NE) {
-                writer.println("\tSEQ "+e1+", "+e1+" "+e2);
-                Register temp = getRegister();
-                writer.println("\tLI "+temp+", 1");
-                writer.println("\tSUB "+e1+", "+temp+" "+e1);
-                freeRegister(temp);
-            } else if (bo.op == Op.EQ) {
-                writer.println("\tSEQ "+e1+", "+e1+" "+e2);
-            } else if (bo.op == Op.OR) { //sequence wise or, not bitwise
-                writer.println("\tOR "+e1+", "+e1+" "+e2);
-                writer.println("\tSEQ "+e1+", $zero "+e1);
-                writer.println("\tLI "+e2+", 1");
-                writer.println("\tSUB "+e1+", "+e2+" "+e1);
-            } else if (bo.op == Op.AND) { //sequence wise or, not bitwise
-                writer.println("\tAND "+e1+", "+e1+" "+e2);
-                writer.println("\tSEQ "+e1+", $zero "+e1);
-                writer.println("\tLI "+e2+", 1");
-                writer.println("\tSUB "+e1+", "+e2+" "+e1);
+                writer.println(pass+":");
+                writer.println("\tLI "+e1+", 1");
+                writer.println("\tJ "+end);
+                writer.println(fail+":");
+                writer.println("\tLI "+e1+", 0");
+                writer.println(end+":");
+                return e1;
+            } else {
+                Register e1 = bo.E1.accept(this); //parser fills left tree
+                //store intermediate results onto the stack to save registers
+                writer.println("\tSW "+e1+", 4($sp)");
+                writer.println("\tADDI $sp, $sp 4");
+                freeRegister(e1);
+                Register e2 = bo.E2.accept(this);
+                //get intermediate results off stack
+                e1=getRegister();
+                writer.println("\tLW "+e1+", ($sp)");
+                writer.println("\tSUBI $sp, $sp 4");
+                if (bo.op == Op.DIV || bo.op == Op.MUL) {
+                    if (bo.op == Op.DIV) {
+                        writer.println("\tDIV "+e1+", "+e1+" "+e2);
+                    } else {
+                        writer.println("\tMUL "+e1+", "+e1+" "+e2);
+                    }
+                    writer.println("\tMFLO "+e1);
+                } else if (bo.op == Op.MOD) {
+                    writer.println("\tDIV "+e1+", "+e1+" "+e2);
+                    writer.println("\tMFHI "+e1);
+                } else if (bo.op == Op.ADD) {
+                    writer.println("\tADD "+e1+", "+e1+" "+e2);
+                } else if (bo.op == Op.SUB) {
+                    writer.println("\tSUB "+e1+", "+e1+" "+e2);
+                } else if (bo.op == Op.GT) {
+                    writer.println("\tSGE "+e1+", "+e1+" "+e2);
+                } else if (bo.op == Op.LT) {
+                    writer.println("\tSLT "+e1+", "+e1+" "+e2);
+                } else if (bo.op == Op.GE) {
+                    writer.println("\tSGE "+e1+", "+e1+" "+e2);
+                } else if (bo.op == Op.LE) {
+                    writer.println("\tSLE "+e1+", "+e1+" "+e2);
+                } else if (bo.op == Op.NE) {
+                    writer.println("\tSEQ "+e1+", "+e1+" "+e2);
+                    Register temp = getRegister();
+                    writer.println("\tLI "+temp+", 1");
+                    writer.println("\tSUB "+e1+", "+temp+" "+e1);
+                    freeRegister(temp);
+                } else if (bo.op == Op.EQ) {
+                    writer.println("\tSEQ "+e1+", "+e1+" "+e2);
+//                } else if (bo.op == Op.OR) { //sequence wise or, not bitwise
+//                    writer.println("\tOR "+e1+", "+e1+" "+e2);
+//                    writer.println("\tSEQ "+e1+", $zero "+e1);
+//                    writer.println("\tLI "+e2+", 1");
+//                    writer.println("\tSUB "+e1+", "+e2+" "+e1);
+//                } else if (bo.op == Op.AND) { //sequence wise or, not bitwise
+//                    writer.println("\tAND "+e1+", "+e1+" "+e2);
+//                    writer.println("\tSEQ "+e1+", $zero "+e1);
+//                    writer.println("\tLI "+e2+", 1");
+//                    writer.println("\tSUB "+e1+", "+e2+" "+e1);
+                }
+                freeRegister(e2);
+                return e1;
             }
-            freeRegister(e2);
-            return e1;
         }
         return null;
     }
@@ -518,16 +543,32 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitWhile(While w) {
-        w.cond.accept(this);
-        w.loop.accept(this);
+        if (pass == 0) {
+            w.cond.accept(this);
+            w.loop.accept(this);
+        } else if (pass == 1) {
+            String WhileID = "While"+ID++;
+
+        }
         return null;
     }
 
     @Override
     public Register visitIf(If i) {
-        i.cond.accept(this);
-        i.st1.accept(this);
-        if (i.st2 != null) {
+        if (pass == 0) {
+            i.cond.accept(this);
+            i.st1.accept(this);
+            if (i.st2 != null) {
+                i.st2.accept(this);
+            }
+        } else if (pass == 1) {
+            String IfID = "If"+ID;
+            String Case1 = "Then_"+ID;
+            String Case2 = "Else_"+ID++;
+            Register res = i.cond.accept(this);
+            writer.println("\tBEQZ "+res+", "+Case2);
+            i.st1.accept(this);
+            writer.println(Case2+":");
             i.st2.accept(this);
         }
         return null;

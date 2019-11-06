@@ -17,15 +17,15 @@
 
 int main ()
 {
-    int i;
-    i = 1;
-    i = i +2;
-    i = i * i * i *i*i*i+i+i+i+(-i)+i+i+i;
-    print_i(i);
-    print_c('\n');
+//    int i;
+//    i = 1;
+//    i = i +2;
+//    i = i * i * i *i*i*i+i+i+i+(-i)+i+i+i;
+//    print_i(i);
+//    print_c('\n');
 //    print_i(mult(square(square(square(5))),1));//,square(mult(6,7))));
 //    print_c('\n');
-    print_s((char*) "hello world!\n");
+//    print_s((char*) "hello world!\n");
 //    print_i(1+2+3+4);
 //    print_c('\n');
 //    print_i(many_args(1,2,3,4));
@@ -47,10 +47,22 @@ int main ()
 //    print_c('\n');
 //    print_i(2>=1);
 //    print_c('\n');
-//    print_i(1&&1);
-//    print_c('\n');
-//    print_i(0&&1);
-//    print_c('\n');
+    print_i(1&&1);
+    print_c('\n');
+    print_i(0&&1);
+    print_c('\n');
+    print_i(0&&1);
+    print_c('\n');
+    print_i(0&&0);
+    print_c('\n');
+    print_i(1||1);
+    print_c('\n');
+    print_i(0||1);
+    print_c('\n');
+    print_i(0||1);
+    print_c('\n');
+    print_i(0||0);
+    print_c('\n');
 //    print_i(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+(1+1)))))))))))))))))))))))))))))));
 //    print_c('\n');
 //    print_i(5*4);
@@ -59,8 +71,8 @@ int main ()
 //    print_c('\n');
 //    print_i(5%4);
 //    print_c('\n');
-//    print_i((1||0)+(0||1)+(1&&1)+(1&&1));
-//    print_c('\n');
+    print_i((1||0)+(0||1)+(1&&1)+(1&&1));
+    print_c('\n');
 //    print_c('c');
 //    print_c('\n');
 }

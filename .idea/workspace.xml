@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Simple single level nested functions implimented">
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="can assign to global variables. working on function arguments">
+      <change afterPath="$PROJECT_DIR$/tests/if2.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/hello.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/hello.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/nest_func.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/nest_func.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -99,7 +99,7 @@
     <configuration name="ast test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-ast tests/unary.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-ast tests/if2.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -117,7 +117,7 @@
     <configuration name="gen test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-gen tests/nest_func.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-gen tests/if2.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -161,7 +161,7 @@
     </configuration>
     <configuration name="Dot image" type="ShConfigurationType">
       <option name="SCRIPT_PATH" value="$PROJECT_DIR$/dot.sh" />
-      <option name="SCRIPT_OPTIONS" value="hello" />
+      <option name="SCRIPT_OPTIONS" value="if2" />
       <option name="INTERPRETER_PATH" value="/bin/bash" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <method v="2">
@@ -293,12 +293,12 @@
       <option name="project" value="LOCAL" />
       <updated>1572568556975</updated>
     </task>
-    <task id="LOCAL-00014" summary="Indenting with tabs">
-      <created>1569970480663</created>
+    <task id="LOCAL-00014" summary="can assign to global variables. working on function arguments">
+      <created>1572982804291</created>
       <option name="number" value="00014" />
       <option name="presentableId" value="LOCAL-00014" />
       <option name="project" value="LOCAL" />
-      <updated>1569970480663</updated>
+      <updated>1572982804291</updated>
     </task>
     <task id="LOCAL-00015" summary="Require something after a dot">
       <created>1569970742836</created>
@@ -370,7 +370,7 @@
       <option name="project" value="LOCAL" />
       <updated>1571412110514</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TodoView">
@@ -408,14 +408,15 @@
     <MESSAGE value="Newline now printed as char, print_c implimented" />
     <MESSAGE value="Print_c does escape chars. BinOp uses stack to minimise reg use" />
     <MESSAGE value="Simple single level nested functions implimented" />
-    <option name="LAST_COMMIT_MESSAGE" value="Simple single level nested functions implimented" />
+    <MESSAGE value="can assign to global variables. working on function arguments" />
+    <option name="LAST_COMMIT_MESSAGE" value="can assign to global variables. working on function arguments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>579</line>
+          <line>654</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
