@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="If working with short circuit evaluation">
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Storing block stack additions in stack to avoid stack overflows.&#10;Fixed non-existent else">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/hello.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/hello.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/if.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/if.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/loops.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/loops.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,6 +13,9 @@
   </component>
   <component name="CoverageViewManager">
     <option name="myElementSize" value="240" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="Project" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -308,12 +308,12 @@
       <option name="project" value="LOCAL" />
       <updated>1573054801390</updated>
     </task>
-    <task id="LOCAL-00016" summary="IDK, allowing structs or arrays to follow eachother, not exp">
-      <created>1570027413073</created>
+    <task id="LOCAL-00016" summary="Storing block stack additions in stack to avoid stack overflows.&#10;Fixed non-existent else">
+      <created>1573056969989</created>
       <option name="number" value="00016" />
       <option name="presentableId" value="LOCAL-00016" />
       <option name="project" value="LOCAL" />
-      <updated>1570027413073</updated>
+      <updated>1573056969989</updated>
     </task>
     <task id="LOCAL-00017" summary="Mandatory second parts to ops">
       <created>1570030351395</created>
@@ -371,17 +371,8 @@
       <option name="project" value="LOCAL" />
       <updated>1571412110514</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <option name="localTasksCounter" value="17" />
     <servers />
-  </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -411,14 +402,15 @@
     <MESSAGE value="Simple single level nested functions implimented" />
     <MESSAGE value="can assign to global variables. working on function arguments" />
     <MESSAGE value="If working with short circuit evaluation" />
-    <option name="LAST_COMMIT_MESSAGE" value="If working with short circuit evaluation" />
+    <MESSAGE value="Storing block stack additions in stack to avoid stack overflows.&#10;Fixed non-existent else" />
+    <option name="LAST_COMMIT_MESSAGE" value="Storing block stack additions in stack to avoid stack overflows.&#10;Fixed non-existent else" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>625</line>
+          <line>614</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

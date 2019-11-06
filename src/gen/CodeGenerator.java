@@ -96,7 +96,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
 //            writer.println("\tjr $ra");
         }
-        // TODO: to complete
         return null;
     }
 
@@ -118,7 +117,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
             p.block.accept(this);
             writer.println("\tjr $ra");
         }
-        // TODO: to complete
         return null;
     }
 
@@ -149,7 +147,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
 	    for (FunDecl i : p.funDecls) {
             i.accept(this);
         }
-        // TODO: to complete
         return null;
     }
 
@@ -162,7 +159,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
             curr_add+=findSize(vd.type);
             vd.offset=curr_add;
         }
-        // TODO: to complete
         return null;
     }
 
@@ -197,7 +193,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
             }
             return out;
         }
-        // TODO: to complete
         return null;
     }
 
@@ -311,13 +306,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 }
                 stack_size-=4;
             }
-//            if (i<3) {
-//                Register aux = fce.args.get(i).accept(this);
-//                writer.println("\tMOVE " + Register.paramRegs[i] + ", " + aux);
-//                freeRegister(aux);
-//            } else {
-//                //TODO push onto stack
-//            }
             //run function
             Register out;
             switch (fce.name) {
@@ -361,7 +349,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
     @Override
     public Register visitBinOp(BinOp bo) {
         if (pass == 0) {
-
+			bo.E1.accept(this);
+			bo.E2.accept(this);
         } else if (pass == 1) {
             if (bo.op == Op.OR || bo.op == Op.AND) { //short circuit operation
                 Register e1 = bo.E1.accept(this);
