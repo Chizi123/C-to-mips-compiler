@@ -323,9 +323,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
                     writer.println("\tSYSCALL");
                     break;
                 case "read_i":
-                    break;
+                    writer.println("\tLI $v0, 5");
+                    writer.println("\tSYSCALL");
+                    return Register.v0;
                 case "read_c":
-                    break;
+                    writer.println("\tLI $v0, 12");
+                    writer.println("\tSYSCALL");
+                    return Register.v0;
                 case "mcmalloc":
                     break;
                 default:

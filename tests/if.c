@@ -1,6 +1,7 @@
 int test()
 {
     char i;
+    i = read_c();
 	if(i=='a') {
 	    int i;
 		if (i==2)
