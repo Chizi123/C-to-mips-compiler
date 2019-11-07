@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Removed some dead code">
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Freeing registers after and &amp; or">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/hello.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/hello.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -120,7 +119,7 @@
     <configuration name="gen test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-gen tests/hello.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-gen tests/if.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -324,12 +323,12 @@
       <option name="project" value="LOCAL" />
       <updated>1573057151495</updated>
     </task>
-    <task id="LOCAL-00018" summary="VarDecls tests for not functions, fixed FunDecls, corrected sizeof pars">
-      <created>1570112093231</created>
+    <task id="LOCAL-00018" summary="Freeing registers after and &amp; or">
+      <created>1573138009496</created>
       <option name="number" value="00018" />
       <option name="presentableId" value="LOCAL-00018" />
       <option name="project" value="LOCAL" />
-      <updated>1570112093231</updated>
+      <updated>1573138009496</updated>
     </task>
     <task id="LOCAL-00019" summary="Moved bracket identification to bottom of calls">
       <created>1570114372324</created>
@@ -373,7 +372,7 @@
       <option name="project" value="LOCAL" />
       <updated>1571412110514</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -406,7 +405,8 @@
     <MESSAGE value="If working with short circuit evaluation" />
     <MESSAGE value="Storing block stack additions in stack to avoid stack overflows.&#10;Fixed non-existent else" />
     <MESSAGE value="Removed some dead code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed some dead code" />
+    <MESSAGE value="Freeing registers after and &amp; or" />
+    <option name="LAST_COMMIT_MESSAGE" value="Freeing registers after and &amp; or" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

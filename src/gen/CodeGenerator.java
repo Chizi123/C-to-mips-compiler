@@ -632,7 +632,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
             if (((BaseType) t).type == BaseType.INT.type) {
                 return 4;
             } else if (((BaseType) t).type == BaseType.CHAR.type) {
-                return 1;
+//                return 1;
+                return 4; //Efficiency, need to come back and make code align to nearest byte
             }
         } else if (t instanceof ArrayType) {
             int i = ((ArrayType) t).size * findSize(((ArrayType) t).type);
