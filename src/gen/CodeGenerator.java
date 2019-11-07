@@ -289,7 +289,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
         		Register aux = fce.args.get(i).accept(this);
                 writer.println("\tSW "+aux+", 4($sp)");
                 writer.println("\tADDI $sp, $sp 4");
-                freeRegister(aux);
+                if (aux != Register.v0)
+                    freeRegister(aux);
 	        }
         	//move aruguments into input
             int stack_size = 0; //temporarily move all arguments onto stack
@@ -359,11 +360,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 String fail = "fail"+ID++;
                 if (bo.op == Op.OR) {
                     writer.println("\tBNEZ "+e1+", "+pass);
+                    freeRegister(e1);
                     e1 = bo.E2.accept(this);
                     writer.println("\tBNEZ "+e1+", "+pass);
                     writer.println("\tJ "+fail);
                 } else {
                     writer.println("\tBEQZ "+e1+", "+fail);
+                    freeRegister(e1);
                     e1 = bo.E2.accept(this);
                     writer.println("\tBEQZ "+e1+", "+fail);
                     writer.println("\tJ "+pass);
