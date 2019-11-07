@@ -82,17 +82,27 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 i.accept(this);
             }
         } else if (pass == 1){
-            curr_add=0;
+            try {
+                curr_add = fSize.peek();
+            } catch (EmptyStackException e) {
+                curr_add = 0;
+            }
             for (VarDecl i : b.varDeclList) {
                 i.accept(this);
             }
             fSize.push(curr_add);
-            writer.println("\tADDI $sp, $sp "+fSize.peek());
             for (Stmt i : b.stmtList) {
                 i.accept(this);
             }
             //Move stack pointer back down
-            writer.println("\tSUBI $sp, $sp "+fSize.pop());
+            int i = fSize.pop();
+            int j;
+            try {
+                j=fSize.peek();
+            } catch (EmptyStackException e) {
+                j=0;
+            }
+            writer.println("\tSUBI $sp, $sp "+(i-j));
 
 //            writer.println("\tjr $ra");
         }
@@ -480,8 +490,16 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
 
         } else if (pass == 1) {
-        	if (fae.struct.type instanceof StructType) {
-
+        	if (fae.struct instanceof VarExpr) {
+        	    Register out = getRegister();
+        	    int off=((VarExpr) fae.struct).vd.offset;
+        	    for (offset i : structs.get(((VarExpr) fae.struct).name)) {
+        	        if (i.field.equals(fae.field)) {
+        	            off += i.pos;
+        	            break;
+                    }
+                }
+                writer.println("\tLW "+out+", "+off);
 	        } else if (fae.struct instanceof FunCallExpr) {
 
 	        } else if (fae.struct instanceof FieldAccessExpr) {

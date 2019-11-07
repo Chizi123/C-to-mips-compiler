@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Chars take 4 bytes to force alignment">
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="read_i and read_c implimented">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/shadow.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/shadow.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -118,7 +120,7 @@
     <configuration name="gen test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-gen tests/if.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-gen tests/shadow.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -336,12 +338,12 @@
       <option name="project" value="LOCAL" />
       <updated>1573138602889</updated>
     </task>
-    <task id="LOCAL-00020" summary="Reformatted code, added some comments">
-      <created>1570114703508</created>
+    <task id="LOCAL-00020" summary="read_i and read_c implimented">
+      <created>1573138961400</created>
       <option name="number" value="00020" />
       <option name="presentableId" value="LOCAL-00020" />
       <option name="project" value="LOCAL" />
-      <updated>1570114703508</updated>
+      <updated>1573138961400</updated>
     </task>
     <task id="LOCAL-00021" summary="Changed return types in parser to match new ones">
       <created>1570715215442</created>
@@ -371,7 +373,7 @@
       <option name="project" value="LOCAL" />
       <updated>1571412110514</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -406,40 +408,36 @@
     <MESSAGE value="Removed some dead code" />
     <MESSAGE value="Freeing registers after and &amp; or" />
     <MESSAGE value="Chars take 4 bytes to force alignment" />
-    <option name="LAST_COMMIT_MESSAGE" value="Chars take 4 bytes to force alignment" />
+    <MESSAGE value="read_i and read_c implimented" />
+    <option name="LAST_COMMIT_MESSAGE" value="read_i and read_c implimented" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>621</line>
+          <line>639</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>395</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>358</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>241</line>
+          <line>251</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>317</line>
+          <line>327</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>147</line>
+          <line>157</line>
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
