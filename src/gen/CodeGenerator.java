@@ -504,7 +504,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 } else {
         	        writer.println("\tLA "+out+", "+((VarExpr) fae.struct).name);
         	        writer.println("\tADDI "+out+", "+out+" "+off);
-        	        writer.println("\tLW "+out+", "+(out));
+        	        writer.println("\tLW "+out+", ("+(out)+")");
                 }
         	    return out;
 	        } else if (fae.struct instanceof FunCallExpr) {

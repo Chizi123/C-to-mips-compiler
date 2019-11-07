@@ -26,6 +26,7 @@ int main ()
 	struct b b;
 //	int a[5][10];
 	b.b = 1;
+	a.b=2;
 	aaa.i = 3;
 	aaa.j = 4;
 //    (aaa.a)[1];
@@ -40,6 +41,8 @@ int main ()
     print_i(aaa.j);
     print_c('\n');
     print_i(b.b);
+    print_c('\n');
+    print_i(a.b);
     print_c('\n');
 	return aaa.i;
 	return aaa.j;
