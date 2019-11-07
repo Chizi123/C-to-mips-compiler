@@ -64,7 +64,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
         boolean first = true;
         for (VarDecl i : st.varDeclList) {
             if (first) {
-                current.add(new offset(i.varName,0));
+                current.add(new offset(i.varName,sizeLast));
+                first=false;
             } else {
                 current.add(new offset(i.varName, current.getLast().pos + sizeLast));
             }
@@ -103,8 +104,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 j=0;
             }
             writer.println("\tSUBI $sp, $sp "+(i-j));
-
-//            writer.println("\tjr $ra");
         }
         return null;
     }
@@ -492,14 +491,22 @@ public class CodeGenerator implements ASTVisitor<Register> {
         } else if (pass == 1) {
         	if (fae.struct instanceof VarExpr) {
         	    Register out = getRegister();
-        	    int off=((VarExpr) fae.struct).vd.offset;
-        	    for (offset i : structs.get(((VarExpr) fae.struct).name)) {
-        	        if (i.field.equals(fae.field)) {
-        	            off += i.pos;
-        	            break;
+        	    int off=0;
+                for (offset i : structs.get(((StructType) ((VarExpr) fae.struct).type).name)) {
+                    if (i.field.equals(fae.field)) {
+                        off = i.pos;
+                        break;
                     }
                 }
-                writer.println("\tLW "+out+", "+off);
+        	    if (((VarExpr) fae.struct).vd.offset != -1) {
+                    off = ((VarExpr) fae.struct).vd.offset-off;
+                    writer.println("\tLW " + out + ", " + (off) + "($fp)");
+                } else {
+        	        writer.println("\tLA "+out+", "+((VarExpr) fae.struct).name);
+        	        writer.println("\tADDI "+out+", "+out+" "+off);
+        	        writer.println("\tLW "+out+", "+(out));
+                }
+        	    return out;
 	        } else if (fae.struct instanceof FunCallExpr) {
 
 	        } else if (fae.struct instanceof FieldAccessExpr) {
@@ -623,7 +630,28 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 }
                 //((VarExpr) a.e1).vd.offset+"($fp)");
             } else if (a.e1 instanceof FieldAccessExpr) {
-
+                if (((FieldAccessExpr) a.e1).struct instanceof VarExpr) {
+                    Register addr = getRegister();
+                    int off = 0;
+                    for (offset i : structs.get(((StructType) ((VarExpr) ((FieldAccessExpr) a.e1).struct).type).name)) {
+                        if (i.field.equals(((FieldAccessExpr) a.e1).field)) {
+                            off = i.pos;
+                            break;
+                        }
+                    }
+                    if (((VarExpr) ((FieldAccessExpr) a.e1).struct).vd.offset == -1) {
+                        writer.println("\tLA "+addr+", "+((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
+                        writer.println("\tADDI "+addr+", "+addr+" "+off);
+                        writer.println("\tSW "+out+", ("+addr+")\t#"+((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
+                    } else {
+                        writer.println("\tLA "+addr+", "+((VarExpr) ((FieldAccessExpr) a.e1).struct).vd.offset+"($fp)");
+                        writer.println("\tSUBI "+addr+", "+addr+" "+off);
+                        writer.println("\tSW "+out+", ("+addr+")\t#"+((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
+                    }
+//                    writer.println("\tSW "+out+", ("+addr+")\t;;"+((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
+                    freeRegister(addr);
+                    freeRegister(out);
+                }
             } else {
                 System.out.println("Something Wrong, unknown LHS of assignemnt");
             }
