@@ -1,18 +1,19 @@
+struct b {
+    int b;
+};
+
 struct test
 {
     int i;
     int j;
     char *str;
     char *a[5];
+    struct b b;
 };
 
 struct llist {
     int i;
     struct llist* next;
-};
-
-struct b {
-    int b;
 };
 
 struct b a;
@@ -27,6 +28,7 @@ int main ()
 //	int a[5][10];
 	b.b = 1;
 	a.b=2;
+	aaa.b.b = 5;
 	aaa.i = 3;
 	aaa.j = 4;
 //    (aaa.a)[1];
@@ -39,6 +41,8 @@ int main ()
     print_i(aaa.i);
     print_c('\n');
     print_i(aaa.j);
+    print_c('\n');
+    print_i(aaa.b.b);
     print_c('\n');
     print_i(b.b);
     print_c('\n');

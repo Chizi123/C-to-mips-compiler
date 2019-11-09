@@ -92,6 +92,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 i.accept(this);
             }
             fSize.push(curr_add);
+            writer.println("\tADDI $sp, $sp "+fSize.peek());
             for (Stmt i : b.stmtList) {
                 i.accept(this);
             }
@@ -484,6 +485,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         return null;
     }
 
+    int init, off;
     @Override
     public Register visitFieldAccessExpr(FieldAccessExpr fae) {
         if (pass == 0) {
@@ -498,19 +500,65 @@ public class CodeGenerator implements ASTVisitor<Register> {
                         break;
                     }
                 }
-        	    if (((VarExpr) fae.struct).vd.offset != -1) {
-                    off = ((VarExpr) fae.struct).vd.offset-off;
-                    writer.println("\tLW " + out + ", " + (off) + "($fp)");
+                if (init != -1) {
+                    if (((VarExpr) fae.struct).vd.offset != -1) {
+                        off = ((VarExpr) fae.struct).vd.offset - off;
+                        writer.println("\tLW " + out + ", " + (off) + "($fp)");
+                    } else {
+                        writer.println("\tLA " + out + ", " + ((VarExpr) fae.struct).name);
+                        writer.println("\tADDI "+out+", "+out+" "+findSize(fae.struct.type));
+                        writer.println("\tSUBI " + out + ", " + out + " " + off);
+                        writer.println("\tLW " + out + ", (" + (out) + ")");
+                    }
                 } else {
-        	        writer.println("\tLA "+out+", "+((VarExpr) fae.struct).name);
-        	        writer.println("\tADDI "+out+", "+out+" "+off);
-        	        writer.println("\tLW "+out+", ("+(out)+")");
+                    if (((VarExpr) fae.struct).vd.offset != -1) {
+                        off = ((VarExpr) fae.struct).vd.offset - off;
+                        writer.println("\tADDI " + out + ", $fp " + off);
+                    } else {
+                        writer.println("\tLA " + out + ", " + ((VarExpr) fae.struct).name);
+                        writer.println("\tADDI "+out+", "+out+" "+findSize(fae.struct.type));
+                        writer.println("\tSUBI " + out + ", " + out + " " + off);
+                    }
                 }
         	    return out;
 	        } else if (fae.struct instanceof FunCallExpr) {
+        	    Register out = fae.struct.accept(this);
+        	    for (offset i : structs.get(((StructType) ((FunCallExpr) fae.struct).fd.type).name)) {
+        	        if (i.field.equals(fae.field)) {
+        	            off = i.pos;
+        	            break;
+                    }
+        	        if (init != -1) {
+                        writer.println("\tLW " + out + ", " + (-1 * off) + "(" + out + ")");
+                    } else {
+        	            writer.println("\tSUBI "+out+", "+out+" "+(off)+"# nested");
+                    }
+                    return out;
+                }
 
-	        } else if (fae.struct instanceof FieldAccessExpr) {
+	        } else {
+        	    boolean nested;
+                nested = init == -1;
+        	    if (!nested) {
+                    init = -1;
+                }
+                Register out = fae.struct.accept(this);
+                for (offset i : structs.get(((StructType) fae.struct.type).name)) {
+                    if (i.field.equals(fae.field)) {
+                        off = i.pos;
+                        break;
+                    }
+                }
+                if (!nested) {
+                    init = 0;
+                }
+                if (init != -1) {
+                    writer.println("\tLW "+out+", "+(-1*off)+"("+out+")");
+                } else {
 
+                    writer.println("\tSUBI "+out+", "+out+" "+off);
+                }
+                return out;
 	        }
         }
         return null;
@@ -640,17 +688,41 @@ public class CodeGenerator implements ASTVisitor<Register> {
                         }
                     }
                     if (((VarExpr) ((FieldAccessExpr) a.e1).struct).vd.offset == -1) {
-                        writer.println("\tLA "+addr+", "+((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
-                        writer.println("\tADDI "+addr+", "+addr+" "+off);
-                        writer.println("\tSW "+out+", ("+addr+")\t#"+((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
+                        writer.println("\tLA " + addr + ", " + ((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
+                        writer.println("\tADDI "+addr+", "+addr+" "+findSize(a.e1.type));
+                        writer.println("\tSUBI " + addr + ", " + addr + " " + off);
+                        writer.println("\tSW " + out + ", (" + addr + ")\t#" + ((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
                     } else {
-                        writer.println("\tLA "+addr+", "+((VarExpr) ((FieldAccessExpr) a.e1).struct).vd.offset+"($fp)");
-                        writer.println("\tSUBI "+addr+", "+addr+" "+off);
-                        writer.println("\tSW "+out+", ("+addr+")\t#"+((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
+                        writer.println("\tLA " + addr + ", " + ((VarExpr) ((FieldAccessExpr) a.e1).struct).vd.offset + "($fp)");
+                        writer.println("\tSUBI " + addr + ", " + addr + " " + off);
+                        writer.println("\tSW " + out + ", (" + addr + ")\t#" + ((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
                     }
 //                    writer.println("\tSW "+out+", ("+addr+")\t;;"+((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
                     freeRegister(addr);
                     freeRegister(out);
+                } else {
+                    boolean nested;
+                    nested = init == -1;
+                    if (!nested)
+                        init = -1;
+                    Register addr = a.e1.accept(this);
+                    if (!nested)
+                        init = 0;
+                    if (init == -1) {
+                        return addr;
+                    } else {
+                        int off = 0;
+                        for (offset i : structs.get(((StructType) ((FieldAccessExpr) a.e1).struct.type).name)) {
+                            if (i.field.equals(((FieldAccessExpr) a.e1).field)) {
+                                off = i.pos;
+                                break;
+                            }
+                        }
+                        writer.println("\tSUBI "+addr+", "+addr+" "+off);
+                        writer.println("\tSW "+out+", ("+addr+")\t# nested");
+                        freeRegister(addr);
+                        freeRegister(out);
+                    }
                 }
             } else {
                 System.out.println("Something Wrong, unknown LHS of assignemnt");

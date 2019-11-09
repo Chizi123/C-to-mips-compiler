@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Working non-recursive structs">
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="global struct non-recursive working">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/struct.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/struct.c" afterDir="false" />
     </list>
@@ -358,12 +359,12 @@
       <option name="project" value="LOCAL" />
       <updated>1573153333069</updated>
     </task>
-    <task id="LOCAL-00023" summary="Finished ASTPrinter and addde DotPrinter">
-      <created>1571315160870</created>
+    <task id="LOCAL-00023" summary="global struct non-recursive working">
+      <created>1573153466699</created>
       <option name="number" value="00023" />
       <option name="presentableId" value="LOCAL-00023" />
       <option name="project" value="LOCAL" />
-      <updated>1571315160871</updated>
+      <updated>1573153466699</updated>
     </task>
     <task id="LOCAL-00024" summary="Parser modifications in progress, minimal, hello and struct work">
       <created>1571412110514</created>
@@ -372,7 +373,7 @@
       <option name="project" value="LOCAL" />
       <updated>1571412110514</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -410,35 +411,31 @@
     <MESSAGE value="read_i and read_c implimented" />
     <MESSAGE value="Fixed shadowing hopefully" />
     <MESSAGE value="Working non-recursive structs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working non-recursive structs" />
+    <MESSAGE value="global struct non-recursive working" />
+    <option name="LAST_COMMIT_MESSAGE" value="global struct non-recursive working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>250</line>
+          <line>251</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>494</line>
-          <option name="timeStamp" value="14" />
+          <line>544</line>
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>90</line>
-          <option name="timeStamp" value="18" />
+          <line>502</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>641</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>166</line>
-          <option name="timeStamp" value="20" />
+          <line>125</line>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
