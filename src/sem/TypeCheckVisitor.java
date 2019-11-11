@@ -273,7 +273,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitTypecastExpr(TypecastExpr te) {
-		te.exp.accept(this);
+		Type ttype = te.exp.accept(this);
 		if (te.type.accept(this) == BaseType.INT && te.exp.accept(this) == BaseType.CHAR) {
 			return BaseType.INT;
 		} else if (te.exp.type instanceof ArrayType) {
@@ -293,8 +293,8 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			} else {
 				error("Casting array to pointer of different type");
 			}
-		} else if (te.exp.accept(this) instanceof PointerType) {
-			return new PointerType(te.type);
+		} else if (ttype instanceof PointerType) {
+			return te.type;
 		} else {
 			error("Invalid Type cast");
 		}

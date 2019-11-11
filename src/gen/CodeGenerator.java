@@ -241,7 +241,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         } else if (pass == 1) {
             Register reg = getRegister();
-            writer.println("\tli "+reg+", "+il.number);
+            writer.println("\tLI "+reg+", "+il.number);
             return reg;
         }
         return null;
@@ -300,8 +300,15 @@ public class CodeGenerator implements ASTVisitor<Register> {
             }
         } else if (pass == 1) {
             //get arguments
-        	for (int i = 0; i < fce.args.size(); i++) {
-        		Register aux = fce.args.get(i).accept(this);
+        	for (Expr i: fce.args) {
+                Register aux;
+        	    if (i.type instanceof StructType || i.type instanceof PointerType) {
+        	        init = -1;
+        	        aux = i.accept(this);
+        	        init = 0;
+                } else {
+                    aux = i.accept(this);
+                }
                 writer.println("\tSW "+aux+", 4($sp)");
                 writer.println("\tADDI $sp, $sp 4");
                 freeRegister(aux);
@@ -458,81 +465,30 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
 
         } else if (pass == 1) {
-            if (aae.exp instanceof ValueAtExpr) {
-                boolean nested = init == -1;
-                if (!nested) {
-                    init = -1;
-                }
-                Register addr = aae.exp.accept(this);
-                Register off = aae.index.accept(this);
-                Register temp = getRegister();
-                writer.println("\tLI " + temp + ", " + findSize(aae.exp.type));
-                writer.println("\tMUL " + off + ", " + off + " " + temp);
-                freeRegister(temp);
-                writer.println("\tMFLO " + off);
-                writer.println("\tSUB " + addr + ", " + addr + " " + off);
-                freeRegister(off);
-                if (!nested) {
-                    writer.println("\tLW " + addr + ", (" + addr + ")");
-                    init = 0;
-                }
-                return addr;
-            } else if (aae.exp instanceof ArrayAccessExpr) {
-                boolean nested = init == -1;
-                if (!nested)
-                    init = -1;
-                Register addr = aae.exp.accept(this);
-                int tinit = init;
-                init = 0;
-                Register off = aae.index.accept(this);
-                init = tinit;
-                Register temp = getRegister();
-                if (aae.exp instanceof VarExpr) {
-                    writer.println("\tLI "+temp+", "+findSize(((VarExpr) aae.exp).vd.type)+"\tMD Array");
-                } else {
-                    writer.println("\tLI "+temp+", "+findSize(aae.exp.type)+"\t#MD Array");
-                }
-                writer.println("\tMUL "+off+", "+off+" "+temp);
-                freeRegister(temp);
-                writer.println("\tMFLO "+off);
-                writer.println("\tSUB "+addr+", "+addr+" "+off);
-                freeRegister(off);
-                if (!nested) {
-                    writer.println("\tLW "+addr+", "+"("+addr+")");
-                    init = 0;
-                }
-                return addr;
-            } else if (aae.exp instanceof VarExpr) {
-                boolean nested = init == -1;
-                if (!nested) {
-                    init = -1;
-                }
-                Register addr = aae.exp.accept(this);
-                int tinit = init;
-                init = 0;
-                Register off = aae.index.accept(this);
-                init = tinit;
-                Register temp = getRegister();
-                if (aae.exp instanceof VarExpr) {
-                    writer.println("\tLI " + temp + ", " + findSize(((VarExpr) aae.exp).vd.type) + "\t#Array access reg");
-                } else {
-                    writer.println("\tLI " + temp + ", " + findSize(aae.exp.type) + "\t#Array access reg");
-                }
-                writer.println("\tMUL " + off + ", " + off + " " + temp);
-                freeRegister(temp);
-                writer.println("\tMFLO " + off);
-                writer.println("\tSUB " + addr + ", " + addr + " " + off);
-                freeRegister(off);
-                if (!nested) {
-                    writer.println("\tLW " + addr + ", (" + addr + ")");
-                    init = 0;
-                }
-                return addr;
-            } else if (aae.exp instanceof FunCallExpr) {
-
+            boolean nested = init == -1;
+            if (!nested)
+                init = -1;
+            Register addr = aae.exp.accept(this);
+            int tinit = init;
+            init = 0;
+            Register off = aae.index.accept(this);
+            init = tinit;
+            Register temp = getRegister();
+            if (aae.exp instanceof VarExpr && aae.exp.type == null) {
+                writer.println("\tLI "+temp+", "+findSize(((VarExpr) aae.exp).vd.type));
             } else {
-                System.out.println("Problem in array access");
+                writer.println("\tLI "+temp+", "+findSize(aae.exp.type));
             }
+            writer.println("\tMUL "+off+", "+off+" "+temp);
+            freeRegister(temp);
+            writer.println("\tMFLO "+off);
+            writer.println("\tSUB "+addr+", "+addr+" "+off);
+            freeRegister(off);
+            if (!nested) {
+                writer.println("\tLW "+addr+", "+"("+addr+")");
+                init = 0;
+            }
+            return addr;
         }
         return null;
     }
@@ -623,11 +579,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
 
         } else if (pass == 1) {
-//        	if (init == -1) {
-
-//	        } else {
-		        return vae.exp.accept(this);
-//	        }
+            return vae.exp.accept(this);
         }
         return null;
     }
@@ -816,7 +768,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 			    writer.println("\tMOVE $v0, "+out);
 			    freeRegister(out);
 		    }
-		    writer.println("\tjr $ra");
+		    writer.println("\tJR $ra");
 	    }
         return null;
     }

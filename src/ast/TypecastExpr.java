@@ -1,7 +1,7 @@
 package ast;
 
 public class TypecastExpr extends Expr {
-	public Type type;
+//	public Type type;
 	public Expr exp;
 
 	public TypecastExpr(Type type, Expr exp) {
