@@ -31,7 +31,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     private void freeRegister(Register reg) {
-        freeRegs.push(reg);
+        if (reg != Register.v0 && reg != null)
+           freeRegs.push(reg);
     }
 
     private PrintWriter writer; // use this writer to output the assembly instructions
@@ -83,11 +84,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 i.accept(this);
             }
         } else if (pass == 1){
-            try {
-                curr_add = fSize.peek();
-            } catch (EmptyStackException e) {
-                curr_add = 0;
-            }
+//            curr_add = 0;
             for (VarDecl i : b.varDeclList) {
                 i.accept(this);
             }
@@ -181,24 +178,25 @@ public class CodeGenerator implements ASTVisitor<Register> {
             if (v.vd.offset < -1 && v.vd.offset >= -4) {
                 out = Register.paramRegs[-1*v.vd.offset-2];
             } else {
-                switch (findSize(v.vd.type)) {
-                    case 1:
-                        writer.print("\tLB ");
-                        break;
-                    case 4:
-                        writer.print("\tLW ");
-                        break;
-                    default:
-                        System.out.println("Some thing has gone wrong, Weird variable size");
-                        break;
-                }
-                writer.print(out + ", ");
-                if (v.vd.offset == -1) {
-                    writer.println(v.name);
-                } else if (v.vd.offset < -1) {
-                    writer.println(v.vd.offset+1+"($fp)");
+                if (init != -1) {
+                    writer.print("\tLW " + out + ", ");
+                    if (v.vd.offset == -1) {
+                        writer.println(v.name);
+                    } else if (v.vd.offset < -1) {
+                        writer.println(v.vd.offset + 1 + "($fp)");
+                    } else {
+                        writer.println(v.vd.offset + "($fp)");
+                    }
                 } else {
-                    writer.println(v.vd.offset + "($fp)");
+                    if (v.vd.offset == -1)
+                        writer.println("\tLA "+out+", "+v.name);
+                    else {
+                        writer.println("\tLA " + out + ", ($fp)");
+                        if (v.vd.offset < -1)
+                            writer.println("\tADDI " + out + ", " + out + " " + (v.vd.offset+1));
+                        else
+                            writer.println("\tADDI " + out + ", " + out + " " + v.vd.offset);
+                    }
                 }
             }
             return out;
@@ -449,50 +447,73 @@ public class CodeGenerator implements ASTVisitor<Register> {
         return null;
     }
 
-    int addr;
     @Override
     public Register visitArrayAccessExpr(ArrayAccessExpr aae) {
         if (pass == 0) {
 
         } else if (pass == 1) {
-        	Register out;
-        	if (aae.exp instanceof ValueAtExpr) {
-				addr = -1;
-				aae.exp.accept(this);
-	        } else if (aae.exp instanceof ArrayAccessExpr) {
-        		Register index = ((ArrayAccessExpr) aae.exp).index.accept(this);
+            if (aae.exp instanceof ValueAtExpr) {
+                boolean nested = init == -1;
+                if (!nested) {
+                    init = -1;
+                }
+                Register addr = aae.exp.accept(this);
+                Register off = aae.index.accept(this);
+                Register temp = getRegister();
+                writer.println("\tLI " + temp + ", " + findSize(aae.exp.type));
+                writer.println("\tMUL " + off + ", " + off + " " + temp);
+                freeRegister(temp);
+                writer.println("\tMFLO " + off);
+                writer.println("\tSUB " + addr + ", " + addr + " " + off);
+                freeRegister(off);
+                if (!nested) {
+                    writer.println("\tLW " + addr + ", (" + addr + ")");
+                    init = 0;
+                }
+                return addr;
+            } else if (aae.exp instanceof ArrayAccessExpr) {
+//        		Register index = ((ArrayAccessExpr) aae.exp).index.accept(this);
 
-	        } else if (aae.exp instanceof VarExpr) {
-        		if (addr == -1) {
-			        out = getRegister();
-			        switch (findSize(aae.type)) {
-				        case 4:
-					        writer.print("\tLW ");
-					        break;
-				        case 1:
-					        writer.print("\tLB");
-			        }
-			        writer.println("");
-		        } else {
+            } else if (aae.exp instanceof VarExpr) {
+                boolean nested = init == -1;
+                if (!nested) {
+                    init = -1;
+                }
+                Register addr = aae.exp.accept(this);
+                Register off = aae.index.accept(this);
+                Register temp = getRegister();
+                if (aae.exp instanceof VarExpr) {
+                    writer.println("\tLI " + temp + ", " + findSize(((VarExpr) aae.exp).vd.type) + "\t#Array access reg");
+                } else {
+                    writer.println("\tLI " + temp + ", " + findSize(aae.exp.type) + "\t#Array access reg");
+                }
+                writer.println("\tMUL " + off + ", " + off + " " + temp);
+                freeRegister(temp);
+                writer.println("\tMFLO " + off);
+                writer.println("\tSUB " + addr + ", " + addr + " " + off);
+                freeRegister(off);
+                if (!nested) {
+                    writer.println("\tLW " + addr + ", (" + addr + ")");
+                    init = 0;
+                }
+                return addr;
+            } else if (aae.exp instanceof FunCallExpr) {
 
-		        }
-	        } else if (aae.exp instanceof FunCallExpr) {
-
-	        } else {
-        		System.out.println("Problem in array access");
-	        }
+            } else {
+                System.out.println("Problem in array access");
+            }
         }
         return null;
     }
 
     int init, off;
+    Register out;
     @Override
     public Register visitFieldAccessExpr(FieldAccessExpr fae) {
         if (pass == 0) {
 
         } else if (pass == 1) {
         	if (fae.struct instanceof VarExpr) {
-        	    Register out = getRegister();
         	    int off=0;
                 for (offset i : structs.get(((StructType) ((VarExpr) fae.struct).type).name)) {
                     if (i.field.equals(fae.field)) {
@@ -501,6 +522,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                     }
                 }
                 if (init != -1) {
+                    out = getRegister();
                     if (((VarExpr) fae.struct).vd.offset != -1) {
                         off = ((VarExpr) fae.struct).vd.offset - off;
                         writer.println("\tLW " + out + ", " + (off) + "($fp)");
@@ -569,7 +591,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
 
         } else if (pass == 1) {
-        	if (addr == -1) {
+        	if (init == -1) {
 
 	        } else {
 		        vae.exp.accept(this);
@@ -602,7 +624,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitExprStmt(ExprStmt es) {
-        es.exp.accept(this);
+        Register temp = es.exp.accept(this);
+        freeRegister(temp);
         return null;
     }
 
@@ -617,6 +640,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
             writer.println(WhileSID+":");
             Register c = w.cond.accept(this);
             writer.println("\tBEQZ "+c+", "+WhileEID);
+            freeRegister(c);
             w.loop.accept(this);
             writer.println("\tJ "+WhileSID);
             writer.println(WhileEID+":");
@@ -638,6 +662,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
             String Case2 = "Else_"+ID++;
             Register res = i.cond.accept(this);
             writer.println("\tBEQZ "+res+", "+Case2);
+            freeRegister(res);
             i.st1.accept(this);
             writer.println(Case2+":");
             if (i.st2 != null)
@@ -656,20 +681,36 @@ public class CodeGenerator implements ASTVisitor<Register> {
             if (a.e1 instanceof ValueAtExpr ) {
 
             } else if (a.e1 instanceof ArrayAccessExpr) {
-//                switch ()
-            } else if (a.e1 instanceof VarExpr) {
-                switch (findSize(((VarExpr) a.e1).vd.type)) {
-                    case 1:
-                        writer.print("\tSB ");
-                        break;
-                    case 4:
-                        writer.print("\tSW ");
-                        break;
-                    default:
-                        System.out.println("Some thing has gone wrong, Weird variable size");
-                        break;
+                if (((ArrayAccessExpr) a.e1).exp instanceof VarExpr) {
+                    init = -1;
+                    Register addr = a.e1.accept(this);
+                    init = 0;
+//                    Register addr = ((ArrayAccessExpr) a.e1).exp.accept(this);
+//                    Register off = ((ArrayAccessExpr) a.e1).index.accept(this);
+//                    Register temp = getRegister();
+//                    writer.println("\tLI " + temp + ", " + findSize(((ArrayAccessExpr) a.e1).exp.type)+"\t#Array access assignment");
+//                    writer.println("\tMUL " + off + ", " + off + " " + temp);
+//                    freeRegister(temp);
+//                    writer.println("\tMFLO " + off);
+//                    writer.println("\tSUB " + addr + ", " + addr + " " + off);
+//                    freeRegister(off);
+                    writer.println("\tSW "+out+", ("+addr+")\t# Array assign");
+                    freeRegister(addr);
+//                    freeRegister(out);
                 }
-                writer.print(out+", ");
+            } else if (a.e1 instanceof VarExpr) {
+//                switch (findSize(((VarExpr) a.e1).vd.type)) {
+//                    case 1:
+//                        writer.print("\tSB ");
+//                        break;
+//                    case 4:
+//                        writer.print("\tSW ");
+//                        break;
+//                    default:
+//                        System.out.println("Some thing has gone wrong, Weird variable size");
+//                        break;
+//                }
+                writer.print("\tSW "+out+", ");
                 int off = ((VarExpr) a.e1).vd.offset;
                 if (off == -1) {
                     writer.println(((VarExpr) a.e1).name);

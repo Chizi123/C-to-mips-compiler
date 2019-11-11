@@ -26,6 +26,8 @@ int main ()
 //	struct test* bbb;
 	struct b b;
 //	int a[5][10];
+    int c[5];
+    int i;
 	b.b = 1;
 	a.b=2;
 	aaa.b.b = 5;
@@ -37,7 +39,16 @@ int main ()
 //	aaa.i = 4;
 //	*(bbb.a[1])[0].a.a = 'c';
 //	a[1][1] = 2;
-
+    i = 0;
+//    while (i < 5) {
+//        c[i] = i;
+//        i = i + 1;
+//    }
+//    while (i > 0) {
+//        i = i - 1;
+//        print_i(c[i]);
+//        print_c('\n');
+//    }
     print_i(aaa.i);
     print_c('\n');
     print_i(aaa.j);

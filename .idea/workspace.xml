@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="global struct non-recursive working">
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Nested structs working">
+      <change afterPath="$PROJECT_DIR$/tests/loops2.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/struct.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/struct.c" afterDir="false" />
@@ -120,7 +121,7 @@
     <configuration name="gen test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-gen tests/struct.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-gen tests/loops2.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -366,14 +367,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573153466699</updated>
     </task>
-    <task id="LOCAL-00024" summary="Parser modifications in progress, minimal, hello and struct work">
-      <created>1571412110514</created>
+    <task id="LOCAL-00024" summary="Nested structs working">
+      <created>1573304540691</created>
       <option name="number" value="00024" />
       <option name="presentableId" value="LOCAL-00024" />
       <option name="project" value="LOCAL" />
-      <updated>1571412110514</updated>
+      <updated>1573304540691</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -412,30 +413,36 @@
     <MESSAGE value="Fixed shadowing hopefully" />
     <MESSAGE value="Working non-recursive structs" />
     <MESSAGE value="global struct non-recursive working" />
-    <option name="LAST_COMMIT_MESSAGE" value="global struct non-recursive working" />
+    <MESSAGE value="Nested structs working" />
+    <option name="LAST_COMMIT_MESSAGE" value="Nested structs working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>251</line>
-          <option name="timeStamp" value="7" />
+          <line>701</line>
+          <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>544</line>
-          <option name="timeStamp" value="21" />
+          <line>481</line>
+          <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>502</line>
-          <option name="timeStamp" value="22" />
+          <line>685</line>
+          <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>125</line>
-          <option name="timeStamp" value="23" />
+          <line>156</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
+          <line>87</line>
+          <option name="timeStamp" value="32" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
