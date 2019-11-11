@@ -219,6 +219,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	@Override
 	public Type visitArrayAccessExpr(ArrayAccessExpr aae) {
 		aae.type = aae.exp.accept(this);
+		aae.index.accept(this);
 		if (aae.type instanceof ArrayType && aae.index.type.accept(this) == BaseType.INT) {
 			return ((ArrayType) aae.type).type;
 		} else if (aae.type instanceof PointerType && aae.index.type.accept(this) == BaseType.INT) {

@@ -76,7 +76,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         return null;
     }
 
-    int curr_add;
+    int curr_add = 0;
     @Override
     public Register visitBlock(Block b) {
         if (pass == 0) {
@@ -87,20 +87,28 @@ public class CodeGenerator implements ASTVisitor<Register> {
             for (VarDecl i : b.varDeclList) {
                 i.accept(this);
             }
+            int a;
+            int c;
+            try {
+                c=fSize.peek();
+            } catch (EmptyStackException e) {
+                c=0;
+            }
             fSize.push(curr_add);
-            writer.println("\tADDI $sp, $sp "+fSize.peek());
+            a = fSize.peek();
+            writer.println("\tADDI $sp, $sp "+(a-c));
             for (Stmt i : b.stmtList) {
                 i.accept(this);
             }
             //Move stack pointer back down
-            int i = fSize.pop();
-            int j;
+            a = fSize.pop();
             try {
-                j=fSize.peek();
+                c=fSize.peek();
             } catch (EmptyStackException e) {
-                j=0;
+                c=0;
             }
-            writer.println("\tSUBI $sp, $sp "+(i-j));
+            writer.println("\tSUBI $sp, $sp "+(a-c));
+            curr_add=0;
         }
         return null;
     }
@@ -296,8 +304,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         		Register aux = fce.args.get(i).accept(this);
                 writer.println("\tSW "+aux+", 4($sp)");
                 writer.println("\tADDI $sp, $sp 4");
-                if (aux != Register.v0)
-                    freeRegister(aux);
+                freeRegister(aux);
 	        }
         	//move aruguments into input
             int stack_size = 0; //temporarily move all arguments onto stack
@@ -471,15 +478,40 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 }
                 return addr;
             } else if (aae.exp instanceof ArrayAccessExpr) {
-//        		Register index = ((ArrayAccessExpr) aae.exp).index.accept(this);
-
+                boolean nested = init == -1;
+                if (!nested)
+                    init = -1;
+                Register addr = aae.exp.accept(this);
+                int tinit = init;
+                init = 0;
+                Register off = aae.index.accept(this);
+                init = tinit;
+                Register temp = getRegister();
+                if (aae.exp instanceof VarExpr) {
+                    writer.println("\tLI "+temp+", "+findSize(((VarExpr) aae.exp).vd.type)+"\tMD Array");
+                } else {
+                    writer.println("\tLI "+temp+", "+findSize(aae.exp.type)+"\t#MD Array");
+                }
+                writer.println("\tMUL "+off+", "+off+" "+temp);
+                freeRegister(temp);
+                writer.println("\tMFLO "+off);
+                writer.println("\tSUB "+addr+", "+addr+" "+off);
+                freeRegister(off);
+                if (!nested) {
+                    writer.println("\tLW "+addr+", "+"("+addr+")");
+                    init = 0;
+                }
+                return addr;
             } else if (aae.exp instanceof VarExpr) {
                 boolean nested = init == -1;
                 if (!nested) {
                     init = -1;
                 }
                 Register addr = aae.exp.accept(this);
+                int tinit = init;
+                init = 0;
                 Register off = aae.index.accept(this);
+                init = tinit;
                 Register temp = getRegister();
                 if (aae.exp instanceof VarExpr) {
                     writer.println("\tLI " + temp + ", " + findSize(((VarExpr) aae.exp).vd.type) + "\t#Array access reg");

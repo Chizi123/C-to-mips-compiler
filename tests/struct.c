@@ -25,7 +25,7 @@ int main ()
 	struct test aaa;
 //	struct test* bbb;
 	struct b b;
-//	int a[5][10];
+	int d[5][10];
     int c[5];
     int i;
 	b.b = 1;
@@ -38,7 +38,36 @@ int main ()
 //	strcpy("Hello", aaa.str);
 //	aaa.i = 4;
 //	*(bbb.a[1])[0].a.a = 'c';
-//	a[1][1] = 2;
+
+//	d[1][1] = 2;
+//    print_i(d[1][1]);
+//    print_c('\n');
+
+    i = 0;
+    while(i < 5) {
+        int j;
+        j = 0;
+        while ( j < 10) {
+            d[i][j] = 10*i+j;
+            print_i(10*i+j);
+            print_c(' ');
+            j = j+1;
+        }
+        print_c('\n');
+        i = i+1;
+    }
+    i = 0;
+    while (i < 5) {
+        int j;
+        j = 0;
+        while (j < 10) {
+            print_i(d[i][j]);
+            print_c(' ');
+            j = j+1;
+        }
+        print_c('\n');
+        i=i+1;
+    }
 
 //    i = 0;
 //    while (i < 5) {
@@ -50,19 +79,19 @@ int main ()
 //        print_i(c[i]);
 //        print_c('\n');
 //    }
-    c[0] = 0; c[1] = 1; c[2] = 2; c[3] = 3; c[4] = 4;
-    print_i(c[0]); print_i(c[1]); print_i(c[2]); print_i(c[3]); print_i(c[4]);
-    print_c('\n');
-    print_i(aaa.i);
-    print_c('\n');
-    print_i(aaa.j);
-    print_c('\n');
-    print_i(aaa.b.b);
-    print_c('\n');
-    print_i(b.b);
-    print_c('\n');
-    print_i(a.b);
-    print_c('\n');
+//    c[i] = 0; c[i+1] = 1; c[i+2] = 2; c[3] = 3; c[4] = 4;
+//    print_i(c[0]); print_i(c[1]); print_i(c[2]); print_i(c[3]); print_i(c[4]); print_c('\n');
+
+//    print_i(aaa.i);
+//    print_c('\n');
+//    print_i(aaa.j);
+//    print_c('\n');
+//    print_i(aaa.b.b);
+//    print_c('\n');
+//    print_i(b.b);
+//    print_c('\n');
+//    print_i(a.b);
+//    print_c('\n');
 	return aaa.i;
 	return aaa.j;
 	return 0;
