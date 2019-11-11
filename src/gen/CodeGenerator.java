@@ -623,11 +623,11 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
 
         } else if (pass == 1) {
-        	if (init == -1) {
+//        	if (init == -1) {
 
-	        } else {
-		        vae.exp.accept(this);
-	        }
+//	        } else {
+		        return vae.exp.accept(this);
+//	        }
         }
         return null;
     }
@@ -772,7 +772,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                     }
 //                    writer.println("\tSW "+out+", ("+addr+")\t;;"+((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
                     freeRegister(addr);
-                    freeRegister(out);
+//                    freeRegister(out);
                 } else {
                     boolean nested;
                     nested = init == -1;
@@ -794,12 +794,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
                         writer.println("\tSUBI "+addr+", "+addr+" "+off);
                         writer.println("\tSW "+out+", ("+addr+")\t# nested");
                         freeRegister(addr);
-                        freeRegister(out);
+//                        freeRegister(out);
                     }
                 }
             } else {
                 System.out.println("Something Wrong, unknown LHS of assignemnt");
             }
+            freeRegister(out);
         }
         return null;
     }
