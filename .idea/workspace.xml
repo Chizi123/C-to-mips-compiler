@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Array access working, just not in loops">
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="1D array working, 2D weird">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/struct.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/struct.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -388,7 +386,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573471004657</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="1D array working, 2D weird">
+      <created>1573474296419</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1573474296419</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -405,7 +410,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added description of Part 2" />
     <MESSAGE value="Added warning about creating a branch if Part 1 deadline has not yet passed." />
     <MESSAGE value="Updated repo for part 2" />
     <MESSAGE value="Added link to part 2 on main README file" />
@@ -430,7 +434,8 @@
     <MESSAGE value="Nested structs working" />
     <MESSAGE value="Fixed nested blocks" />
     <MESSAGE value="Array access working, just not in loops" />
-    <option name="LAST_COMMIT_MESSAGE" value="Array access working, just not in loops" />
+    <MESSAGE value="1D array working, 2D weird" />
+    <option name="LAST_COMMIT_MESSAGE" value="1D array working, 2D weird" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -713,7 +713,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
             if (a.e1 instanceof ValueAtExpr ) {
 
             } else if (a.e1 instanceof ArrayAccessExpr) {
-                if (((ArrayAccessExpr) a.e1).exp instanceof VarExpr) {
+//                if (((ArrayAccessExpr) a.e1).exp instanceof VarExpr) {
                     init = -1;
                     Register addr = a.e1.accept(this);
                     init = 0;
@@ -729,7 +729,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                     writer.println("\tSW "+out+", ("+addr+")\t# Array assign");
                     freeRegister(addr);
 //                    freeRegister(out);
-                }
+//                }
             } else if (a.e1 instanceof VarExpr) {
 //                switch (findSize(((VarExpr) a.e1).vd.type)) {
 //                    case 1:

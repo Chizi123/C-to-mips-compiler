@@ -28,11 +28,12 @@ int main ()
 	int d[5][10];
     int c[5];
     int i;
-	b.b = 1;
-	a.b=2;
-	aaa.b.b = 5;
-	aaa.i = 3;
-	aaa.j = 4;
+//	b.b = 1;
+//	a.b=2;
+//	aaa.b.b = 5;
+//	aaa.i = 3;
+//	aaa.j = 4;
+
 //    (aaa.a)[1];
 //    (*(aaa.i).i)[4];
 //	strcpy("Hello", aaa.str);
@@ -92,7 +93,8 @@ int main ()
 //    print_c('\n');
 //    print_i(a.b);
 //    print_c('\n');
-	return aaa.i;
-	return aaa.j;
+
+//	return aaa.i;
+//	return aaa.j;
 	return 0;
 }
