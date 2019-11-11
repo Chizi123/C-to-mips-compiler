@@ -39,7 +39,8 @@ int main ()
 //	aaa.i = 4;
 //	*(bbb.a[1])[0].a.a = 'c';
 //	a[1][1] = 2;
-    i = 0;
+
+//    i = 0;
 //    while (i < 5) {
 //        c[i] = i;
 //        i = i + 1;
@@ -49,6 +50,9 @@ int main ()
 //        print_i(c[i]);
 //        print_c('\n');
 //    }
+    c[0] = 0; c[1] = 1; c[2] = 2; c[3] = 3; c[4] = 4;
+    print_i(c[0]); print_i(c[1]); print_i(c[2]); print_i(c[3]); print_i(c[4]);
+    print_c('\n');
     print_i(aaa.i);
     print_c('\n');
     print_i(aaa.j);

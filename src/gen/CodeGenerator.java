@@ -84,7 +84,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 i.accept(this);
             }
         } else if (pass == 1){
-//            curr_add = 0;
             for (VarDecl i : b.varDeclList) {
                 i.accept(this);
             }
@@ -507,7 +506,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     int init, off;
-    Register out;
     @Override
     public Register visitFieldAccessExpr(FieldAccessExpr fae) {
         if (pass == 0) {
@@ -521,6 +519,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                         break;
                     }
                 }
+                Register out;
                 if (init != -1) {
                     out = getRegister();
                     if (((VarExpr) fae.struct).vd.offset != -1) {
@@ -533,6 +532,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                         writer.println("\tLW " + out + ", (" + (out) + ")");
                     }
                 } else {
+                    out = getRegister();
                     if (((VarExpr) fae.struct).vd.offset != -1) {
                         off = ((VarExpr) fae.struct).vd.offset - off;
                         writer.println("\tADDI " + out + ", $fp " + off);
