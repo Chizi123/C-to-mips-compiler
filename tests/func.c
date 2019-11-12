@@ -11,7 +11,9 @@ int square(int i)
 int cube(int i)
 {
 //    return mul(mul(i,i), i);
-    return i * square(i);
+//    return mul(i,i) * i;
+//    return square(i) * square(i);
+//    return square(i)*i;
 }
 
 int bmul(int a, int b, int c, int d)
@@ -22,16 +24,17 @@ int bmul(int a, int b, int c, int d)
 int main()
 {
 //    int i;
-//    print_i(mul(square(4),square(3)));
-//    print_c('\n');
-//    print_i(4*4*3*3);
-//    print_c('\n');
-    print_i(square(5));
+    print_s((char *) "Hello there\n");
+    print_i(mul(square(4),square(3)));
     print_c('\n');
-    print_i(cube(3));
+    print_i(4*4*3*3);
     print_c('\n');
-//    print_i(bmul(2,3,4,5));
+//    print_i(square(5));
 //    print_c('\n');
-//    print_i(2*3*4*5);
+//    print_i(cube(3));
 //    print_c('\n');
+    print_i(bmul(2,3,4,5));
+    print_c('\n');
+    print_i(2*3*4*5);
+    print_c('\n');
 }

@@ -118,14 +118,15 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
             p.block.accept(this);
         } else if (pass == 1) { //need to figure out what to do with parameters
-            int stack_size = 0;
-            for (int i = p.params.size()-1; i >= 0; i--) {
-                if (i < 3) {
-                    p.params.get(i).offset = -i - 2;
-                } else {
+            int stack_size = 16;
+//            for (int i = p.params.size()-1; i >= 0; i--) {
+            for (int i = 0; i < p.params.size(); i++) {
+//                if (i < 3) {
+//                    p.params.get(i).offset = -i - 2;
+//                } else {
                     p.params.get(i).offset = stack_size;
-                }
-                stack_size-=4;
+//                }
+                stack_size+=4;
             }
             writer.println(p.name+":");
             p.block.accept(this);
@@ -299,35 +300,43 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 i.accept(this);
             }
         } else if (pass == 1) {
-            //save current arguments
-            for (int i = 0; i < Register.paramRegs.length; i++) {
-                writer.println("\tSW "+Register.paramRegs[i]+", "+(4*(i+1))+"($sp)");
-            }
-            writer.println("\tADDI $sp, $sp, "+(4*Register.paramRegs.length));
-            //get arguments
-        	for (Expr i: fce.args) {
-                Register aux;
-        	    if (i.type instanceof StructType || i.type instanceof PointerType) {
-        	        init = -1;
-        	        aux = i.accept(this);
-        	        init = 0;
-                } else {
-                    aux = i.accept(this);
-                }
-                writer.println("\tSW "+aux+", 4($sp)");
-                writer.println("\tADDI $sp, $sp 4");
-                freeRegister(aux);
-	        }
-        	//move aruguments into input
-            //TODO need to figure out how to restore stack when done
-            for (int i = fce.args.size()-1; i >= 0; i--) {
-                if (i<3) {
-                    writer.println("\tLW "+Register.paramRegs[i]+", ($sp)");
-                } else {
-//                    fce.fd.params.get(i).offset = stack_size+1;
-                    //TODO handling of other arguments, already on stack
-                }
-                writer.println("\tSUBI $sp, $sp 4");
+//            //save current arguments
+//            for (int i = 0; i < Register.paramRegs.length; i++) {
+//                writer.println("\tSW "+Register.paramRegs[i]+", "+(4*(i+1))+"($sp)");
+//            }
+//            writer.println("\tADDI $sp, $sp, "+(4*Register.paramRegs.length));
+//            //get arguments
+//        	for (Expr i: fce.args) {
+//                Register aux;
+//        	    if (i.type instanceof StructType || i.type instanceof PointerType) {
+//        	        init = -1;
+//        	        aux = i.accept(this);
+//        	        init = 0;
+//                } else {
+//                    aux = i.accept(this);
+//                }
+//                writer.println("\tSW "+aux+", 4($sp)");
+//                writer.println("\tADDI $sp, $sp 4");
+//                freeRegister(aux);
+//	        }
+//        	//move aruguments into input
+//            //TODO need to figure out how to restore stack when done
+//            for (int i = fce.args.size()-1; i >= 0; i--) {
+//                if (i<3) {
+//                    writer.println("\tLW "+Register.paramRegs[i]+", ($sp)");
+//                } else {
+////                    fce.fd.params.get(i).offset = stack_size+1;
+//                    //TODO handling of other arguments, already on stack
+//                }
+//                writer.println("\tSUBI $sp, $sp 4");
+//            }
+
+            try {
+                Register a1 = fce.args.get(0).accept(this);
+                writer.println("\tMOVE $a0, "+a1);
+                freeRegister(a1);
+            } catch (Exception e) {
+
             }
             //run function
             switch (fce.name) {
@@ -346,35 +355,39 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 case "read_i":
                     writer.println("\tLI $v0, 5");
                     writer.println("\tSYSCALL");
-                    return Register.v0;
                 case "read_c":
                     writer.println("\tLI $v0, 12");
                     writer.println("\tSYSCALL");
-                    return Register.v0;
                 case "mcmalloc":
                     writer.println("\tLI $v0, 9");
                     writer.println("\tSYSCALL");
-                    return Register.v0;
                 default:
                     //save old frame
+                    int stack=16;
+                    for (Expr i : fce.args) {
+                        Register temp = i.accept(this);
+                        writer.println("\tSW "+temp+", "+stack+"($sp)");
+                        stack+=4;
+                        freeRegister(temp);
+                    }
                     writer.println("\tSW $fp, 4($sp)");
                     writer.println("\tSW $sp, 8($sp)");
                     writer.println("\tSW $ra, 12($sp)");
                     writer.println("\tMOVE $fp, $sp");
-                    writer.println("\tADDI $sp, $sp 12");
+                    writer.println("\tADDI $sp, $sp "+stack);
                     //jump to function
                 	writer.println("\tjal "+fce.name);
                 	//restore old frame
                 	writer.println("\tLW $ra, 12($fp)");
                 	writer.println("\tLW $sp, 8($fp)");
                 	writer.println("\tLW $fp, 4($fp)");
-                	return Register.v0;
             }
             //restore previous arguments
-            for (Register i : Register.paramRegs) {
-                writer.println("\tLW "+i+", ($sp)");
-            }
-            writer.println("\tSUBI $sp, $sp, "+(4*Register.paramRegs.length));
+//            for (int i = Register.paramRegs.length - 1; i >= 0; i--) {
+//                writer.println("\tLW "+Register.paramRegs[i]+", "+(-4*i)+"($sp)");
+//            }
+//            writer.println("\tSUBI $sp, $sp, "+(4*Register.paramRegs.length));
+            return Register.v0;
         }
         return null;
     }
