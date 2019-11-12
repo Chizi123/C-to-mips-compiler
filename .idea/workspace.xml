@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Working single level functions, i think">
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Functions working, i think. all parameters are on stack not in arguments">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/func.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/func.c" afterDir="false" />
@@ -422,7 +422,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573492542917</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Functions working, i think. all parameters are on stack not in arguments">
+      <created>1573560023378</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1573560023378</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -439,7 +446,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Working for Hello World. first pass finds all global data, second pass does text" />
     <MESSAGE value="Have binary operations working" />
     <MESSAGE value="Reduced number of registers BinOp needs" />
     <MESSAGE value="Reduced instructions for AND and OR" />
@@ -464,7 +470,8 @@
     <MESSAGE value="Fixed register leak in assign" />
     <MESSAGE value="Cleaned up array access code" />
     <MESSAGE value="Working single level functions, i think" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working single level functions, i think" />
+    <MESSAGE value="Functions working, i think. all parameters are on stack not in arguments" />
+    <option name="LAST_COMMIT_MESSAGE" value="Functions working, i think. all parameters are on stack not in arguments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -476,22 +483,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>623</line>
+          <line>629</line>
           <option name="timeStamp" value="47" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>496</line>
+          <line>502</line>
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>487</line>
+          <line>493</line>
           <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>430</line>
+          <line>436</line>
           <option name="timeStamp" value="55" />
         </line-breakpoint>
       </breakpoints>

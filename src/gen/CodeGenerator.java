@@ -355,26 +355,32 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 case "read_i":
                     writer.println("\tLI $v0, 5");
                     writer.println("\tSYSCALL");
+                    break;
                 case "read_c":
                     writer.println("\tLI $v0, 12");
                     writer.println("\tSYSCALL");
+                    break;
                 case "mcmalloc":
                     writer.println("\tLI $v0, 9");
                     writer.println("\tSYSCALL");
+                    break;
                 default:
                     //save old frame
                     int stack=16;
-                    for (Expr i : fce.args) {
+                    writer.println("\tSW $a0, 16($sp)"); //save previous evaluation
+                    writer.println("\tADDI $sp, $sp, "+(stack));
+                    for (Expr i : fce.args.subList(1,fce.args.size())) {
                         Register temp = i.accept(this);
-                        writer.println("\tSW "+temp+", "+stack+"($sp)");
+                        writer.println("\tSW "+temp+", 4($sp)");
+                        writer.println("\tADDI $sp, $sp 4");
                         stack+=4;
                         freeRegister(temp);
                     }
-                    writer.println("\tSW $fp, 4($sp)");
-                    writer.println("\tSW $sp, 8($sp)");
-                    writer.println("\tSW $ra, 12($sp)");
+                    writer.println("\tSW $fp, "+(-1*(stack)+4)+"($sp)");
+                    writer.println("\tSW $sp, "+(-1*(stack)+8)+"($sp)");
+                    writer.println("\tSW $ra, "+(-1*(stack)+12)+"($sp)");
                     writer.println("\tMOVE $fp, $sp");
-                    writer.println("\tADDI $sp, $sp "+stack);
+                    writer.println("\tSUBI $fp, $fp "+(stack));
                     //jump to function
                 	writer.println("\tjal "+fce.name);
                 	//restore old frame
