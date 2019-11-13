@@ -341,6 +341,9 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		if (e2 instanceof PointerType && a.e2 instanceof ValueAtExpr) {
 			e2 = ((PointerType) ((ValueAtExpr) a.e2).type).type;
 		}
+		if (e1 instanceof StructType && e2 instanceof StructType && ((StructType) e1).name.equals(((StructType) e2).name)) {
+			return null;
+		}
 		if (e1.accept(this) != e2.accept(this)) {
 			error("Assignment of different types");
 		}

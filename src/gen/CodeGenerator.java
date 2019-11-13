@@ -592,7 +592,9 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (pass == 0) {
 
         } else if (pass == 1) {
-            return vae.exp.accept(this);
+            Register addr = vae.exp.accept(this);
+            writer.println("\tLW "+addr+", ("+addr+")");
+            return addr;
         }
         return null;
     }
@@ -677,71 +679,99 @@ public class CodeGenerator implements ASTVisitor<Register> {
             a.e1.accept(this);
             a.e2.accept(this);
         } else if (pass == 1) {
-            Register out = a.e2.accept(this);
-            if (a.e1 instanceof ValueAtExpr ) {
+            Register out;
+            if (a.e2.type instanceof StructType && a.e2 instanceof VarExpr) {
+               Register e1 = getRegister();
+               Register e2 = getRegister();
+               writer.println("# Struct Assign");
+               if (((VarExpr) a.e1).vd.offset == -1) {
+                   writer.println("\tLA "+e1+", "+((VarExpr) a.e1).name);
+               } else {
+                   writer.println("\tLI " + e1 + ", " + ((VarExpr) a.e1).vd.offset);
+                   writer.println("\tADD " + e1 + ", " + e1 + " $fp");
+               }
+               if (((VarExpr) a.e2).vd.offset == -1) {
+                   writer.println("\tLA "+e2+", "+((VarExpr) a.e2).name);
+               } else {
+                   writer.println("\tLI " + e2 + ", " + ((VarExpr) a.e2).vd.offset);
+                   writer.println("\tADD " + e2 + ", " + e2 + " $fp");
+               }
+               for (int i = structs.get(((StructType) a.e2.type).name).getLast().pos; i > 0; i-=4) {
+                   Register temp = getRegister();
+                   writer.println("\tLW "+temp+", "+i+"("+e2+")");
+                   writer.println("\tSW "+temp+", "+i+"("+e1+")");
+                   freeRegister(temp);
+               }
+               freeRegister(e1);
+               freeRegister(e2);
+               return null;
+            } else {
+                out = a.e2.accept(this);
+                if (a.e1 instanceof ValueAtExpr) {
 
-            } else if (a.e1 instanceof ArrayAccessExpr) {
+                } else if (a.e1 instanceof ArrayAccessExpr) {
                     init = -1;
                     Register addr = a.e1.accept(this);
                     init = 0;
-                    writer.println("\tSW "+out+", ("+addr+")\t# Array assign");
+                    writer.println("\tSW " + out + ", (" + addr + ")\t# Array assign");
                     freeRegister(addr);
-            } else if (a.e1 instanceof VarExpr) {
-                writer.print("\tSW "+out+", ");
-                int off = ((VarExpr) a.e1).vd.offset;
-                if (off == -1) {
-                    writer.println(((VarExpr) a.e1).name);
-                } else {
-                    writer.println(off+"($fp)");
-                }
-            } else if (a.e1 instanceof FieldAccessExpr) {
-                if (((FieldAccessExpr) a.e1).struct instanceof VarExpr) {
-                    Register addr = getRegister();
-                    int off = 0;
-                    for (offset i : structs.get(((StructType) ((VarExpr) ((FieldAccessExpr) a.e1).struct).type).name)) {
-                        if (i.field.equals(((FieldAccessExpr) a.e1).field)) {
-                            off = i.pos;
-                            break;
-                        }
-                    }
-                    if (((VarExpr) ((FieldAccessExpr) a.e1).struct).vd.offset == -1) {
-                        writer.println("\tLA " + addr + ", " + ((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
-                        writer.println("\tADDI "+addr+", "+addr+" "+findSize(a.e1.type));
-                        writer.println("\tSUBI " + addr + ", " + addr + " " + off);
-                        writer.println("\tSW " + out + ", (" + addr + ")\t#" + ((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
+                } else if (a.e1 instanceof VarExpr) {
+                    writer.print("\tSW " + out + ", ");
+                    int off = ((VarExpr) a.e1).vd.offset;
+                    if (off == -1) {
+                        writer.println(((VarExpr) a.e1).name);
                     } else {
-                        writer.println("\tLA " + addr + ", " + ((VarExpr) ((FieldAccessExpr) a.e1).struct).vd.offset + "($fp)");
-                        writer.println("\tSUBI " + addr + ", " + addr + " " + off);
-                        writer.println("\tSW " + out + ", (" + addr + ")\t#" + ((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
+                        writer.println(off + "($fp)");
                     }
-                    freeRegister(addr);
-                } else {
-                    boolean nested;
-                    nested = init == -1;
-                    if (!nested)
-                        init = -1;
-                    Register addr = a.e1.accept(this);
-                    if (!nested)
-                        init = 0;
-                    if (init == -1) {
-                        return addr;
-                    } else {
+                } else if (a.e1 instanceof FieldAccessExpr) {
+                    if (((FieldAccessExpr) a.e1).struct instanceof VarExpr) {
+                        Register addr = getRegister();
                         int off = 0;
-                        for (offset i : structs.get(((StructType) ((FieldAccessExpr) a.e1).struct.type).name)) {
+                        for (offset i : structs.get(((StructType) ((VarExpr) ((FieldAccessExpr) a.e1).struct).type).name)) {
                             if (i.field.equals(((FieldAccessExpr) a.e1).field)) {
                                 off = i.pos;
                                 break;
                             }
                         }
-                        writer.println("\tSUBI "+addr+", "+addr+" "+off);
-                        writer.println("\tSW "+out+", ("+addr+")\t# nested");
+                        if (((VarExpr) ((FieldAccessExpr) a.e1).struct).vd.offset == -1) {
+                            writer.println("\tLA " + addr + ", " + ((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
+                            writer.println("\tADDI " + addr + ", " + addr + " " + findSize(a.e1.type));
+                            writer.println("\tSUBI " + addr + ", " + addr + " " + off);
+                            writer.println("\tSW " + out + ", (" + addr + ")\t#" + ((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
+                        } else {
+                            writer.println("\tLA " + addr + ", " + ((VarExpr) ((FieldAccessExpr) a.e1).struct).vd.offset + "($fp)");
+                            writer.println("\tSUBI " + addr + ", " + addr + " " + off);
+                            writer.println("\tSW " + out + ", (" + addr + ")\t#" + ((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
+                        }
                         freeRegister(addr);
+                    } else {
+                        boolean nested;
+                        nested = init == -1;
+                        if (!nested)
+                            init = -1;
+                        Register addr = a.e1.accept(this);
+                        if (!nested)
+                            init = 0;
+                        if (init == -1) {
+                            return addr;
+                        } else {
+                            int off = 0;
+                            for (offset i : structs.get(((StructType) ((FieldAccessExpr) a.e1).struct.type).name)) {
+                                if (i.field.equals(((FieldAccessExpr) a.e1).field)) {
+                                    off = i.pos;
+                                    break;
+                                }
+                            }
+                            writer.println("\tSUBI " + addr + ", " + addr + " " + off);
+                            writer.println("\tSW " + out + ", (" + addr + ")\t# nested");
+                            freeRegister(addr);
+                        }
                     }
+                } else {
+                    System.out.println("Something Wrong, unknown LHS of assignemnt");
                 }
-            } else {
-                System.out.println("Something Wrong, unknown LHS of assignemnt");
+                freeRegister(out);
             }
-            freeRegister(out);
         }
         return null;
     }
