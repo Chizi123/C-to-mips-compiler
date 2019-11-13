@@ -671,14 +671,17 @@ public class CodeGenerator implements ASTVisitor<Register> {
         } else if (pass == 1) {
             String IfID = "If"+ID;
             String Case1 = "Then_"+ID;
-            String Case2 = "Else_"+ID++;
+            String Case2 = "Else_"+ID;
+            String End = "End_"+ID++;
             Register res = i.cond.accept(this);
             writer.println("\tBEQZ "+res+", "+Case2);
             freeRegister(res);
             i.st1.accept(this);
+            writer.println("J "+End);
             writer.println(Case2+":");
             if (i.st2 != null)
                 i.st2.accept(this);
+            writer.println(End+":");
         }
         return null;
     }

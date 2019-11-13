@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Funtions mostly, nested calls not great">
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Functions working. Can take whatever arguments">
+      <change afterPath="$PROJECT_DIR$/tests/comp.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/func.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/func.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -120,7 +120,7 @@
     <configuration name="gen test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-gen tests/func.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-gen tests/fibonacci.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -436,7 +436,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573562503902</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Functions working. Can take whatever arguments">
+      <created>1573644945469</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1573644945469</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -453,7 +460,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Reduced number of registers BinOp needs" />
     <MESSAGE value="Reduced instructions for AND and OR" />
     <MESSAGE value="Newline now printed as char, print_c implimented" />
     <MESSAGE value="Print_c does escape chars. BinOp uses stack to minimise reg use" />
@@ -478,7 +484,8 @@
     <MESSAGE value="Working single level functions, i think" />
     <MESSAGE value="Functions working, i think. all parameters are on stack not in arguments" />
     <MESSAGE value="Funtions mostly, nested calls not great" />
-    <option name="LAST_COMMIT_MESSAGE" value="Funtions mostly, nested calls not great" />
+    <MESSAGE value="Functions working. Can take whatever arguments" />
+    <option name="LAST_COMMIT_MESSAGE" value="Functions working. Can take whatever arguments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -490,22 +497,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>630</line>
+          <line>631</line>
           <option name="timeStamp" value="47" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>503</line>
+          <line>504</line>
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>494</line>
+          <line>495</line>
           <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>437</line>
+          <line>438</line>
           <option name="timeStamp" value="55" />
         </line-breakpoint>
       </breakpoints>
