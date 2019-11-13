@@ -387,6 +387,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 	writer.println("\tLW $ra, 12($fp)");
                 	writer.println("\tLW $sp, 8($fp)");
                 	writer.println("\tLW $fp, 4($fp)");
+                    // restore stack to before function call
+                	writer.println("\tSUBI $sp, $sp "+stack);
             }
             //restore previous arguments
 //            for (int i = Register.paramRegs.length - 1; i >= 0; i--) {

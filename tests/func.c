@@ -16,9 +16,9 @@ int cube(int i)
     return i*square(i);
 }
 
-int bmul(int a, int b, int c, int d)
+int bmul(int a, int b, int c, int d, int e, int f)
 {
-    return a*b*c*d;
+    return a*b*c*d*e*f;
 }
 
 int main()
@@ -33,8 +33,8 @@ int main()
     print_c('\n');
     print_i(cube(3));
     print_c('\n');
-    print_i(bmul(2,3,4,5));
+    print_i(bmul(2,3,4,5,6,7));
     print_c('\n');
-    print_i(2*3*4*5);
+    print_i(2*3*4*5*6*7);
     print_c('\n');
 }
