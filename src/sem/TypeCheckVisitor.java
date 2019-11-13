@@ -344,7 +344,11 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		if (e1 instanceof StructType && e2 instanceof StructType && ((StructType) e1).name.equals(((StructType) e2).name)) {
 			return null;
 		}
-		if (e1.accept(this) != e2.accept(this)) {
+		if (e1 instanceof PointerType && e2 instanceof PointerType && ((PointerType) e1).type == ((PointerType) e2).type) {
+			return null;
+		}
+		e1 = e1.accept(this); e2 = e2.accept(this);
+		if (e1 != e2) {
 			error("Assignment of different types");
 		}
 		return null;

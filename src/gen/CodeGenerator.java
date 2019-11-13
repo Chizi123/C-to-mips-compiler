@@ -696,7 +696,12 @@ public class CodeGenerator implements ASTVisitor<Register> {
             } else {
                 out = a.e2.accept(this);
                 if (a.e1 instanceof ValueAtExpr) {
-
+                	init = -1;
+                	Register addr = ((ValueAtExpr) a.e1).exp.accept(this);
+                	init = 0;
+                	writer.println("\tLW "+addr+", ("+addr+")");
+					writer.println("\tSW "+out+", ("+addr+")");
+					freeRegister(addr);
                 } else if (a.e1 instanceof ArrayAccessExpr) {
                     init = -1;
                     Register addr = a.e1.accept(this);

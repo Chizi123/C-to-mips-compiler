@@ -134,6 +134,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		vars.getLast().add(new funvar("read_c", new FunDecl(BaseType.CHAR,"read_c",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
 		vars.getLast().add(new funvar("read_i", new FunDecl(BaseType.INT,"read_i",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
 		vars.getLast().add(new funvar("mcmalloc", new FunDecl(new PointerType(BaseType.VOID),"mcmalloc",new LinkedList<>(),new Block(new LinkedList<>(),new LinkedList<>()))));
+		vars.getLast().getLast().fun.params.add(new VarDecl(BaseType.INT, "size"));
 	}
 
 	@Override
