@@ -7,8 +7,9 @@ int main()
     print_i(*i);
     print_c('\n');
 
-    j = (int *) mcmalloc(sizeof(int));
-    *j = 567;
+//    j = (int *) mcmalloc(sizeof(int));
+//    *j = 567;
+    j = i;
     print_i(*j);
     print_c('\n');
 }

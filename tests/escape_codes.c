@@ -3,7 +3,5 @@
 int main()
 {
     int bc;
-	print_s("Hello \\\"\"world\"\\\"\n");
-	print_s("); \
-	");
+    print_s("Hello \\\"\"world\"\\\"\n");
 }

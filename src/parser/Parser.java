@@ -538,7 +538,7 @@ public class Parser {
 		} else {
 			out = new VarExpr(name);
 		}
-//		out = parseStructArray(out);
+		out = parseStructArray(out); //changed
 		return out;
 	}
 

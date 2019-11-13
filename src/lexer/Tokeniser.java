@@ -192,6 +192,10 @@ public class Tokeniser {
 						if (c == '\n') {
 							System.out.println("Missing terminating \" character for string starting at " + sline + ":" + scol);
 							error++;
+						} else if (c == '\\' && scanner.peek() == '\"') {
+							out.append("\"");
+							scanner.next();
+							column++;
 						} else {
 							out.append(c);
 						}
