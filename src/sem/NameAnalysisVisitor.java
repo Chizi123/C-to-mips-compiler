@@ -21,7 +21,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	public Void visitStructTypeDecl(StructTypeDecl sts) {
 		boolean found = false;
 		//struct already declared
-		if (structs.keySet().contains(sts.st.name)) {
+		if (structs.containsKey(sts.st.name)) {
 			error("Double declaration of struct "+sts.st.name);
 			return null;
 		} else {

@@ -8,7 +8,6 @@ import lexer.Token.TokenClass;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Queue;
 
 import static lexer.Token.TokenClass.*;

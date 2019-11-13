@@ -119,16 +119,12 @@ public class CodeGenerator implements ASTVisitor<Register> {
             p.block.accept(this);
         } else if (pass == 1) { //need to figure out what to do with parameters
             int stack_size = 16;
-//            for (int i = p.params.size()-1; i >= 0; i--) {
             for (int i = 0; i < p.params.size(); i++) {
-//                if (i < 3) {
-//                    p.params.get(i).offset = -i - 2;
-//                } else {
-                    p.params.get(i).offset = stack_size;
-//                }
+                p.params.get(i).offset = stack_size;
                 stack_size+=4;
             }
             writer.println(p.name+":");
+            curr_add = stack_size;
             p.block.accept(this);
             writer.println("\tjr $ra");
         }
@@ -334,7 +330,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
                     writer.println("\tSYSCALL");
                     break;
                 default:
-                    //save old frame
+                    //store arguments onto stack as regular variables
+                    //inefficient but works
                     int stack=16;
                     writer.println("\tSW $a0, 16($sp)"); //save previous evaluation
                     writer.println("\tADDI $sp, $sp, "+(stack));
@@ -365,11 +362,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
                     // restore stack to before function call
                 	writer.println("\tSUBI $sp, $sp "+stack);
             }
-            //restore previous arguments
-//            for (int i = Register.paramRegs.length - 1; i >= 0; i--) {
-//                writer.println("\tLW "+Register.paramRegs[i]+", "+(-4*i)+"($sp)");
-//            }
-//            writer.println("\tSUBI $sp, $sp, "+(4*Register.paramRegs.length));
             return Register.v0;
         }
         return null;
@@ -407,6 +399,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 writer.println(end+":");
                 return e1;
             } else { //other operations
+                writer.println("# BINOP Begin");
                 Register e1 = bo.E1.accept(this); //parser fills left tree
                 //store intermediate results onto the stack to save registers
                 writer.println("\tSW "+e1+", 4($sp)");
@@ -465,7 +458,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     int nest = 0;
     @Override
-    public Register visitArrayAccessExpr(ArrayAccessExpr aae) { //TODO array can clash with other memory
+    public Register visitArrayAccessExpr(ArrayAccessExpr aae) {
         if (pass == 0) {
 
         } else if (pass == 1) {
@@ -493,9 +486,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
             freeRegister(temp);
             writer.println("\tMFLO "+off);
             writer.println("\tSUB "+addr+", "+addr+" "+off);
-//            if (nested) {
-//                return off;
-//            }
             freeRegister(off);
             if (!nested) {
                 writer.println("\tLW "+addr+", "+"("+addr+")");
@@ -664,7 +654,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
             writer.println("\tBEQZ "+res+", "+Case2);
             freeRegister(res);
             i.st1.accept(this);
-            writer.println("J "+End);
+            writer.println("\tJ "+End);
             writer.println(Case2+":");
             if (i.st2 != null)
                 i.st2.accept(this);
@@ -683,7 +673,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
             if (a.e2.type instanceof StructType && a.e2 instanceof VarExpr) {
                Register e1 = getRegister();
                Register e2 = getRegister();
-               writer.println("# Struct Assign");
                if (((VarExpr) a.e1).vd.offset == -1) {
                    writer.println("\tLA "+e1+", "+((VarExpr) a.e1).name);
                } else {

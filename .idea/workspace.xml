@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Fixed nested array memory clash">
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Struct to struct assignment">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/struct.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/struct.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -121,7 +121,7 @@
     <configuration name="gen test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project" />
-      <option name="PROGRAM_PARAMETERS" value="-gen tests/struct.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-gen tests/tictactoe.c dummy.out" />
       <option name="VM_PARAMETERS" value="-cp bin" />
       <method v="2">
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="build" run_configuration_type="AntRunConfiguration" />
@@ -458,7 +458,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573654640507</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Struct to struct assignment">
+      <created>1573656065973</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1573656065973</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -475,7 +482,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Print_c does escape chars. BinOp uses stack to minimise reg use" />
     <MESSAGE value="Simple single level nested functions implimented" />
     <MESSAGE value="can assign to global variables. working on function arguments" />
     <MESSAGE value="If working with short circuit evaluation" />
@@ -500,30 +506,16 @@
     <MESSAGE value="Functions working. Can take whatever arguments" />
     <MESSAGE value="Fixed If true skip else" />
     <MESSAGE value="Fixed nested array memory clash" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed nested array memory clash" />
+    <MESSAGE value="Struct to struct assignment" />
+    <option name="LAST_COMMIT_MESSAGE" value="Struct to struct assignment" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>164</line>
+          <line>160</line>
           <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>618</line>
-          <option name="timeStamp" value="47" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>483</line>
-          <option name="timeStamp" value="50" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>413</line>
-          <option name="timeStamp" value="55" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
