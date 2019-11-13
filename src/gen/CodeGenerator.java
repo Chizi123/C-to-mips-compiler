@@ -300,43 +300,12 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 i.accept(this);
             }
         } else if (pass == 1) {
-//            //save current arguments
-//            for (int i = 0; i < Register.paramRegs.length; i++) {
-//                writer.println("\tSW "+Register.paramRegs[i]+", "+(4*(i+1))+"($sp)");
-//            }
-//            writer.println("\tADDI $sp, $sp, "+(4*Register.paramRegs.length));
-//            //get arguments
-//        	for (Expr i: fce.args) {
-//                Register aux;
-//        	    if (i.type instanceof StructType || i.type instanceof PointerType) {
-//        	        init = -1;
-//        	        aux = i.accept(this);
-//        	        init = 0;
-//                } else {
-//                    aux = i.accept(this);
-//                }
-//                writer.println("\tSW "+aux+", 4($sp)");
-//                writer.println("\tADDI $sp, $sp 4");
-//                freeRegister(aux);
-//	        }
-//        	//move aruguments into input
-//            //TODO need to figure out how to restore stack when done
-//            for (int i = fce.args.size()-1; i >= 0; i--) {
-//                if (i<3) {
-//                    writer.println("\tLW "+Register.paramRegs[i]+", ($sp)");
-//                } else {
-////                    fce.fd.params.get(i).offset = stack_size+1;
-//                    //TODO handling of other arguments, already on stack
-//                }
-//                writer.println("\tSUBI $sp, $sp 4");
-//            }
-
             try {
                 Register a1 = fce.args.get(0).accept(this);
                 writer.println("\tMOVE $a0, "+a1);
                 freeRegister(a1);
             } catch (Exception e) {
-
+                // do nothing if there's no arguments to the function
             }
             //run function
             switch (fce.name) {
@@ -369,7 +338,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
                     int stack=16;
                     writer.println("\tSW $a0, 16($sp)"); //save previous evaluation
                     writer.println("\tADDI $sp, $sp, "+(stack));
-                    for (Expr i : fce.args.subList(1,fce.args.size())) {
+                    List<Expr> rest;
+                    try {
+                        rest = fce.args.subList(1, fce.args.size());
+                    } catch (IllegalArgumentException e) {
+                        rest = new LinkedList();
+                    }
+                    for (Expr i : rest) {
                         Register temp = i.accept(this);
                         writer.println("\tSW "+temp+", 4($sp)");
                         writer.println("\tADDI $sp, $sp 4");
@@ -488,29 +463,39 @@ public class CodeGenerator implements ASTVisitor<Register> {
         return null;
     }
 
+    int nest = 0;
     @Override
     public Register visitArrayAccessExpr(ArrayAccessExpr aae) { //TODO array can clash with other memory
         if (pass == 0) {
 
         } else if (pass == 1) {
             boolean nested = init == -1;
-            if (!nested)
+            Register addr = null;
+            if (!nested) {
                 init = -1;
-            Register addr = aae.exp.accept(this);
+            }
+            nest+=1;
+            addr = aae.exp.accept(this);
             int tinit = init;
             init = 0;
             Register off = aae.index.accept(this);
             init = tinit;
             Register temp = getRegister();
             if (aae.exp instanceof VarExpr && aae.exp.type == null) {
-                writer.println("\tLI "+temp+", "+findSize(((VarExpr) aae.exp).vd.type));
+                int i = findSize(((VarExpr) aae.exp).vd.type);
+                writer.println("\tLI "+temp+", "+i);
             } else {
-                writer.println("\tLI "+temp+", "+findSize(aae.exp.type));
+                int i =findSize(aae.exp.type);
+                writer.println("\tLI "+temp+", "+i);
             }
+            nest-=1;
             writer.println("\tMUL "+off+", "+off+" "+temp);
             freeRegister(temp);
             writer.println("\tMFLO "+off);
             writer.println("\tSUB "+addr+", "+addr+" "+off);
+//            if (nested) {
+//                return off;
+//            }
             freeRegister(off);
             if (!nested) {
                 writer.println("\tLW "+addr+", "+"("+addr+")");
@@ -777,6 +762,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         return null;
     }
 
+    int lnest = 0;
     private int findSize(Type t) {
         if (t instanceof PointerType) {
             return 4;
@@ -787,8 +773,16 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 return 4; //TODO Efficiency, need to come back and make code align to nearest byte
             }
         } else if (t instanceof ArrayType) {
-            int i = ((ArrayType) t).size * findSize(((ArrayType) t).type);
-            return i + (4-i%4)%4;
+            if (lnest == nest) {
+                return ((ArrayType) t).size * findSize(((ArrayType) t).type);
+            } else {
+                lnest+=1;
+                int i = findSize(((ArrayType) t).type);
+                lnest-=1;
+                return i;
+            }
+//            int i = ((ArrayType) t).size * findSize(((ArrayType) t).type);
+//            return i + (4-i%4)%4;
         } else if (t instanceof StructType) {
             return structs.get(((StructType) t).name).getLast().pos;
         }
