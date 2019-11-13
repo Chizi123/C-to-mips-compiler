@@ -153,7 +153,9 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		} else {
 			for (int i = 0; i < fce.args.size(); i++) {
 				Type arg = fce.args.get(i).accept(this);
+				fce.args.get(i).type = arg;
 				Type param = fce.fd.params.get(i).accept(this);
+				fce.fd.params.get(i).type = param;
 				if (param instanceof PointerType) {
 					param = ((PointerType) param).type;
 					if (arg instanceof PointerType) {//&& fce.args.get(i) instanceof ValueAtExpr) {

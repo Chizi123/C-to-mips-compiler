@@ -297,7 +297,11 @@ public class CodeGenerator implements ASTVisitor<Register> {
             }
         } else if (pass == 1) {
             try {
+                if (fce.args.get(0).type instanceof ArrayType)
+                    init = -1;
                 Register a1 = fce.args.get(0).accept(this);
+                if (fce.args.get(0).type instanceof ArrayType)
+                    init = 0;
                 writer.println("\tMOVE $a0, "+a1);
                 freeRegister(a1);
             } catch (Exception e) {
@@ -342,7 +346,11 @@ public class CodeGenerator implements ASTVisitor<Register> {
                         rest = new LinkedList();
                     }
                     for (Expr i : rest) {
+                        if (i.type instanceof ArrayType)
+                            init = -1;
                         Register temp = i.accept(this);
+                        if (i.type instanceof ArrayType)
+                            init = 0;
                         writer.println("\tSW "+temp+", 4($sp)");
                         writer.println("\tADDI $sp, $sp 4");
                         stack+=4;
@@ -462,12 +470,20 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         } else if (pass == 1) {
             boolean nested = init == -1;
-            Register addr = null;
             if (!nested) {
                 init = -1;
             }
-            nest+=1;
-            addr = aae.exp.accept(this);
+            nest += 1;
+            Register addr;
+            //hack first check but for some reason assigning type to aae.exp.type isnt working
+            if (aae.exp instanceof VarExpr && ((VarExpr) aae.exp).vd.type instanceof PointerType) {
+                int tinit = init;
+                init = 0;
+                addr = aae.exp.accept(this);
+                init = tinit;
+            } else {
+                addr = aae.exp.accept(this);
+            }
             int tinit = init;
             init = 0;
             Register off = aae.index.accept(this);
@@ -475,19 +491,19 @@ public class CodeGenerator implements ASTVisitor<Register> {
             Register temp = getRegister();
             if (aae.exp instanceof VarExpr && aae.exp.type == null) {
                 int i = findSize(((VarExpr) aae.exp).vd.type);
-                writer.println("\tLI "+temp+", "+i);
+                writer.println("\tLI " + temp + ", " + i);
             } else {
-                int i =findSize(aae.exp.type);
-                writer.println("\tLI "+temp+", "+i);
+                int i = findSize(aae.exp.type);
+                writer.println("\tLI " + temp + ", " + i);
             }
-            nest-=1;
-            writer.println("\tMUL "+off+", "+off+" "+temp);
+            nest -= 1;
+            writer.println("\tMUL " + off + ", " + off + " " + temp);
             freeRegister(temp);
-            writer.println("\tMFLO "+off);
-            writer.println("\tSUB "+addr+", "+addr+" "+off);
+            writer.println("\tMFLO " + off);
+            writer.println("\tSUB " + addr + ", " + addr + " " + off);
             freeRegister(off);
             if (!nested) {
-                writer.println("\tLW "+addr+", "+"("+addr+")");
+                writer.println("\tLW " + addr + ", " + "(" + addr + ")");
                 init = 0;
             }
             return addr;
@@ -670,29 +686,38 @@ public class CodeGenerator implements ASTVisitor<Register> {
         } else if (pass == 1) {
             Register out;
             if (a.e2.type instanceof StructType && a.e2 instanceof VarExpr) {
-               Register e1 = getRegister();
-               Register e2 = getRegister();
-               if (((VarExpr) a.e1).vd.offset == -1) {
-                   writer.println("\tLA "+e1+", "+((VarExpr) a.e1).name);
-               } else {
-                   writer.println("\tLI " + e1 + ", " + ((VarExpr) a.e1).vd.offset);
-                   writer.println("\tADD " + e1 + ", " + e1 + " $fp");
-               }
-               if (((VarExpr) a.e2).vd.offset == -1) {
-                   writer.println("\tLA "+e2+", "+((VarExpr) a.e2).name);
-               } else {
-                   writer.println("\tLI " + e2 + ", " + ((VarExpr) a.e2).vd.offset);
-                   writer.println("\tADD " + e2 + ", " + e2 + " $fp");
-               }
-               for (int i = structs.get(((StructType) a.e2.type).name).getLast().pos; i > 0; i-=4) {
-                   Register temp = getRegister();
-                   writer.println("\tLW "+temp+", "+i+"("+e2+")");
-                   writer.println("\tSW "+temp+", "+i+"("+e1+")");
-                   freeRegister(temp);
-               }
-               freeRegister(e1);
-               freeRegister(e2);
-               return null;
+                Register e1 = getRegister();
+                Register e2 = getRegister();
+                if (((VarExpr) a.e1).vd.offset == -1) {
+                    writer.println("\tLA " + e1 + ", " + ((VarExpr) a.e1).name);
+                } else {
+                    writer.println("\tLI " + e1 + ", " + ((VarExpr) a.e1).vd.offset);
+                    writer.println("\tADD " + e1 + ", " + e1 + " $fp");
+                }
+                if (((VarExpr) a.e2).vd.offset == -1) {
+                    writer.println("\tLA " + e2 + ", " + ((VarExpr) a.e2).name);
+                } else {
+                    writer.println("\tLI " + e2 + ", " + ((VarExpr) a.e2).vd.offset);
+                    writer.println("\tADD " + e2 + ", " + e2 + " $fp");
+                }
+                for (int i = structs.get(((StructType) a.e2.type).name).getLast().pos; i > 0; i -= 4) {
+                    Register temp = getRegister();
+                    writer.println("\tLW " + temp + ", " + i + "(" + e2 + ")");
+                    writer.println("\tSW " + temp + ", " + i + "(" + e1 + ")");
+                    freeRegister(temp);
+                }
+                freeRegister(e1);
+                freeRegister(e2);
+                return null;
+            } else if (a.e1.type instanceof PointerType && a.e2.type instanceof PointerType) {
+                writer.println("# pointer assignment");
+                init = -1;
+                Register e2 = a.e2.accept(this);
+                Register e1 = a.e1.accept(this);
+                init = 0;
+                writer.println("\tSW "+e2+", ("+e1+")");
+                freeRegister(e1);
+                freeRegister(e2);
             } else {
                 out = a.e2.accept(this);
                 if (a.e1 instanceof ValueAtExpr) {
