@@ -399,7 +399,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 writer.println(end+":");
                 return e1;
             } else { //other operations
-                writer.println("# BINOP Begin");
                 Register e1 = bo.E1.accept(this); //parser fills left tree
                 //store intermediate results onto the stack to save registers
                 writer.println("\tSW "+e1+", 4($sp)");
@@ -544,7 +543,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         	        if (init != -1) {
                         writer.println("\tLW " + out + ", " + (-1 * off) + "(" + out + ")");
                     } else {
-        	            writer.println("\tSUBI "+out+", "+out+" "+(off)+"# nested");
+        	            writer.println("\tSUBI "+out+", "+out+" "+(off));
                     }
                     return out;
                 }
@@ -702,7 +701,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                     init = -1;
                     Register addr = a.e1.accept(this);
                     init = 0;
-                    writer.println("\tSW " + out + ", (" + addr + ")\t# Array assign");
+                    writer.println("\tSW " + out + ", (" + addr + ")");
                     freeRegister(addr);
                 } else if (a.e1 instanceof VarExpr) {
                     writer.print("\tSW " + out + ", ");
@@ -726,11 +725,11 @@ public class CodeGenerator implements ASTVisitor<Register> {
                             writer.println("\tLA " + addr + ", " + ((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
                             writer.println("\tADDI " + addr + ", " + addr + " " + findSize(a.e1.type));
                             writer.println("\tSUBI " + addr + ", " + addr + " " + off);
-                            writer.println("\tSW " + out + ", (" + addr + ")\t#" + ((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
+                            writer.println("\tSW " + out + ", (" + addr + ")");
                         } else {
                             writer.println("\tLA " + addr + ", " + ((VarExpr) ((FieldAccessExpr) a.e1).struct).vd.offset + "($fp)");
                             writer.println("\tSUBI " + addr + ", " + addr + " " + off);
-                            writer.println("\tSW " + out + ", (" + addr + ")\t#" + ((VarExpr) ((FieldAccessExpr) a.e1).struct).name);
+                            writer.println("\tSW " + out + ", (" + addr + ")");
                         }
                         freeRegister(addr);
                     } else {
@@ -752,7 +751,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                                 }
                             }
                             writer.println("\tSUBI " + addr + ", " + addr + " " + off);
-                            writer.println("\tSW " + out + ", (" + addr + ")\t# nested");
+                            writer.println("\tSW " + out + ", (" + addr + ")");
                             freeRegister(addr);
                         }
                     }
