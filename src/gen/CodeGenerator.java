@@ -476,7 +476,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
             nest += 1;
             Register addr;
             //hack first check but for some reason assigning type to aae.exp.type isnt working
-            if (aae.exp instanceof VarExpr && ((VarExpr) aae.exp).vd.type instanceof PointerType) {
+            if (aae.exp.type instanceof PointerType || (aae.exp instanceof VarExpr && ((VarExpr) aae.exp).vd.type instanceof PointerType)) {
                 int tinit = init;
                 init = 0;
                 addr = aae.exp.accept(this);
