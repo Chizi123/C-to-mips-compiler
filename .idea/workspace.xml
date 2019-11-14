@@ -1,9 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Hack for accessing pointers as arrays">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
+    <list default="true" id="e0013b9d-a7c9-42b1-ad54-ec51f865535e" name="Default" comment="Added non hack version if works for testing for some reason">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/ant.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ct-19-20.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/desc/part1/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/desc/part2/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/desc/part2/fibonacci.c-ast-dump" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/desc/part2/typing-rules/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/desc/part2/typing-rules/rules.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/desc/part2/typing-rules/rules.tex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/desc/part3/MD00565-2B-MIPS32-QRC-01.01-1.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/desc/part3/Mars4_5.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/desc/part3/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dot.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/bb_fork.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/bb_fork_private.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/bb_menu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/forking.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/forkpermissions.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/gl_fork1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/gl_fork2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/gl_permissions1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/gl_permissions2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/gl_private1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/gl_private2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/gl_private3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/howtofork.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/repopermissions.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gen.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/grammar/abstract_grammar.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/grammar/ebnf.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MainPart1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MainPart2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/ASTNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/ASTPrinter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/ASTVisitor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/ArrayAccessExpr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/ArrayType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/Assign.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/BaseType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/BinOp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/Block.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/ChrLiteral.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/DotPrinter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/Expr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/ExprStmt.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/FieldAccessExpr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/FunCallExpr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/FunDecl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/If.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/IntLiteral.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/Op.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/PointerType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/Program.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/Return.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/SizeOfExpr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/Stmt.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/StrLiteral.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/StructType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/StructTypeDecl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/Type.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/TypecastExpr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/ValueAtExpr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/VarDecl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/VarExpr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/While.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/gen/Register.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/lexer/Scanner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/lexer/Token.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/lexer/Tokeniser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/parser/ParserPart1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sem/BaseSemanticVisitor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sem/Scope.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sem/SemanticAnalyzer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sem/SemanticVisitor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sem/Symbol.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/util/Position.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/ToH.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/all.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/arithmetic.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/binarySearch.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/comp.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/dpointers.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/escape_codes.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/fail/no_bracket_func.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/fail/struct_double.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/fibonacci.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/func.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/hello.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/if.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/if2.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/loops.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/loops2.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/minic-stdlib.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/minimal.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/mycode/overflow.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/mycode/recursion.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/nest_func.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/nested_comments.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/ns_assign.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/pascal.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/pointarr.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/pointers.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/return.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/shadow.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/str_arr.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/struct.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/tictactoe.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/typecast.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/unary.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/undecl_func.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/vmin.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -498,7 +621,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573679986022</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Added non hack version if works for testing for some reason">
+      <created>1573727369026</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1573727369026</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -515,7 +645,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Freeing registers after and &amp; or" />
     <MESSAGE value="Chars take 4 bytes to force alignment" />
     <MESSAGE value="read_i and read_c implimented" />
     <MESSAGE value="Fixed shadowing hopefully" />
@@ -540,7 +669,8 @@
     <MESSAGE value="Have some pointer stuff working. hopefully enough" />
     <MESSAGE value="Allow &quot; in strings if preceded by \" />
     <MESSAGE value="Hack for accessing pointers as arrays" />
-    <option name="LAST_COMMIT_MESSAGE" value="Hack for accessing pointers as arrays" />
+    <MESSAGE value="Added non hack version if works for testing for some reason" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added non hack version if works for testing for some reason" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
