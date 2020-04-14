@@ -1,0 +1,9 @@
+#+TITLE:C to MIPS compiler
+#+AUTHOR:Joel Grunbaum
+
+This was an assignment I had while I was on exchange at the University of Edinburgh.
+Its a compiler for a modified C language to the MIPS assembly. 
+This was written using Intellij IDEA, so I suggest you use that to build if you want to try it for yourself.
+
+Information about the language can be found in the grammar folder as well as in desc.
+Overall it was a pretty neat assignment, and I'm honestly surprised it worked as well as it did.
